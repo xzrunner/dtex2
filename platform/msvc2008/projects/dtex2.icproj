@@ -3,7 +3,7 @@
 	ProjectType="Intel C++ Project"
 	Version="11.1"
 	Name="1.dtex2"
-	ProjectGUID="{B4B3472D-AB27-49F1-8D2A-57A011EC7EA3}"
+	ProjectGUID="{D5D3DBB0-6565-4343-84FD-DD0BBE6959AF}"
 	VCNestedProjectGUID="{EE2229A3-AD5F-46E7-AFAB-729F8AA18036}"
 	VCNestedProjectFileName="dtex2.vcproj">
 	<Configurations>
