@@ -25,8 +25,6 @@ void Target::BindTexture(int tex_id)
 		return;
 	}
 
-	assert(RenderAPI::GetTarget() == m_target_id);
-
 	RenderAPI::TargetBindTexture(m_texture_id);
 	RenderAPI::CheckTargetStatus();
 

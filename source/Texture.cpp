@@ -38,7 +38,9 @@ void Texture::Clear()
 
 void Texture::Clear(float xmin, float ymin, float xmax, float ymax)
 {
-	RenderAPI::ViewportPush(0, 0, m_width, m_height);
+	int x, y, w, h;
+	RenderAPI::GetViewport(x, y, w, h);
+	RenderAPI::SetViewport(0, 0, m_width, m_height);
 
 	RenderAPI::Scissor(
 		m_width * xmin, 
@@ -58,7 +60,7 @@ void Texture::Clear(float xmin, float ymin, float xmax, float ymax)
 	target->Unbind();
 	ResCache::Instance()->ReturnTarget(target);
 
-	RenderAPI::ViewportPop();
+	RenderAPI::SetViewport(x, y, w, h);
 }
 
 }

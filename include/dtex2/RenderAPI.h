@@ -1,32 +1,16 @@
 #ifndef _DTEX_RENDER_API_H_
 #define _DTEX_RENDER_API_H_
 
+namespace ur { class RenderContext; }
+
 namespace dtex
 {
 
 class RenderAPI
 {
 public:
-	struct TextureCB
+	struct Callback
 	{
-		int  (*texture_create)(const void* data, int width, int height, int format);
-		void (*texture_release)(int id);
-		void (*texture_update)(const void* pixels, int w, int h, unsigned int id);
-		void (*sub_tex_update)(const void* pixels, int x, int y, int w, int h, unsigned int id);
-	};
-
-	struct TargetCB
-	{
-		int  (*create_target)(int id);
-		void (*release_target)(int id);
-		void (*target_bind_texture)(int tex_id);
-		void (*target_bind)(int id);
-		int  (*check_target_status)();
-	};
-
-	struct DrawCB
-	{
-		void (*clear_color)(float r, float g, float b, float a);
 		void (*clear_color_part)(float xmin, float ymin, float xmax, float ymax);
 		void (*set_program)();
 		void (*set_blend)(int mode);
@@ -44,14 +28,9 @@ public:
 		void (*viewport_pop)();
 	};
 
-	struct UtilCB
-	{
-		bool (*out_of_memory)();
-		bool (*is_texture)(unsigned int id);
-		void (*check_error)();
-	};
+	static void InitCallback(const Callback& draw_cb);
 
-	static void InitTexCB(const TextureCB& tex_cb, const TargetCB& target_cb, const DrawCB& draw_cb, const UtilCB& util_cb);
+	static void InitRenderContext(ur::RenderContext* rc);
 
 	/************************************************************************/
 	/* Texture                                                              */
@@ -89,7 +68,6 @@ public:
 	static int  GetTexture();
 
 	static void SetTarget(int id);
-	static int  GetTarget();
 
 	static void DrawBegin();
 	static void Draw(const float vb[16], int texid);
@@ -101,8 +79,8 @@ public:
 	static void ScissorEnable(bool enable);
 	static void Scissor(int x, int y, int w, int h);
 
-	static void ViewportPush(int x, int y, int w, int h);
-	static void ViewportPop();
+	static void GetViewport(int& x, int& y, int& w, int& h);
+	static void SetViewport(int x, int y, int w, int h);
 
 	/************************************************************************/
 	/* Utility                                                              */
