@@ -72,6 +72,11 @@ void RenderAPI::TargetBind(int id)
 	RC->BindRenderTarget(id);
 }
 
+void RenderAPI::TargetUnbind()
+{
+	RC->UnbindRenderTarget();
+}
+
 int RenderAPI::CheckTargetStatus()
 {
 	return RC->CheckRenderTargetStatus();
@@ -118,19 +123,14 @@ int RenderAPI::GetTexture()
 	return RC->GetCurrTexture();
 }
 
-void RenderAPI::SetTarget(int id)
-{
-	RC->BindRenderTarget(id);
-}
-
 void RenderAPI::DrawBegin()
 {
 	DRAW_CB.draw_begin();
 }
 
-void RenderAPI::Draw(const float vb[16], int texid)
+void RenderAPI::Draw(const float vertices[8], const float texcoords[8], int texid)
 {
-	DRAW_CB.draw(vb, texid);
+	DRAW_CB.draw(vertices, texcoords, texid);
 }
 
 void RenderAPI::DrawEnd()

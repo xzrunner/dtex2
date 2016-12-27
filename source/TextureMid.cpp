@@ -39,21 +39,20 @@ TextureMid::~TextureMid()
 
 int TextureMid::InitPixels(int width, int height)
 {
-	uint8_t* empty_data = new uint8_t[width*height*4];
+	uint32_t* empty_data = new uint32_t[width*height];
 	if (!empty_data) {
 		fault("TextureMid malloc fail.");
 	}
 
-// 	uint32_t col = 0x66ff0000;
-// 	int ptr = 0;
-// 	for (int i = 0; i < width; ++i) {
-// 		for (int j = 0; j < height; ++j) {
-// 			memcpy(&empty_data[ptr], &col, 4);
-// 			ptr += 4;
-// 		}
-// 	}
+	uint32_t col = 0x66ff0000;
+	int ptr = 0;
+	for (int i = 0; i < width; ++i) {
+		for (int j = 0; j < height; ++j) {
+			memcpy(&empty_data[ptr++], &col, 4);
+		}
+	}
 
-	memset(empty_data, 0x00, width*height*4);
+//	memset(empty_data, 0, width*height);
 
 	int id = RenderAPI::CreateTexture(empty_data, width, height, TEXTURE_RGBA8);
 	delete[] empty_data;

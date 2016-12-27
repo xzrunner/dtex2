@@ -3,13 +3,15 @@
 
 #include "Math.h"
 
+#include <CU_Uncopyable.h>
+
 namespace dtex
 {
 
 class Package;
 class CP_Texture;
 
-class CP_Node
+class CP_Node : private cu::Uncopyable
 {
 public:
 	CP_Node(const Package* src_pkg, int src_tex_idx, CP_Texture* dst_tex, 

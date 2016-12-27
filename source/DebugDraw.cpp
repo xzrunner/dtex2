@@ -32,16 +32,19 @@ void DebugDraw::Draw(int tex_id, int pos)
 		ymax = -0;
 	}
 
-	float vb[16];
-
-	vb[0] = xmin; vb[1] = ymin; vb[2] = 0; vb[3] = 0;
-	vb[4] = xmin; vb[5] = ymax; vb[6] = 0; vb[7] = 1;
-	vb[8] = xmax; vb[9] = ymax; vb[10]= 1; vb[11]= 1;
-	vb[12]= xmax; vb[13]= ymin; vb[14]= 1; vb[15]= 0;
+	float vertices[8], texcoords[8];
+	vertices[0] = xmin; vertices[1] = ymin;
+	vertices[2] = xmax; vertices[3] = ymin;
+	vertices[4] = xmax; vertices[5] = ymax;
+	vertices[6] = xmin; vertices[7] = ymax;
+	texcoords[0] = 0; texcoords[1] = 0;
+	texcoords[2] = 1; texcoords[3] = 0;
+	texcoords[4] = 1; texcoords[5] = 1;
+	texcoords[6] = 0; texcoords[7] = 1;
 
 	RenderAPI::SetProgram();
 	RenderAPI::DrawBegin();
-	RenderAPI::Draw(vb, tex_id);
+	RenderAPI::Draw(vertices, texcoords, tex_id);
 	RenderAPI::DrawEnd();
 }
 

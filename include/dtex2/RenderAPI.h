@@ -19,7 +19,7 @@ public:
 		void (*set_target)(int id);
 		int  (*get_target)();
 		void (*draw_begin)();
-		void (*draw)(const float vb[16], int texid);
+		void (*draw)(const float vertices[8], const float texcoords[8], int texid);
 		void (*draw_end)();
 		void (*draw_flush)();
 		void (*scissor_enable)(bool enable);
@@ -51,6 +51,7 @@ public:
 
 	static void TargetBindTexture(int tex_id);
 	static void TargetBind(int id);
+	static void TargetUnbind();
 
 	static int  CheckTargetStatus();
 
@@ -67,10 +68,8 @@ public:
 	static void SetTexture(int id);
 	static int  GetTexture();
 
-	static void SetTarget(int id);
-
 	static void DrawBegin();
-	static void Draw(const float vb[16], int texid);
+	static void Draw(const float vertices[8], const float texcoords[8], int texid);
 	//void dtex_shader_draw_triangle(const float* vb, int count);
 	static void DrawEnd();
 

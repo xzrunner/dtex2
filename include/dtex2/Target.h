@@ -24,8 +24,6 @@ private:
 	int m_target_id;
 	int m_texture_id;
 
-	static std::vector<int> m_layers;
-
 }; // Target
 
 }

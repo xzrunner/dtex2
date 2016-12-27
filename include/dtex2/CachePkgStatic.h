@@ -24,7 +24,7 @@ class CachePkgStatic : public Cache, private cu::Uncopyable
 {
 public:
 	CachePkgStatic(int tex_size, int tex_count);
-	~CachePkgStatic();
+	virtual ~CachePkgStatic();
 
 	virtual int Type() const { return CACHE_PKG_STATIC; }
 	virtual void DebugDraw() const;

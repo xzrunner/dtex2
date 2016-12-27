@@ -7,6 +7,7 @@ namespace dtex
 enum CACHE_TYPE
 {
 	CACHE_PKG_STATIC = 0,
+	CACHE_SYMBOL,
 };
 
 }

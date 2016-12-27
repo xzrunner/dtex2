@@ -252,6 +252,34 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="symbol"
+				>
+				<File
+					RelativePath="..\..\..\source\CacheSymbol.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\include\dtex2\CacheSymbol.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\source\CS_Node.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\include\dtex2\CS_Node.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\source\NodeLUT.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\include\dtex2\NodeLUT.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="render"
