@@ -14,11 +14,10 @@ namespace dtex
 
 static const int MAX_BLOCK_PRELOAD_COUNT = 1024;
 
-static const int PADDING = 1;
-static const int EXTRUDE = 0;
-
-CacheSymbol::CacheSymbol(int width, int height)
+CacheSymbol::CacheSymbol(int width, int height, int padding, int extrude)
 	: m_loadable(0)
+	, m_padding(padding)
+	, m_extrude(extrude)
 	, m_clear_block_idx(0)
 {
 	m_tex = new TextureMid(width, height, true);
@@ -143,7 +142,7 @@ bool CacheSymbol::InsertNode(const Prenode& prenode)
 	Block* block = NULL;
 	texpack_pos* pos = NULL;
 	for (int i = 0, n = BLOCK_X_SZ * BLOCK_Y_SZ; i < n; ++i) {
-		pos = m_blocks[i]->Insert(prenode);
+		pos = m_blocks[i]->Insert(prenode, m_padding + m_extrude);
 		if (pos) {
 			block = m_blocks[i];
 			break;
@@ -153,7 +152,7 @@ bool CacheSymbol::InsertNode(const Prenode& prenode)
 	if (!pos) {
 		Block* cleared = m_blocks[m_clear_block_idx];
 		ClearBlock();
-		pos = cleared->Insert(prenode);
+		pos = cleared->Insert(prenode, m_padding + m_extrude);
 		if (!pos) {
 			return false;
 		} else {
@@ -171,10 +170,104 @@ bool CacheSymbol::InsertNode(const Prenode& prenode)
 	dst_r.ymax = pos->r.ymax;
 
 	m_tex->DrawFrom(prenode.TexID(), prenode.Width(), prenode.Height(), prenode.GetRect(), dst_r, pos->is_rotated);
+	if (m_extrude != 0) {
+		DrawExtrude(prenode.TexID(), prenode.Width(), prenode.Height(), prenode.GetRect(), dst_r, pos->is_rotated);
+	}
 
 	block->Insert(node.Key(), m_nodes.size() - 1);
 
 	return true;
+}
+
+void CacheSymbol::DrawExtrude(int src_tex_id, int src_w, int src_h, const Rect& src_r, const Rect& dst_r, bool rotate) const
+{
+	static const int SRC_EXTRUDE = 1;
+
+	Rect src, dst;
+	if (!rotate)
+	{
+		// left
+		src.xmin = 0; src.xmax = SRC_EXTRUDE; src.ymin = 0; src.ymax = src_h;
+		dst = dst_r; dst.xmax = dst.xmin; dst.xmin -= m_extrude;
+		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
+
+		// right
+		src.xmin = src_w - SRC_EXTRUDE; src.xmax = src_w; src.ymin = 0; src.ymax = src_h;
+		dst = dst_r; dst.xmin = dst.xmax; dst.xmax += m_extrude;
+		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
+
+		// top
+		src.xmin = 0; src.xmax = src_w; src.ymin = src_h - SRC_EXTRUDE; src.ymax = src_h;
+		dst = dst_r; dst.ymin = dst.ymax; dst.ymax += m_extrude;
+		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
+
+		// bottom
+		src.xmin = 0; src.xmax = src_w; src.ymin = 0; src.ymax = SRC_EXTRUDE;
+		dst = dst_r; dst.ymax = dst.ymin; dst.ymin -= m_extrude;
+		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
+
+		// left-top
+		src.xmin = 0; src.xmax = SRC_EXTRUDE; src.ymin = src_h - SRC_EXTRUDE; src.ymax = src_h;
+		dst = dst_r; dst.xmax = dst.xmin; dst.xmin -= m_extrude; dst.ymin = dst.ymax; dst.ymax += m_extrude;
+		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
+
+		// right-top
+		src.xmin = src_w - SRC_EXTRUDE; src.xmax = src_w; src.ymin = src_h - SRC_EXTRUDE; src.ymax = src_h;
+		dst = dst_r; dst.xmin = dst.xmax; dst.xmax += m_extrude; dst.ymin = dst.ymax; dst.ymax += m_extrude;
+		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
+
+		// left-bottom
+		src.xmin = 0; src.xmax = SRC_EXTRUDE; src.ymin = 0; src.ymax = SRC_EXTRUDE;
+		dst = dst_r; dst.xmax = dst.xmin; dst.xmin -= m_extrude; dst.ymax = dst.ymin; dst.ymin -= m_extrude;
+		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
+
+		// right-bottom
+		src.xmin = src_w - SRC_EXTRUDE; src.xmax = src_w; src.ymin = 0; src.ymax = SRC_EXTRUDE;
+		dst = dst_r; dst.xmin = dst.xmax; dst.xmax += m_extrude; dst.ymax = dst.ymin; dst.ymin -= m_extrude;
+		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
+	} 
+	else
+	{
+		// left
+		src.xmin = 0; src.xmax = SRC_EXTRUDE; src.ymin = 0; src.ymax = src_h;
+		dst = dst_r; dst.ymin = dst.ymax; dst.ymax += m_extrude;
+		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
+
+		// right
+		src.xmin = src_w - SRC_EXTRUDE; src.xmax = src_w; src.ymin = 0; src.ymax = src_h;
+		dst = dst_r; dst.ymax = dst.ymin; dst.ymin -= m_extrude;
+		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
+
+		// top
+		src.xmin = 0; src.xmax = src_w; src.ymin = src_h - SRC_EXTRUDE; src.ymax = src_h;
+		dst = dst_r; dst.xmin = dst.xmax; dst.xmax += m_extrude;
+		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
+
+		// bottom
+		src.xmin = 0; src.xmax = src_w; src.ymin = 0; src.ymax = SRC_EXTRUDE;
+		dst = dst_r; dst.xmax = dst.xmin; dst.xmin -= m_extrude;
+		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
+
+		// left-top
+		src.xmin = 0; src.xmax = SRC_EXTRUDE; src.ymin = src_h - SRC_EXTRUDE; src.ymax = src_h;
+		dst = dst_r; dst.xmin = dst.xmax; dst.xmax += m_extrude; dst.ymin = dst.ymax; dst.ymax += m_extrude;
+		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
+
+		// right-top
+		src.xmin = src_w - SRC_EXTRUDE; src.xmax = src_w; src.ymin = src_h - SRC_EXTRUDE; src.ymax = src_h;
+		dst = dst_r; dst.xmin = dst.xmax; dst.xmax += m_extrude; dst.ymax = dst.ymin; dst.ymin -= m_extrude;
+		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
+
+		// left-bottom
+		src.xmin = 0; src.xmax = SRC_EXTRUDE; src.ymin = 0; src.ymax = SRC_EXTRUDE;
+		dst = dst_r; dst.xmax = dst.xmin; dst.xmin -= m_extrude; dst.ymin = dst.ymax; dst.ymax += m_extrude;
+		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
+
+		// right-bottom
+		src.xmin = src_w - SRC_EXTRUDE; src.xmax = src_w; src.ymin = 0; src.ymax = SRC_EXTRUDE;
+		dst = dst_r; dst.xmax = dst.xmin; dst.xmin -= m_extrude; dst.ymax = dst.ymin; dst.ymin -= m_extrude;
+		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
+	}
 }
 
 /************************************************************************/
@@ -224,19 +317,19 @@ Query(uint32_t key) const
 }
 
 texpack_pos* CacheSymbol::Block::
-Insert(const Prenode& node)
+Insert(const Prenode& node, int extend)
 {
-	int w = node.Width() + PADDING * 2 + EXTRUDE * 2,
-		h = node.Height() + PADDING * 2 + EXTRUDE * 2;
+	int w = node.Width() + extend * 2,
+		h = node.Height() + extend * 2;
 	texpack_pos* pos = texpack_add(m_tp, w, h, true);
 	if (!pos) {
 		return false;
 	}
 
-	pos->r.xmin += PADDING + EXTRUDE;
-	pos->r.ymin += PADDING + EXTRUDE;
-	pos->r.xmax -= PADDING + EXTRUDE;
-	pos->r.ymax -= PADDING + EXTRUDE;
+	pos->r.xmin += extend;
+	pos->r.ymin += extend;
+	pos->r.xmax -= extend;
+	pos->r.ymax -= extend;
 
 	pos->r.xmin += m_x;
 	pos->r.xmax += m_x;

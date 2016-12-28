@@ -24,7 +24,7 @@ class Texture;
 class CacheSymbol : public Cache, private cu::Uncopyable
 {
 public:
-	CacheSymbol(int width, int height);
+	CacheSymbol(int width, int height, int padding = 0, int extrude = 0);
 	virtual ~CacheSymbol();
 
 	virtual int Type() const { return CACHE_SYMBOL; }
@@ -83,7 +83,7 @@ private:
 
 		int Query(uint32_t key) const;
 
-		texpack_pos* Insert(const Prenode& node);
+		texpack_pos* Insert(const Prenode& node, int extend);
 		void Insert(uint32_t key, int val);
 		
 		int OffX() const { return m_x; }
@@ -105,9 +105,14 @@ private:
 private:
 	bool InsertNode(const Prenode& node);
 
+	void DrawExtrude(int src_tex_id, int src_w, int src_h, const Rect& src_r, const Rect& dst_r, bool rotate) const;
+
 private:
 	int m_loadable;
 	
+	int m_padding;
+	int m_extrude;
+
 	Texture* m_tex;
 	Block*   m_blocks[BLOCK_X_SZ * BLOCK_Y_SZ];
 	int      m_block_w, m_block_h;
