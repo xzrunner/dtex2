@@ -3,8 +3,6 @@
 
 #include "Texture.h"
 
-struct texpack;
-
 namespace dtex
 {
 
@@ -18,9 +16,6 @@ public:
 
 private:
 	static int InitPixels(int width, int height);
-
-private:
-	texpack* m_tp;
 
 }; // TextureMid
 

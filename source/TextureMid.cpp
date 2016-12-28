@@ -4,7 +4,6 @@
 #include "TextureFormat.h"
 
 #include <fault.h>
-#include <texpack.h>
 
 #include <stdint.h>
 #include <string.h>
@@ -13,7 +12,6 @@ namespace dtex
 {
 
 TextureMid::TextureMid(int width, int height, bool init_pixels)
-	: m_tp(NULL)
 {
 	const int max_edge = HardRes::GetMaxTexSize();
 	if (width > max_edge) {
@@ -31,9 +29,6 @@ TextureMid::TextureMid(int width, int height, bool init_pixels)
 
 TextureMid::~TextureMid()
 {
-	if (m_tp) {
-		texpack_release(m_tp);
-	}
 }
 
 int TextureMid::InitPixels(int width, int height)
