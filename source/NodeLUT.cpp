@@ -1,5 +1,4 @@
 #include "NodeLUT.h"
-#include "CS_Node.h"
 
 #include <logger.h>
 
@@ -20,7 +19,7 @@ NodeLUT::NodeLUT()
 	, m_count(0)
 {
 	m_hash_sz_idx = 0;
-	m_hash = new std::vector<const CS_Node*>[HASH_SZ_TBL[m_hash_sz_idx]];
+	m_hash = new std::vector<Node>[HASH_SZ_TBL[m_hash_sz_idx]];
 }
 
 NodeLUT::~NodeLUT()
@@ -28,26 +27,26 @@ NodeLUT::~NodeLUT()
 	delete[] m_hash;
 }
 
-void NodeLUT::Insert(const CS_Node* node)
+void NodeLUT::Insert(const Node& node)
 {
-	int idx = Hash(node->Key());
+	int idx = Hash(node.key);
 	m_hash[idx].push_back(node);
 	++m_count;
 }
 
-bool NodeLUT::Delete(const CS_Node* node)
+bool NodeLUT::Delete(const Node& node)
 {
 	if ((float)m_search_length / m_search_times > MAX_AVERAGE_SEARCH_LENGTH) {
 		Rehash();
 	}
 
 	++m_search_times;
-	int idx = Hash(node->Key());
-	std::vector<const CS_Node*>& list = m_hash[idx];
+	int idx = Hash(node.key);
+	std::vector<Node>& list = m_hash[idx];
 	for (int i = 0, n = list.size(); i < n; ++i) 
 	{
 		++m_search_length;
-		if (list[i] == node) {
+		if (list[i].val == node.val) {
 			list.erase(list.begin() + i);
 			--m_count;
 			return true;
@@ -56,7 +55,7 @@ bool NodeLUT::Delete(const CS_Node* node)
 	return false;
 }
 
-const CS_Node* NodeLUT::Query(uint32_t key) const
+int NodeLUT::Query(uint32_t key) const
 {
 	if ((float)m_search_length / m_search_times > MAX_AVERAGE_SEARCH_LENGTH) {
 		Rehash();
@@ -64,15 +63,15 @@ const CS_Node* NodeLUT::Query(uint32_t key) const
 
 	++m_search_times;
 	int idx = Hash(key);
-	const std::vector<const CS_Node*>& list = m_hash[idx];
+	const std::vector<Node>& list = m_hash[idx];
 	for (int i = 0, n = list.size(); i < n; ++i) 
 	{
 		++m_search_length;
-		if (list[i]->Key() == key) {
-			return list[i];
+		if (list[i].key == key) {
+			return list[i].val;
 		}
 	}
-	return NULL;
+	return -1;
 }
 
 void NodeLUT::Clear()
@@ -80,7 +79,7 @@ void NodeLUT::Clear()
 	m_hash_sz_idx = 0;
 
 	delete[] m_hash;
-	m_hash = new std::vector<const CS_Node*>[HASH_SZ_TBL[m_hash_sz_idx]];	
+	m_hash = new std::vector<Node>[HASH_SZ_TBL[m_hash_sz_idx]];	
 
 	m_search_length = m_search_times = 0;
 
@@ -95,11 +94,11 @@ void NodeLUT::Rehash() const
 	}
 
 	++m_hash_sz_idx;
-	std::vector<const CS_Node*>* new_hash = new std::vector<const CS_Node*>[HASH_SZ_TBL[m_hash_sz_idx]];
+	std::vector<Node>* new_hash = new std::vector<Node>[HASH_SZ_TBL[m_hash_sz_idx]];
 	for (int i = 0, n = HASH_SZ_TBL[m_hash_sz_idx - 1]; i < n; ++i) {
-		const std::vector<const CS_Node*>& list = m_hash[i];
+		const std::vector<Node>& list = m_hash[i];
 		for (int j = 0, m = list.size(); j < m; ++j) {
-			int idx = Hash(list[j]->Key());
+			int idx = Hash(list[j].key);
 			new_hash[idx].push_back(list[j]);	
 		}
 	}

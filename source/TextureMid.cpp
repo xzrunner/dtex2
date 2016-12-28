@@ -22,8 +22,7 @@ TextureMid::TextureMid(int width, int height, bool init_pixels)
 	if (height > max_edge) {
 		height = max_edge;
 	}
-	m_width  = width;
-	m_height = height;
+	SetSize(width, height);
 
 	if (init_pixels) {
 		m_id = InitPixels(width, height);
@@ -44,15 +43,15 @@ int TextureMid::InitPixels(int width, int height)
 		fault("TextureMid malloc fail.");
 	}
 
-	uint32_t col = 0x66ff0000;
-	int ptr = 0;
-	for (int i = 0; i < width; ++i) {
-		for (int j = 0; j < height; ++j) {
-			memcpy(&empty_data[ptr++], &col, 4);
-		}
-	}
+// 	uint32_t col = 0x66ff0000;
+// 	int ptr = 0;
+// 	for (int i = 0; i < width; ++i) {
+// 		for (int j = 0; j < height; ++j) {
+// 			memcpy(&empty_data[ptr++], &col, 4);
+// 		}
+// 	}
 
-//	memset(empty_data, 0, width*height);
+	memset(empty_data, 0, width*height*4);
 
 	int id = RenderAPI::CreateTexture(empty_data, width, height, TEXTURE_RGBA8);
 	delete[] empty_data;

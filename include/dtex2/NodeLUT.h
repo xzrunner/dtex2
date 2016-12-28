@@ -8,18 +8,26 @@
 namespace dtex
 {
 
-class CS_Node;
-
 class NodeLUT
 {
+public:
+	struct Node
+	{
+		Node(uint32_t key, int val) 
+			: key(key), val(val) {}
+
+		uint32_t key;
+		int      val;
+	};
+
 public:
 	NodeLUT();
 	~NodeLUT();
 
-	void Insert(const CS_Node* node);
-	bool Delete(const CS_Node* node);
+	void Insert(const Node& node);
+	bool Delete(const Node& node);
 
-	const CS_Node* Query(uint32_t key) const;
+	int Query(uint32_t key) const;
 
 	void Clear();
 
@@ -29,7 +37,7 @@ private:
 	int Hash(uint32_t key) const;
 
 private:
-	mutable std::vector<const CS_Node*>* m_hash;
+	mutable std::vector<Node>* m_hash;
 	mutable int m_hash_sz_idx;
 
 	mutable int m_search_length;

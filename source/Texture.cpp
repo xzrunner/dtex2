@@ -101,7 +101,6 @@ void Texture::DrawFrom(int src_tex_id, int src_w, int src_h, const Rect& src_r, 
 	texcoords[4] = src_xmax; texcoords[5] = src_ymax; 
 	texcoords[6] = src_xmin; texcoords[7] = src_ymax; 
 
-
 	RenderAPI::SetProgram();
 	RenderAPI::Draw(vertices, texcoords, src_tex_id);
 
@@ -110,6 +109,7 @@ void Texture::DrawFrom(int src_tex_id, int src_w, int src_h, const Rect& src_r, 
 
 Target* Texture::DrawBefore(int& vx, int& vy, int& vw, int& vh)
 {
+	RenderAPI::DrawBegin();
 	RenderAPI::GetViewport(vx, vy, vw, vh);
 	RenderAPI::SetViewport(0, 0, m_width, m_height);
 
@@ -127,6 +127,7 @@ void Texture::DrawAfter(Target* target, int vx, int vy, int vw, int vh)
 	ResCache::Instance()->ReturnTarget(target);
 
 	RenderAPI::SetViewport(vx, vy, vw, vh);
+	RenderAPI::DrawEnd();
 }
 
 }

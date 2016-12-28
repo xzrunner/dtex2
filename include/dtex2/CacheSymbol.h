@@ -5,6 +5,7 @@
 #include "Math.h"
 #include "CacheType.h"
 #include "NodeLUT.h"
+#include "CS_Node.h"
 
 #include <CU_Uncopyable.h>
 
@@ -80,10 +81,10 @@ private:
 
 		void Clear();
 
-		const CS_Node* Query(uint32_t key) const;
+		int Query(uint32_t key) const;
 
 		texpack_pos* Insert(const Prenode& node);
-		void Insert(const CS_Node* node);
+		void Insert(uint32_t key, int val);
 		
 		int OffX() const { return m_x; }
 		int OffY() const { return m_y; }
@@ -102,7 +103,7 @@ private:
 	static const int BLOCK_Y_SZ = 2;
 
 private:
-	void InsertNode(const Prenode& node);
+	bool InsertNode(const Prenode& node);
 
 private:
 	int m_loadable;

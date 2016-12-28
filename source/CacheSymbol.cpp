@@ -7,18 +7,20 @@
 
 #include <texpack.h>
 
+#include <assert.h>
+
 namespace dtex
 {
 
 static const int MAX_BLOCK_PRELOAD_COUNT = 1024;
 
-static const int PADDING = 0;
-static const int EXTRUDE = 1;
+static const int PADDING = 1;
+static const int EXTRUDE = 0;
 
 CacheSymbol::CacheSymbol(int width, int height)
 	: m_loadable(0)
 	, m_clear_block_idx(0)
-{	
+{
 	m_tex = new TextureMid(width, height, true);
 
 	int x = 0, y = 0;
@@ -96,10 +98,12 @@ void CacheSymbol::LoadFinish()
 
 const CS_Node* CacheSymbol::Query(uint32_t key) const
 {
-	for (int i = 0, n = BLOCK_X_SZ * BLOCK_Y_SZ; i < n; ++i) {
-		const CS_Node* node = m_blocks[i]->Query(key);
-		if (node) {
-			return node;
+	for (int i = 0, n = BLOCK_X_SZ * BLOCK_Y_SZ; i < n; ++i) 
+	{
+		int idx = m_blocks[i]->Query(key);
+		if (idx != -1) {
+			assert(idx >= 0 && idx < m_nodes.size());
+			return &m_nodes[idx];
 		}
 	}
 	return NULL;
@@ -129,8 +133,13 @@ void CacheSymbol::ClearBlock()
 	}
 }
 
-void CacheSymbol::InsertNode(const Prenode& prenode)
+bool CacheSymbol::InsertNode(const Prenode& prenode)
 {
+	if (prenode.Width() > m_block_w && prenode.Height() > m_block_h ||
+		prenode.Width() > m_block_h && prenode.Height() > m_block_w) {
+		return false;
+	}
+
 	Block* block = NULL;
 	texpack_pos* pos = NULL;
 	for (int i = 0, n = BLOCK_X_SZ * BLOCK_Y_SZ; i < n; ++i) {
@@ -142,8 +151,14 @@ void CacheSymbol::InsertNode(const Prenode& prenode)
 	}
 
 	if (!pos) {
+		Block* cleared = m_blocks[m_clear_block_idx];
 		ClearBlock();
-		return;
+		pos = cleared->Insert(prenode);
+		if (!pos) {
+			return false;
+		} else {
+			block = cleared;
+		}
 	}
 
 	CS_Node node(prenode.Key(), m_tex, pos);
@@ -157,7 +172,9 @@ void CacheSymbol::InsertNode(const Prenode& prenode)
 
 	m_tex->DrawFrom(prenode.TexID(), prenode.Width(), prenode.Height(), prenode.GetRect(), dst_r, pos->is_rotated);
 
-	block->Insert(&m_nodes[m_nodes.size() - 1]);
+	block->Insert(node.Key(), m_nodes.size() - 1);
+
+	return true;
 }
 
 /************************************************************************/
@@ -200,7 +217,7 @@ Clear()
 	m_lut.Clear();
 }
 
-const CS_Node* CacheSymbol::Block::
+int CacheSymbol::Block::
 Query(uint32_t key) const
 {
 	return m_lut.Query(key);
@@ -216,6 +233,11 @@ Insert(const Prenode& node)
 		return false;
 	}
 
+	pos->r.xmin += PADDING + EXTRUDE;
+	pos->r.ymin += PADDING + EXTRUDE;
+	pos->r.xmax -= PADDING + EXTRUDE;
+	pos->r.ymax -= PADDING + EXTRUDE;
+
 	pos->r.xmin += m_x;
 	pos->r.xmax += m_x;
 	pos->r.ymin += m_y;
@@ -225,9 +247,9 @@ Insert(const Prenode& node)
 }
 
 void CacheSymbol::Block::
-Insert(const CS_Node* node)
+Insert(uint32_t key, int val)
 {
-	m_lut.Insert(node);
+	m_lut.Insert(NodeLUT::Node(key, val));
 }
 
 }
