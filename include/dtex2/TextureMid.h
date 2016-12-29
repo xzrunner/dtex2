@@ -15,7 +15,7 @@ public:
 	virtual TEXTURE_TYPE Type() const { return TEX_MID; }
 
 private:
-	static int InitPixels(int width, int height);
+	int InitPixels(int width, int height);
 
 }; // TextureMid
 

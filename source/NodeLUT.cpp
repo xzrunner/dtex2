@@ -55,7 +55,7 @@ bool NodeLUT::Delete(const Node& node)
 	return false;
 }
 
-int NodeLUT::Query(uint32_t key) const
+int NodeLUT::Query(uint64_t key) const
 {
 	if ((float)m_search_length / m_search_times > MAX_AVERAGE_SEARCH_LENGTH) {
 		Rehash();
@@ -109,7 +109,7 @@ void NodeLUT::Rehash() const
 	m_search_length = m_search_times = 0;
 }
 
-int NodeLUT::Hash(uint32_t key) const
+int NodeLUT::Hash(uint64_t key) const
 {
 	return key % HASH_SZ_TBL[m_hash_sz_idx];
 }

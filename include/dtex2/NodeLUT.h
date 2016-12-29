@@ -13,10 +13,10 @@ class NodeLUT
 public:
 	struct Node
 	{
-		Node(uint32_t key, int val) 
+		Node(uint64_t key, int val) 
 			: key(key), val(val) {}
 
-		uint32_t key;
+		uint64_t key;
 		int      val;
 	};
 
@@ -27,14 +27,14 @@ public:
 	void Insert(const Node& node);
 	bool Delete(const Node& node);
 
-	int Query(uint32_t key) const;
+	int Query(uint64_t key) const;
 
 	void Clear();
 
 private:
 	void Rehash() const;
 
-	int Hash(uint32_t key) const;
+	int Hash(uint64_t key) const;
 
 private:
 	mutable std::vector<Node>* m_hash;

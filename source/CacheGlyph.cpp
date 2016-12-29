@@ -15,9 +15,10 @@ static const int MAX_NODE_SIZE = 256;
 
 static const int PADDING = 1;
 
-CacheGlyph::CacheGlyph(int width, int height)
+CacheGlyph::CacheGlyph(int width, int height, const Callback& cb)
 	: m_width(width)
 	, m_height(height)
+	, m_cb(cb)
 {
 	m_buf = new uint32_t[BUF_SZ];
 
@@ -42,17 +43,17 @@ void CacheGlyph::DebugDraw() const
 	DebugDraw::Draw(m_tex->GetID(), 2);
 }
 
-void CacheGlyph::Load(uint32_t* bitmap, int width, int height, uint32_t key)
+void CacheGlyph::Load(uint32_t* bitmap, int width, int height, uint64_t key)
 {
-	std::set<uint32_t>::iterator itr = m_exists.find(key);
+	std::set<uint64_t>::iterator itr = m_exists.find(key);
 	if (itr != m_exists.end()) {
 		return;
 	}
 
-	texpack_pos* pos = texpack_add(m_tp, width, height, false);
+	texpack_pos* pos = texpack_add(m_tp, width + PADDING * 2, height + PADDING * 2, false);
 	if (!pos) {
 		Clear();
-		pos = texpack_add(m_tp, width, height, false);
+		pos = texpack_add(m_tp, width + PADDING * 2, height + PADDING * 2, false);
 		if (!pos) {
 			return;
 		}
@@ -73,6 +74,8 @@ void CacheGlyph::Load(uint32_t* bitmap, int width, int height, uint32_t key)
 			m_bitmap[dst_ptr] = a << 24 | b << 16 | g << 8 | r;
 		}
 	}
+
+	UpdateDirtyRect(pos);
 }
 
 void CacheGlyph::Flush()
@@ -83,10 +86,12 @@ void CacheGlyph::Flush()
 
 	UpdateTexture();
 
-	std::sort(m_nodes.begin(), m_nodes.end(), NodeCmp());
+	m_cb.load_start();
 	for (int i = 0, n = m_nodes.size(); i < n; ++i) {
-		// insert & draw to C2
+		const Node& node = m_nodes[i];
+		m_cb.load(m_tex->GetID(), m_tex->GetWidth(), m_tex->GetHeight(), node.GetRect(), node.Key());
 	}
+	m_cb.load_finish();
 
 	m_exists.clear();
 	m_nodes.clear();
@@ -110,6 +115,22 @@ void CacheGlyph::InitDirtyRect()
 	m_dirty_rect.xmax = m_dirty_rect.ymax = 0;
 	m_dirty_rect.xmin = m_width;
 	m_dirty_rect.ymin = m_height;
+}
+
+void CacheGlyph::UpdateDirtyRect(const texpack_pos* pos)
+{
+	if (pos->r.xmin < m_dirty_rect.xmin) {
+		m_dirty_rect.xmin = pos->r.xmin;
+	}
+	if (pos->r.ymin < m_dirty_rect.ymin) {
+		m_dirty_rect.ymin = pos->r.ymin;
+	}
+	if (pos->r.xmax > m_dirty_rect.xmax) {
+		m_dirty_rect.xmax = pos->r.xmax;
+	}
+	if (pos->r.ymax > m_dirty_rect.ymax) {
+		m_dirty_rect.ymax = pos->r.ymax;
+	}
 }
 
 void CacheGlyph::UpdateTexture()
@@ -136,12 +157,17 @@ void CacheGlyph::UpdateTexture()
 }
 
 /************************************************************************/
-/* class CacheGlyph::NodeCmp                                            */
+/* class CacheGlyph::Node                                               */
 /************************************************************************/
 
-bool CacheGlyph::NodeCmp::operator () (const Node& n0, const Node& n1) const
+CacheGlyph::Node::
+Node(uint64_t key, texpack_pos* pos) 
+	: m_key(key)
 {
-	
+	m_rect.xmin = pos->r.xmin + PADDING;
+	m_rect.ymin = pos->r.ymin + PADDING;
+	m_rect.xmax = pos->r.xmax - PADDING;
+	m_rect.ymax = pos->r.ymax - PADDING;
 }
 
 }

@@ -13,14 +13,14 @@ class Texture;
 class CS_Node
 {
 public:
-	CS_Node(uint32_t key, const Texture* dst_tex, texpack_pos* dst_pos);
+	CS_Node(uint64_t key, const Texture* dst_tex, texpack_pos* dst_pos);
 
 	const float* GetTexcoords() const { return m_texcoords; }
 
-	uint32_t Key() const { return m_key; }
+	uint64_t Key() const { return m_key; }
 	
 private:
-	uint32_t m_key;
+	uint64_t m_key;
 
 	const Texture* m_dst_tex;
 	texpack_pos*   m_dst_pos;

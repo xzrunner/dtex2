@@ -6,7 +6,7 @@
 namespace dtex
 {
 
-CS_Node::CS_Node(uint32_t key, const Texture* dst_tex, texpack_pos* dst_pos)
+CS_Node::CS_Node(uint64_t key, const Texture* dst_tex, texpack_pos* dst_pos)
 	: m_key(key)
 	, m_dst_tex(dst_tex)
 	, m_dst_pos(dst_pos)

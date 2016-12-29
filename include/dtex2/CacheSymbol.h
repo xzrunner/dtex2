@@ -24,7 +24,7 @@ class Texture;
 class CacheSymbol : public Cache, private cu::Uncopyable
 {
 public:
-	CacheSymbol(int width, int height, int padding = 0, int extrude = 0);
+	CacheSymbol(int width, int height);
 	virtual ~CacheSymbol();
 
 	virtual int Type() const { return CACHE_SYMBOL; }
@@ -33,10 +33,11 @@ public:
 	void Clear();
 	
 	void LoadStart();
-	void Load(int tex_id, int tex_w, int tex_h, const Rect& r, uint32_t key);
+	void Load(int tex_id, int tex_w, int tex_h, const Rect& r, uint64_t key, 
+		int padding = 0, int extrude = 0);
 	void LoadFinish();
 
-	const CS_Node* Query(uint32_t key) const;
+	const CS_Node* Query(uint64_t key) const;
 
 	int GetTexID() const;
 
@@ -47,29 +48,40 @@ private:
 	class Prenode
 	{
 	public:
-		Prenode(int tex_id, int tex_w, int tex_h, const Rect& r, uint32_t key);
+		Prenode(int tex_id, int tex_w, int tex_h, const Rect& r, uint64_t key, int padding, int extrude);
 
 		bool operator == (const Prenode& node) const { return m_key == node.m_key; }
-		bool operator < (const Prenode& node) const { return Area() > node.Area(); }
+		bool operator < (const Prenode& node) const { return MaxEdge() > node.MaxEdge(); }
+
+		int TexID() const { return m_tex_id; }
+		int TexWidth() const { return m_tex_w; }
+		int TexHeight() const { return m_tex_h; }
 
 		int Width() const { return m_rect.xmax - m_rect.xmin; }
 		int Height() const { return m_rect.ymax - m_rect.ymin; }
 
-		int TexID() const { return m_tex_id; }
-
-		uint32_t Key() const { return m_key; }
+		uint64_t Key() const { return m_key; }
 
 		const Rect& GetRect() const { return m_rect; }
 
+		int Padding() const { return m_padding; }
+		int Extrude() const { return m_extrude; }
+
 	private:
 		int Area() const { return Width() * Height(); }
+		int MaxEdge() const { 
+			int w = Width(), h = Height();
+			return w >= h ? w : h;
+		}
 
 	private:
 		int m_tex_id;
 		int m_tex_w, m_tex_h;
 		Rect m_rect;
 
-		uint32_t m_key;
+		uint64_t m_key;
+
+		int m_padding, m_extrude;
 
 	}; // Prenode
 
@@ -81,10 +93,10 @@ private:
 
 		void Clear();
 
-		int Query(uint32_t key) const;
+		int Query(uint64_t key) const;
 
 		texpack_pos* Insert(const Prenode& node, int extend);
-		void Insert(uint32_t key, int val);
+		void Insert(uint64_t key, int val);
 		
 		int OffX() const { return m_x; }
 		int OffY() const { return m_y; }
@@ -105,14 +117,11 @@ private:
 private:
 	bool InsertNode(const Prenode& node);
 
-	void DrawExtrude(int src_tex_id, int src_w, int src_h, const Rect& src_r, const Rect& dst_r, bool rotate) const;
+	void DrawExtrude(int src_tex_id, int src_w, int src_h, const Rect& src_r, const Rect& dst_r, bool rotate, int extrude) const;
 
 private:
 	int m_loadable;
 	
-	int m_padding;
-	int m_extrude;
-
 	Texture* m_tex;
 	Block*   m_blocks[BLOCK_X_SZ * BLOCK_Y_SZ];
 	int      m_block_w, m_block_h;

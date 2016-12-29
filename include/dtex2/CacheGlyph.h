@@ -23,19 +23,28 @@ class Texture;
 class CacheGlyph : public Cache, private cu::Uncopyable
 {
 public:
-	CacheGlyph(int width, int height);
+	struct Callback
+	{
+		void (*load_start)();
+		void (*load)(int tex_id, int tex_w, int tex_h, const Rect& r, uint64_t key);
+		void (*load_finish)();
+	};
+
+public:
+	CacheGlyph(int width, int height, const Callback& cb);
 	virtual ~CacheGlyph();
 
 	virtual int Type() const { return CACHE_GLYPH; }
 	virtual void DebugDraw() const;
 
-	void Load(uint32_t* bitmap, int width, int height, uint32_t key);
+	void Load(uint32_t* bitmap, int width, int height, uint64_t key);
 	void Flush();
 
 	void Clear();
 
 private:
 	void InitDirtyRect();
+	void UpdateDirtyRect(const texpack_pos* pos);
 
 	void UpdateTexture();
 
@@ -43,32 +52,27 @@ private:
 	class Node
 	{
 	public:
-		Node(uint32_t key, texpack_pos* pos) 
-			: m_key(key), m_pos(pos) {}
+		Node(uint64_t key, texpack_pos* pos);
+
+		uint64_t Key() const { return m_key; }
+		const Rect& GetRect() const { return m_rect; }
 
 	private:
-		uint32_t m_key;
-
-		texpack_pos* m_pos;
-
+		uint64_t m_key;
+		Rect m_rect;
 	}; // Node
 
-	class NodeCmp
-	{
-	public:
-		bool operator () (const Node& n0, const Node& n1) const;
-	}; // NodeCmp
-
 private:
-	uint32_t* m_buf;
-
 	int m_width, m_height;
+	Callback m_cb;
+
+	uint32_t* m_buf;
 
 	uint32_t* m_bitmap;
 	Texture*  m_tex;
 	texpack*  m_tp;
 
-	std::set<uint32_t> m_exists;
+	std::set<uint64_t> m_exists;
 	std::vector<Node> m_nodes;
 
 	Rect m_dirty_rect;

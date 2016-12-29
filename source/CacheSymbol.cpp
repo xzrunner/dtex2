@@ -14,10 +14,8 @@ namespace dtex
 
 static const int MAX_BLOCK_PRELOAD_COUNT = 1024;
 
-CacheSymbol::CacheSymbol(int width, int height, int padding, int extrude)
+CacheSymbol::CacheSymbol(int width, int height)
 	: m_loadable(0)
-	, m_padding(padding)
-	, m_extrude(extrude)
 	, m_clear_block_idx(0)
 {
 	m_tex = new TextureMid(width, height, true);
@@ -65,7 +63,7 @@ void CacheSymbol::LoadStart()
 	m_loadable++;
 }
 
-void CacheSymbol::Load(int tex_id, int tex_w, int tex_h, const Rect& r, uint32_t key)
+void CacheSymbol::Load(int tex_id, int tex_w, int tex_h, const Rect& r, uint64_t key, int padding, int extrude)
 {
 	if (tex_id <= 0 || tex_w <= 0 || tex_h <= 0) {
 		return;
@@ -75,7 +73,7 @@ void CacheSymbol::Load(int tex_id, int tex_w, int tex_h, const Rect& r, uint32_t
 		return;
 	}
 
-	m_prenodes.push_back(Prenode(tex_id, tex_w, tex_h, r, key));	
+	m_prenodes.push_back(Prenode(tex_id, tex_w, tex_h, r, key, padding, extrude));	
 }
 
 void CacheSymbol::LoadFinish()
@@ -95,7 +93,7 @@ void CacheSymbol::LoadFinish()
 	m_prenodes.clear();
 }
 
-const CS_Node* CacheSymbol::Query(uint32_t key) const
+const CS_Node* CacheSymbol::Query(uint64_t key) const
 {
 	for (int i = 0, n = BLOCK_X_SZ * BLOCK_Y_SZ; i < n; ++i) 
 	{
@@ -139,10 +137,12 @@ bool CacheSymbol::InsertNode(const Prenode& prenode)
 		return false;
 	}
 
+	int extend = prenode.Padding() + prenode.Extrude();
+
 	Block* block = NULL;
 	texpack_pos* pos = NULL;
 	for (int i = 0, n = BLOCK_X_SZ * BLOCK_Y_SZ; i < n; ++i) {
-		pos = m_blocks[i]->Insert(prenode, m_padding + m_extrude);
+		pos = m_blocks[i]->Insert(prenode, extend);
 		if (pos) {
 			block = m_blocks[i];
 			break;
@@ -152,7 +152,7 @@ bool CacheSymbol::InsertNode(const Prenode& prenode)
 	if (!pos) {
 		Block* cleared = m_blocks[m_clear_block_idx];
 		ClearBlock();
-		pos = cleared->Insert(prenode, m_padding + m_extrude);
+		pos = cleared->Insert(prenode, extend);
 		if (!pos) {
 			return false;
 		} else {
@@ -169,9 +169,9 @@ bool CacheSymbol::InsertNode(const Prenode& prenode)
 	dst_r.xmax = pos->r.xmax;
 	dst_r.ymax = pos->r.ymax;
 
-	m_tex->DrawFrom(prenode.TexID(), prenode.Width(), prenode.Height(), prenode.GetRect(), dst_r, pos->is_rotated);
-	if (m_extrude != 0) {
-		DrawExtrude(prenode.TexID(), prenode.Width(), prenode.Height(), prenode.GetRect(), dst_r, pos->is_rotated);
+	m_tex->DrawFrom(prenode.TexID(), prenode.TexWidth(), prenode.TexHeight(), prenode.GetRect(), dst_r, pos->is_rotated);
+	if (prenode.Extrude() != 0) {
+		DrawExtrude(prenode.TexID(), prenode.TexWidth(), prenode.TexHeight(), prenode.GetRect(), dst_r, pos->is_rotated, prenode.Extrude());
 	}
 
 	block->Insert(node.Key(), m_nodes.size() - 1);
@@ -179,7 +179,7 @@ bool CacheSymbol::InsertNode(const Prenode& prenode)
 	return true;
 }
 
-void CacheSymbol::DrawExtrude(int src_tex_id, int src_w, int src_h, const Rect& src_r, const Rect& dst_r, bool rotate) const
+void CacheSymbol::DrawExtrude(int src_tex_id, int src_w, int src_h, const Rect& src_r, const Rect& dst_r, bool rotate, int extrude) const
 {
 	static const int SRC_EXTRUDE = 1;
 
@@ -188,84 +188,84 @@ void CacheSymbol::DrawExtrude(int src_tex_id, int src_w, int src_h, const Rect& 
 	{
 		// left
 		src.xmin = 0; src.xmax = SRC_EXTRUDE; src.ymin = 0; src.ymax = src_h;
-		dst = dst_r; dst.xmax = dst.xmin; dst.xmin -= m_extrude;
+		dst = dst_r; dst.xmax = dst.xmin; dst.xmin -= extrude;
 		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
 
 		// right
-		src.xmin = src_w - SRC_EXTRUDE; src.xmax = src_w; src.ymin = 0; src.ymax = src_h;
-		dst = dst_r; dst.xmin = dst.xmax; dst.xmax += m_extrude;
+		src.xmin = src_w - SRC_EXTRUDE; src.xmax = src_w - SRC_EXTRUDE; src.ymin = 0; src.ymax = src_h;
+		dst = dst_r; dst.xmin = dst.xmax; dst.xmax += extrude;
 		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
 
 		// top
 		src.xmin = 0; src.xmax = src_w; src.ymin = src_h - SRC_EXTRUDE; src.ymax = src_h;
-		dst = dst_r; dst.ymin = dst.ymax; dst.ymax += m_extrude;
+		dst = dst_r; dst.ymin = dst.ymax; dst.ymax += extrude;
 		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
 
 		// bottom
 		src.xmin = 0; src.xmax = src_w; src.ymin = 0; src.ymax = SRC_EXTRUDE;
-		dst = dst_r; dst.ymax = dst.ymin; dst.ymin -= m_extrude;
+		dst = dst_r; dst.ymax = dst.ymin; dst.ymin -= extrude;
 		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
 
 		// left-top
 		src.xmin = 0; src.xmax = SRC_EXTRUDE; src.ymin = src_h - SRC_EXTRUDE; src.ymax = src_h;
-		dst = dst_r; dst.xmax = dst.xmin; dst.xmin -= m_extrude; dst.ymin = dst.ymax; dst.ymax += m_extrude;
+		dst = dst_r; dst.xmax = dst.xmin; dst.xmin -= extrude; dst.ymin = dst.ymax; dst.ymax += extrude;
 		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
 
 		// right-top
 		src.xmin = src_w - SRC_EXTRUDE; src.xmax = src_w; src.ymin = src_h - SRC_EXTRUDE; src.ymax = src_h;
-		dst = dst_r; dst.xmin = dst.xmax; dst.xmax += m_extrude; dst.ymin = dst.ymax; dst.ymax += m_extrude;
+		dst = dst_r; dst.xmin = dst.xmax; dst.xmax += extrude; dst.ymin = dst.ymax; dst.ymax += extrude;
 		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
 
 		// left-bottom
 		src.xmin = 0; src.xmax = SRC_EXTRUDE; src.ymin = 0; src.ymax = SRC_EXTRUDE;
-		dst = dst_r; dst.xmax = dst.xmin; dst.xmin -= m_extrude; dst.ymax = dst.ymin; dst.ymin -= m_extrude;
+		dst = dst_r; dst.xmax = dst.xmin; dst.xmin -= extrude; dst.ymax = dst.ymin; dst.ymin -= extrude;
 		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
 
 		// right-bottom
 		src.xmin = src_w - SRC_EXTRUDE; src.xmax = src_w; src.ymin = 0; src.ymax = SRC_EXTRUDE;
-		dst = dst_r; dst.xmin = dst.xmax; dst.xmax += m_extrude; dst.ymax = dst.ymin; dst.ymin -= m_extrude;
+		dst = dst_r; dst.xmin = dst.xmax; dst.xmax += extrude; dst.ymax = dst.ymin; dst.ymin -= extrude;
 		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
 	} 
 	else
 	{
 		// left
 		src.xmin = 0; src.xmax = SRC_EXTRUDE; src.ymin = 0; src.ymax = src_h;
-		dst = dst_r; dst.ymin = dst.ymax; dst.ymax += m_extrude;
+		dst = dst_r; dst.ymin = dst.ymax; dst.ymax += extrude;
 		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
 
 		// right
 		src.xmin = src_w - SRC_EXTRUDE; src.xmax = src_w; src.ymin = 0; src.ymax = src_h;
-		dst = dst_r; dst.ymax = dst.ymin; dst.ymin -= m_extrude;
+		dst = dst_r; dst.ymax = dst.ymin; dst.ymin -= extrude;
 		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
 
 		// top
 		src.xmin = 0; src.xmax = src_w; src.ymin = src_h - SRC_EXTRUDE; src.ymax = src_h;
-		dst = dst_r; dst.xmin = dst.xmax; dst.xmax += m_extrude;
+		dst = dst_r; dst.xmin = dst.xmax; dst.xmax += extrude;
 		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
 
 		// bottom
 		src.xmin = 0; src.xmax = src_w; src.ymin = 0; src.ymax = SRC_EXTRUDE;
-		dst = dst_r; dst.xmax = dst.xmin; dst.xmin -= m_extrude;
+		dst = dst_r; dst.xmax = dst.xmin; dst.xmin -= extrude;
 		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
 
 		// left-top
 		src.xmin = 0; src.xmax = SRC_EXTRUDE; src.ymin = src_h - SRC_EXTRUDE; src.ymax = src_h;
-		dst = dst_r; dst.xmin = dst.xmax; dst.xmax += m_extrude; dst.ymin = dst.ymax; dst.ymax += m_extrude;
+		dst = dst_r; dst.xmin = dst.xmax; dst.xmax += extrude; dst.ymin = dst.ymax; dst.ymax += extrude;
 		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
 
 		// right-top
 		src.xmin = src_w - SRC_EXTRUDE; src.xmax = src_w; src.ymin = src_h - SRC_EXTRUDE; src.ymax = src_h;
-		dst = dst_r; dst.xmin = dst.xmax; dst.xmax += m_extrude; dst.ymax = dst.ymin; dst.ymin -= m_extrude;
+		dst = dst_r; dst.xmin = dst.xmax; dst.xmax += extrude; dst.ymax = dst.ymin; dst.ymin -= extrude;
 		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
 
 		// left-bottom
 		src.xmin = 0; src.xmax = SRC_EXTRUDE; src.ymin = 0; src.ymax = SRC_EXTRUDE;
-		dst = dst_r; dst.xmax = dst.xmin; dst.xmin -= m_extrude; dst.ymin = dst.ymax; dst.ymax += m_extrude;
+		dst = dst_r; dst.xmax = dst.xmin; dst.xmin -= extrude; dst.ymin = dst.ymax; dst.ymax += extrude;
 		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
 
 		// right-bottom
 		src.xmin = src_w - SRC_EXTRUDE; src.xmax = src_w; src.ymin = 0; src.ymax = SRC_EXTRUDE;
-		dst = dst_r; dst.xmax = dst.xmin; dst.xmin -= m_extrude; dst.ymax = dst.ymin; dst.ymin -= m_extrude;
+		dst = dst_r; dst.xmax = dst.xmin; dst.xmin -= extrude; dst.ymax = dst.ymin; dst.ymin -= extrude;
 		m_tex->DrawFrom(src_tex_id, src_w, src_h, src, dst, rotate);
 	}
 }
@@ -275,12 +275,14 @@ void CacheSymbol::DrawExtrude(int src_tex_id, int src_w, int src_h, const Rect& 
 /************************************************************************/
 
 CacheSymbol::Prenode::
-Prenode(int tex_id, int tex_w, int tex_h, const Rect& r, uint32_t key)
+Prenode(int tex_id, int tex_w, int tex_h, const Rect& r, uint64_t key, int padding, int extrude)
 	: m_tex_id(tex_id)
 	, m_tex_w(tex_w)
 	, m_tex_h(tex_h)
 	, m_rect(r)
 	, m_key(key)
+	, m_padding(padding)
+	, m_extrude(extrude)
 {
 }
 
@@ -311,7 +313,7 @@ Clear()
 }
 
 int CacheSymbol::Block::
-Query(uint32_t key) const
+Query(uint64_t key) const
 {
 	return m_lut.Query(key);
 }
@@ -340,7 +342,7 @@ Insert(const Prenode& node, int extend)
 }
 
 void CacheSymbol::Block::
-Insert(uint32_t key, int val)
+Insert(uint64_t key, int val)
 {
 	m_lut.Insert(NodeLUT::Node(key, val));
 }
