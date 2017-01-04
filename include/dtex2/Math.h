@@ -16,8 +16,8 @@ namespace dtex
 
 struct Rect 
 {
-	uint16_t xmin, ymin;
-	uint16_t xmax, ymax;
+	int16_t xmin, ymin;
+	int16_t xmax, ymax;
 };
 
 }
