@@ -147,6 +147,15 @@ void CachePkgStatic::RelocateNodes()
 		CP_Node* node = nodes[i];
 		ResourceAPI::LoadTexture(node->GetSrcPkg()->GetID(), node->GetSrcTexIdx(), LoadTextureCB, node);
 	}
+
+	for (int i = 0, n = nodes.size(); i < n; ++i) 
+	{
+		CP_Node* node = nodes[i];
+		const Texture* dst_tex = node->GetDstTex()->GetTexture();
+		const Rect& dst_r = node->GetDstRect();
+		CacheAPI::RelocatePkg(node->GetSrcPkg()->GetID(), node->GetSrcTexIdx(), dst_tex->GetID(), dst_tex->GetFormat(),
+			dst_tex->GetWidth(), dst_tex->GetHeight(), dst_r.xmin, dst_r.ymin, dst_r.xmax, dst_r.ymax);
+	}
 }
 
 void CachePkgStatic::CreateTextures()
@@ -221,11 +230,6 @@ void CachePkgStatic::LoadTextureCB(int format, int w, int h, const void* data, v
 		assert(0);
 	}
 	
-	const Texture* dst_tex = node->GetDstTex()->GetTexture();
-	const Rect& dst_r = node->GetDstRect();
-	CacheAPI::RelocatePkg(node->GetSrcPkg()->GetID(), node->GetSrcTexIdx(), dst_tex->GetID(), dst_tex->GetFormat(),
-		dst_tex->GetWidth(), dst_tex->GetHeight(), dst_r.xmin, dst_r.ymin, dst_r.xmax, dst_r.ymax);
-
 	CachePkgStatic* c = static_cast<CachePkgStatic*>(node->GetUD());
 	if (c->UpRemain()) {
 		c->CreateTextures();
