@@ -63,7 +63,7 @@ void CacheSymbol::LoadStart()
 	m_loadable++;
 }
 
-void CacheSymbol::Load(int tex_id, int tex_w, int tex_h, const Rect& r, uint64_t key, int padding, int extrude)
+void CacheSymbol::Load(int tex_id, int tex_w, int tex_h, const Rect& r, uint64_t key, int padding, int extrude, int src_extrude)
 {
 	if (tex_w <= 0 || tex_h <= 0) {
 		return;
@@ -73,7 +73,7 @@ void CacheSymbol::Load(int tex_id, int tex_w, int tex_h, const Rect& r, uint64_t
 		return;
 	}
 
-	m_prenodes.push_back(Prenode(tex_id, tex_w, tex_h, r, key, padding, extrude));	
+	m_prenodes.push_back(Prenode(tex_id, tex_w, tex_h, r, key, padding, extrude, src_extrude));	
 }
 
 void CacheSymbol::LoadFinish()
@@ -162,16 +162,24 @@ bool CacheSymbol::InsertNode(const Prenode& prenode)
 
 	CS_Node node(prenode.Key(), m_tex, pos);
 	m_nodes.push_back(node);
+	
+	int src_extrude = prenode.SrcExtrude();
+
+	Rect src_r = prenode.GetRect();
+	src_r.xmin -= src_extrude;
+	src_r.ymin -= src_extrude;
+	src_r.xmax += src_extrude;
+	src_r.ymax += src_extrude;
 
 	Rect dst_r;
-	dst_r.xmin = pos->r.xmin;
-	dst_r.ymin = pos->r.ymin;
-	dst_r.xmax = pos->r.xmax;
-	dst_r.ymax = pos->r.ymax;
+	dst_r.xmin = pos->r.xmin - src_extrude;
+	dst_r.ymin = pos->r.ymin - src_extrude;
+	dst_r.xmax = pos->r.xmax + src_extrude;
+	dst_r.ymax = pos->r.ymax + src_extrude;
 
-	m_tex->DrawFrom(prenode.TexID(), prenode.TexWidth(), prenode.TexHeight(), prenode.GetRect(), dst_r, pos->is_rotated);
+	m_tex->DrawFrom(prenode.TexID(), prenode.TexWidth(), prenode.TexHeight(), src_r, dst_r, pos->is_rotated);
 	if (prenode.Extrude() != 0) {
-		DrawExtrude(prenode.TexID(), prenode.TexWidth(), prenode.TexHeight(), prenode.GetRect(), dst_r, pos->is_rotated, prenode.Extrude());
+		DrawExtrude(prenode.TexID(), prenode.TexWidth(), prenode.TexHeight(), src_r, dst_r, pos->is_rotated, prenode.Extrude());
 	}
 
 	block->Insert(node.Key(), m_nodes.size() - 1);
@@ -275,7 +283,7 @@ void CacheSymbol::DrawExtrude(int src_tex_id, int src_w, int src_h, const Rect& 
 /************************************************************************/
 
 CacheSymbol::Prenode::
-Prenode(int tex_id, int tex_w, int tex_h, const Rect& r, uint64_t key, int padding, int extrude)
+Prenode(int tex_id, int tex_w, int tex_h, const Rect& r, uint64_t key, int padding, int extrude, int src_extrude)
 	: m_tex_id(tex_id)
 	, m_tex_w(tex_w)
 	, m_tex_h(tex_h)
@@ -283,6 +291,7 @@ Prenode(int tex_id, int tex_w, int tex_h, const Rect& r, uint64_t key, int paddi
 	, m_key(key)
 	, m_padding(padding)
 	, m_extrude(extrude)
+	, m_src_extrude(src_extrude)
 {
 }
 

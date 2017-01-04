@@ -34,7 +34,7 @@ public:
 	
 	void LoadStart();
 	void Load(int tex_id, int tex_w, int tex_h, const Rect& r, uint64_t key, 
-		int padding = 0, int extrude = 0);
+		int padding = 0, int extrude = 0, int src_extrude = 0);
 	void LoadFinish();
 
 	const CS_Node* Query(uint64_t key) const;
@@ -48,7 +48,7 @@ private:
 	class Prenode
 	{
 	public:
-		Prenode(int tex_id, int tex_w, int tex_h, const Rect& r, uint64_t key, int padding, int extrude);
+		Prenode(int tex_id, int tex_w, int tex_h, const Rect& r, uint64_t key, int padding, int extrude, int src_extrude);
 
 		bool operator == (const Prenode& node) const { return m_key == node.m_key; }
 		bool operator < (const Prenode& node) const { return MaxEdge() > node.MaxEdge(); }
@@ -66,6 +66,7 @@ private:
 
 		int Padding() const { return m_padding; }
 		int Extrude() const { return m_extrude; }
+		int SrcExtrude() const { return m_src_extrude; }
 
 	private:
 		int Area() const { return Width() * Height(); }
@@ -82,6 +83,7 @@ private:
 		uint64_t m_key;
 
 		int m_padding, m_extrude;
+		int m_src_extrude;
 
 	}; // Prenode
 
