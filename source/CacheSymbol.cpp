@@ -65,7 +65,7 @@ void CacheSymbol::LoadStart()
 
 void CacheSymbol::Load(int tex_id, int tex_w, int tex_h, const Rect& r, uint64_t key, int padding, int extrude)
 {
-	if (tex_id <= 0 || tex_w <= 0 || tex_h <= 0) {
+	if (tex_w <= 0 || tex_h <= 0) {
 		return;
 	}
 
