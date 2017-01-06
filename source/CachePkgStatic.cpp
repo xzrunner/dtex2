@@ -60,7 +60,9 @@ void CachePkgStatic::DebugDraw() const
 		return;
 	}
 
-	DebugDraw::Draw(m_textures[0]->GetTexture()->GetID(), 3);
+//	DebugDraw::Draw(m_textures[0]->GetTexture()->GetID(), 3);
+
+	DebugDraw::Draw(m_textures.back()->GetTexture()->GetID(), 3);
 }
 
 void CachePkgStatic::Clear()
@@ -313,11 +315,6 @@ void CachePkgStatic::LoadPartETC2(int w, int h, const void* data, const CP_Node*
 void CachePkgStatic::LoadPartRGBA8(int w, int h, const void* data, const CP_Node* node)
 {
 	const Rect& dst_pos = node->GetDstRect();
-
-	if (w != dst_pos.xmax - dst_pos.xmin || h != dst_pos.ymax - dst_pos.ymin) {
-		int zz = 0;
-	}
-
 	assert(w == dst_pos.xmax - dst_pos.xmin
 		&& h == dst_pos.ymax - dst_pos.ymin);
 
