@@ -5,7 +5,7 @@
 
 #include <string>
 
-struct atask_loader;
+struct tasks_loader;
 
 namespace dtex
 {
@@ -22,7 +22,7 @@ public:
 	bool IsEmpty() const;
 
 private:
-	atask_loader* m_loader;
+	tasks_loader* m_loader;
 	
 	SINGLETON_DECLARATION(AsyncTask);
 
