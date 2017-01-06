@@ -1,6 +1,7 @@
 #include "CacheMgr.h"
 #include "CachePkgStatic.h"
 #include "PkgMgr.h"
+#include "AsyncTask.h"
 
 #include <assert.h>
 
@@ -54,7 +55,13 @@ void dtex_cache_pkg_static_load_finish(void* cache)
 	Cache* c = static_cast<Cache*>(cache);
 	assert(c->Type() == CACHE_PKG_STATIC);
 	CachePkgStatic* cps = static_cast<CachePkgStatic*>(c);
-	cps->LoadFinish();
+	cps->LoadFinish(true);
+}
+
+extern "C"
+bool dtex_loading_task_empty()
+{
+	return AsyncTask::Instance()->IsEmpty();
 }
 
 }

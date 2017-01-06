@@ -8,6 +8,7 @@
 #include "RenderAPI.h"
 #include "DebugDraw.h"
 #include "CacheAPI.h"
+#include "AsyncTask.h"
 
 #include <logger.h>
 #include <gimg_pvr.h>
@@ -94,7 +95,7 @@ void CachePkgStatic::Load(const Package* pkg)
 	m_pkgs.insert(pkg->GetID());
 }
 
-void CachePkgStatic::LoadFinish()
+void CachePkgStatic::LoadFinish(bool async)
 {
 	if (m_prenodes.empty()) {
 		return;
@@ -105,7 +106,7 @@ void CachePkgStatic::LoadFinish()
 	PackPrenodes();
 	m_prenodes.clear();
 
-	RelocateNodes();
+	LoadTexAndRelocateNodes(async);
 }
 
 void CachePkgStatic::PackPrenodes()
@@ -128,7 +129,7 @@ void CachePkgStatic::PackPrenodes()
 	}
 }
 
-void CachePkgStatic::RelocateNodes()
+void CachePkgStatic::LoadTexAndRelocateNodes(bool async)
 {
 	int count = 0;
 	for (int i = 0, n = m_textures.size(); i < n; ++i) {
@@ -145,18 +146,21 @@ void CachePkgStatic::RelocateNodes()
 	std::sort(nodes.begin(), nodes.end(), NodeTexCmp());
 
 	m_remain = nodes.size();
-	for (int i = 0, n = nodes.size(); i < n; ++i) {
-		CP_Node* node = nodes[i];
-		ResourceAPI::LoadTexture(node->GetSrcPkg()->GetID(), node->GetSrcTexIdx(), LoadTextureCB, node);
-	}
 
-	for (int i = 0, n = nodes.size(); i < n; ++i) 
+	if (async)
 	{
-		CP_Node* node = nodes[i];
-		const Texture* dst_tex = node->GetDstTex()->GetTexture();
-		const Rect& dst_r = node->GetDstRect();
-		CacheAPI::RelocatePkg(node->GetSrcPkg()->GetID(), node->GetSrcTexIdx(), dst_tex->GetID(), dst_tex->GetFormat(),
-			dst_tex->GetWidth(), dst_tex->GetHeight(), dst_r.xmin, dst_r.ymin, dst_r.xmax, dst_r.ymax);
+		for (int i = 0, n = nodes.size(); i < n; ++i) {
+			CP_Node* node = nodes[i];
+			const std::string& filepath = ResourceAPI::GetTexFilepath(node->GetSrcPkg()->GetID(), node->GetSrcTexIdx(), 0);
+			AsyncTask::Instance()->Load(filepath, LoadTextureCB, node);
+		}
+	}
+	else
+	{
+		for (int i = 0, n = nodes.size(); i < n; ++i) {
+			CP_Node* node = nodes[i];
+			ResourceAPI::LoadTexture(node->GetSrcPkg()->GetID(), node->GetSrcTexIdx(), LoadTextureCB, node);
+		}
 	}
 }
 
@@ -192,6 +196,22 @@ void CachePkgStatic::CreateTextures()
 		tex->SetUD(NULL);
 		tex_impl->SetID(id);
 		tex_impl->SetFormat(fmt);
+	}
+}
+
+void CachePkgStatic::RelocateNodes()
+{
+	for (int i = 0, n = m_textures.size(); i < n; ++i) 
+	{
+		const std::vector<CP_Node*>& src = m_textures[i]->GetNodes();
+		for (int j = 0, m = src.size(); j < m; ++j) 
+		{
+			CP_Node* node = src[j];
+			const Texture* dst_tex = node->GetDstTex()->GetTexture();
+			const Rect& dst_r = node->GetDstRect();
+			CacheAPI::RelocatePkg(node->GetSrcPkg()->GetID(), node->GetSrcTexIdx(), dst_tex->GetID(), dst_tex->GetFormat(),
+				dst_tex->GetWidth(), dst_tex->GetHeight(), dst_r.xmin, dst_r.ymin, dst_r.xmax, dst_r.ymax);
+		}
 	}
 }
 
@@ -235,7 +255,13 @@ void CachePkgStatic::LoadTextureCB(int format, int w, int h, const void* data, v
 	CachePkgStatic* c = static_cast<CachePkgStatic*>(node->GetUD());
 	if (c->UpRemain()) {
 		c->CreateTextures();
+		c->RelocateNodes();
 	}
+}
+
+void CachePkgStatic::LoadTextureCB(const void* data, size_t size, void* ud)
+{
+	ResourceAPI::LoadTexture(data, size, LoadTextureCB, ud);
 }
 
 void CachePkgStatic::LoadPartPVR4(int w, int h, const void* data, const CP_Node* node)
