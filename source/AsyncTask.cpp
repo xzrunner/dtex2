@@ -15,7 +15,7 @@ void load(const char* filepath, void (*unpack)(const void* data, size_t size, vo
 
 AsyncTask::AsyncTask()
 {
-	m_loader = tasks_loader_create(load, 4);
+	m_loader = tasks_loader_create(4);
 }
 
 AsyncTask::~AsyncTask()
@@ -25,7 +25,11 @@ AsyncTask::~AsyncTask()
 
 void AsyncTask::Load(const std::string& filepath, void (*parser)(const void* data, size_t size, void* ud), void* ud)
 {
-	tasks_load_file(m_loader, filepath.c_str(), parser, ud, "");
+	struct tasks_load_cb params;
+	params.load = load;
+	params.parser = parser;
+	params.parser_ud = ud;
+	tasks_load_file(m_loader, filepath.c_str(), &params, "");
 }
 
 void AsyncTask::Update()
