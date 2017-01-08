@@ -14,6 +14,7 @@
 #include <gimg_pvr.h>
 #include <gimg_etc2.h>
 #include <gimg_import.h>
+#include <gimg_typedef.h>
 
 #include <algorithm>
 
@@ -358,7 +359,7 @@ void CachePkgStatic::LoadPartRGBA8FromPVR4(int w, int h, const void* data, const
 {
 	const uint8_t* pixels = (const uint8_t*)(data);
 	uint8_t* uncompressed = gimg_pvr_decode(pixels, w, h);
-	gimg_revert_y((uint32_t*)uncompressed, w, h);
+	gimg_revert_y(uncompressed, w, h, GPF_RGBA);
 	LoadPartRGBA8(w, h, uncompressed, node);
 	free(uncompressed);
 }
@@ -388,7 +389,7 @@ int CachePkgStatic::LoadTexturePVR4(int w, int h, const void* data)
 	ret = RenderAPI::CreateTexture(data, w, h, TEXTURE_PVR4);
 #else
 	uint8_t* uncompressed = gimg_pvr_decode(static_cast<const uint8_t*>(data), w, h);
-	gimg_revert_y((uint32_t*)uncompressed, w, h);
+	gimg_revert_y(uncompressed, w, h, GPF_RGBA);
 	ret = RenderAPI::CreateTexture(uncompressed, w, h, TEXTURE_RGBA8);
 	free(uncompressed);
 #endif
