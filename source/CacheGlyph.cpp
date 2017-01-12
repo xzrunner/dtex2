@@ -51,7 +51,9 @@ void CacheGlyph::Load(uint32_t* bitmap, int width, int height, uint64_t key)
 	}
 
 	texpack_pos* pos = texpack_add(m_tp, width + PADDING * 2, height + PADDING * 2, false);
-	if (!pos) {
+	if (!pos) 
+	{
+		Flush();
 		Clear();
 		pos = texpack_add(m_tp, width + PADDING * 2, height + PADDING * 2, false);
 		if (!pos) {
