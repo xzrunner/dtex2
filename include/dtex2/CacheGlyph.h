@@ -3,7 +3,7 @@
 
 #include "Cache.h"
 #include "CacheType.h"
-#include "Math.h"
+#include "S2_Math.h"
 
 #include <CU_Uncopyable.h>
 
