@@ -14,18 +14,14 @@ public:
 		void (*clear_color_part)(float xmin, float ymin, float xmax, float ymax);
 		void (*set_program)();
 		void (*set_blend)(int mode);
-		void (*set_texture)(int id);
-		int  (*get_texture)();
-		void (*set_target)(int id);
-		int  (*get_target)();
 		void (*draw_begin)();
 		void (*draw)(const float vertices[8], const float texcoords[8], int texid);
 		void (*draw_end)();
 		void (*draw_flush)();
-		void (*scissor_enable)(bool enable);
-		void (*scissor)(int x, int y, int w, int h);
-		void (*viewport_push)(int x, int y, int w, int h);
-		void (*viewport_pop)();
+		void (*scissor_push)(int x, int y, int w, int h);
+		void (*scissor_pop)();
+		void (*scissor_close)();
+		void (*scissor_open)();
 	};
 
 	static void InitCallback(const Callback& draw_cb);
@@ -75,8 +71,10 @@ public:
 
 	static void Flush();
 
-	static void ScissorEnable(bool enable);
-	static void Scissor(int x, int y, int w, int h);
+	static void ScissorPush(int x, int y, int w, int h);
+	static void ScissorPop();
+	static void ScissorClose();
+	static void ScissorOpen();
 
 	static void GetViewport(int& x, int& y, int& w, int& h);
 	static void SetViewport(int x, int y, int w, int h);

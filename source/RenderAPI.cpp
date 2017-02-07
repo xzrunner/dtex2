@@ -143,14 +143,24 @@ void RenderAPI::Flush()
 	DRAW_CB.draw_flush();
 }
 
-void RenderAPI::ScissorEnable(bool enable)
+void RenderAPI::ScissorPush(int x, int y, int w, int h)
 {
-	RC->EnableScissor(enable);
+	DRAW_CB.scissor_push(x, y, w, h);
 }
 
-void RenderAPI::Scissor(int x, int y, int w, int h)
+void RenderAPI::ScissorPop()
 {
-	RC->SetScissor(x, y, w, h);
+	DRAW_CB.scissor_pop();
+}
+
+void RenderAPI::ScissorClose()
+{
+	DRAW_CB.scissor_close();
+}
+
+void RenderAPI::ScissorOpen()
+{
+	DRAW_CB.scissor_open();
 }
 
 void RenderAPI::GetViewport(int& x, int& y, int& w, int& h)

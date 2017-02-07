@@ -95,14 +95,14 @@ void CacheSymbol::LoadFinish()
 	}
 
 	// draw
-	RenderAPI::ScissorEnable(false);
+	RenderAPI::ScissorClose();
 	drawlist.sort();
 	std::list<DrawTask>::iterator itr2 = drawlist.begin();
 	for ( ; itr2 != drawlist.end(); ++itr2) {
 		itr2->Draw();
 	}
 	DrawTexture::Instance()->Flush();
-	RenderAPI::ScissorEnable(true);
+	RenderAPI::ScissorOpen();
 
 	// clear
 	m_prenodes.clear();

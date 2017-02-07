@@ -77,15 +77,13 @@ void DrawTexture::Clear(Texture* tex, float xmin, float ymin, float xmax, float 
 
 	int w = m_curr->GetWidth(),
 		h = m_curr->GetHeight();
-	RenderAPI::Scissor(
+	RenderAPI::ScissorPush(
 		w * xmin, 
 		h * ymin, 
 		w * (xmax - xmin), 
 		h * (ymax - ymin));
-
-	RenderAPI::ScissorEnable(true);
 	RenderAPI::ClearColor(0, 0, 0, 0);
-	RenderAPI::ScissorEnable(false);
+	RenderAPI::ScissorPop();
 }
 
 void DrawTexture::Flush()
