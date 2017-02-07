@@ -4,6 +4,7 @@
 #include "CS_Node.h"
 #include "DebugDraw.h"
 #include "TextureRaw.h"
+#include "RenderAPI.h"
 
 #include <texpack.h>
 
@@ -82,6 +83,8 @@ void CacheSymbol::LoadFinish()
 		return;
 	}
 
+	RenderAPI::ScissorEnable(false);
+
 	m_prenodes.unique();
 	m_prenodes.sort();
 
@@ -91,6 +94,8 @@ void CacheSymbol::LoadFinish()
 	}
 
 	m_prenodes.clear();
+
+	RenderAPI::ScissorEnable(true);
 }
 
 const CS_Node* CacheSymbol::Query(uint64_t key) const
