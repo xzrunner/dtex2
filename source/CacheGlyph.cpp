@@ -2,6 +2,7 @@
 #include "TextureMid.h"
 #include "DebugDraw.h"
 #include "RenderAPI.h"
+#include "DrawTexture.h"
 
 #include <texpack.h>
 
@@ -104,7 +105,7 @@ void CacheGlyph::Flush()
 void CacheGlyph::Clear()
 {
 	memset(m_bitmap, 0, sizeof(uint32_t) * m_width * m_height);
-	m_tex->Clear();
+	DrawTexture::Instance()->Clear(m_tex);
 	texpack_clear(m_tp);
 
 	m_exists.clear();

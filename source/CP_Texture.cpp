@@ -3,6 +3,7 @@
 #include "Texture.h"
 #include "TextureMid.h"
 #include "Package.h"
+#include "DrawTexture.h"
 
 #include <texpack.h>
 
@@ -47,7 +48,7 @@ void CP_Texture::Clear()
 		return;
 	}
 
-	m_tex->Clear();
+	DrawTexture::Instance()->Clear(m_tex);
 
 	for (int i = 0, n = m_nodes.size(); i < n; ++i) {
 		delete m_nodes[i];

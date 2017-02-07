@@ -8,9 +8,6 @@
 namespace dtex
 {
 
-class Target;
-struct Rect;
-
 class Texture : private cu::Uncopyable
 {
 public:
@@ -30,15 +27,6 @@ public:
 
 	int  GetFormat() const { return m_format; }
 	void SetFormat(int format) { m_format = format; }
-
-	void Clear();
-	void Clear(float xmin, float ymin, float xmax, float ymax);
-
-	void DrawFrom(int src_tex_id, int src_w, int src_h, const Rect& src_r, const Rect& dst_r, bool rotate);
-
-private:
-	Target* DrawBefore(int& vx, int& vy, int& vw, int& vh);
-	void DrawAfter(Target* target, int vx, int vy, int vw, int vh);
 
 protected:
 	unsigned int m_id;

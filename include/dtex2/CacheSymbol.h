@@ -116,10 +116,30 @@ private:
 	static const int BLOCK_X_SZ = 2;
 	static const int BLOCK_Y_SZ = 2;
 
-private:
-	bool InsertNode(const Prenode& node);
+	class DrawTask
+	{
+	public:
+		DrawTask(Texture* tex, const Prenode& pn, const Rect& src, const Rect& dst, bool rotate);
 
-	void DrawExtrude(int src_tex_id, int src_w, int src_h, const Rect& src_r, const Rect& dst_r, bool rotate, int extrude) const;
+		bool operator == (const DrawTask& node) const { return m_pn->TexID() == node.m_pn->TexID(); }
+		bool operator < (const DrawTask& node) const { return m_pn->TexID() < node.m_pn->TexID(); }
+
+		void Draw() const;
+
+	private:
+		void DrawExtrude(int src_tex_id, int src_w, int src_h, const Rect& src_r, const Rect& dst_r, bool rotate, int extrude) const;
+
+	public:
+		Texture* m_tex;
+
+		const Prenode* m_pn;
+		Rect m_src, m_dst;
+		bool m_rotate;
+
+	}; // DrawTask
+
+private:
+	bool InsertNode(const Prenode& node, std::list<DrawTask>& drawlist);
 
 private:
 	int m_loadable;
