@@ -2,7 +2,7 @@
 #define _DTEX_CACHE_SYMBOL_H_
 
 #include "Cache.h"
-#include "Math.h"
+#include "S2_Math.h"
 #include "CacheType.h"
 #include "NodeLUT.h"
 #include "CS_Node.h"
@@ -42,7 +42,10 @@ public:
 	int GetTexID() const;
 
 private:
-	void ClearBlock();
+	void ClearBlockData();
+
+	class Block;
+	void ClearBlockTex(const Block* b);
 
 private:
 	class Prenode
@@ -119,18 +122,21 @@ private:
 	class DrawTask
 	{
 	public:
-		DrawTask(Texture* tex, const Prenode& pn, const Rect& src, const Rect& dst, bool rotate);
+		DrawTask(Texture* tex, Block* block, const Prenode& pn, const Rect& src, const Rect& dst, bool rotate);
 
 		bool operator == (const DrawTask& node) const { return m_pn->TexID() == node.m_pn->TexID(); }
 		bool operator < (const DrawTask& node) const { return m_pn->TexID() < node.m_pn->TexID(); }
 
 		void Draw() const;
 
+		const Block* GetBlock() const { return m_block; }
+
 	private:
 		void DrawExtrude(int src_tex_id, int src_w, int src_h, const Rect& src_r, const Rect& dst_r, bool rotate, int extrude) const;
 
-	public:
+	private:
 		Texture* m_tex;
+		Block*   m_block;
 
 		const Prenode* m_pn;
 		Rect m_src, m_dst;
@@ -139,7 +145,7 @@ private:
 	}; // DrawTask
 
 private:
-	bool InsertNode(const Prenode& node, std::list<DrawTask>& drawlist);
+	bool InsertNode(const Prenode& node, std::list<DrawTask>& drawlist, std::list<Block*>& clearlist);
 
 private:
 	int m_loadable;

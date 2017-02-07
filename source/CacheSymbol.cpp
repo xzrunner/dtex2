@@ -87,19 +87,26 @@ void CacheSymbol::LoadFinish()
 	// insert
 	m_prenodes.unique();
 	m_prenodes.sort();
-
 	std::list<DrawTask> drawlist;
-	std::list<Prenode>::iterator itr = m_prenodes.begin();
-	for ( ; itr != m_prenodes.end(); ++itr) {
-		InsertNode(*itr, drawlist);
+	std::list<Block*> clearlist;
+	std::list<Prenode>::iterator itr_prenode = m_prenodes.begin();
+	for ( ; itr_prenode != m_prenodes.end(); ++itr_prenode) {
+		InsertNode(*itr_prenode, drawlist, clearlist);
+	}
+
+	// draw clear
+	clearlist.unique();
+	std::list<Block*>::iterator itr_clearlist = clearlist.begin();
+	for ( ; itr_clearlist != clearlist.end(); ++itr_clearlist) {
+		ClearBlockTex(*itr_clearlist);
 	}
 
 	// draw
 	RenderAPI::ScissorClose();
 	drawlist.sort();
-	std::list<DrawTask>::iterator itr2 = drawlist.begin();
-	for ( ; itr2 != drawlist.end(); ++itr2) {
-		itr2->Draw();
+	std::list<DrawTask>::iterator itr_drawlist = drawlist.begin();
+	for ( ; itr_drawlist != drawlist.end(); ++itr_drawlist) {
+		itr_drawlist->Draw();
 	}
 	DrawTexture::Instance()->Flush();
 	RenderAPI::ScissorOpen();
@@ -126,26 +133,31 @@ int CacheSymbol::GetTexID() const
 	return m_tex->GetID();
 }
 
-void CacheSymbol::ClearBlock()
+void CacheSymbol::ClearBlockData()
 {
 	Block* b = m_blocks[m_clear_block_idx];
 	b->Clear();
 
-	int tex_w = m_tex->GetWidth(),
-		tex_h = m_tex->GetHeight();
-	float xmin = (float)(b->OffX()) / tex_w,
-		  ymin = (float)(b->OffY()) / tex_h,
-		  xmax = (float)(b->OffX() + m_block_w) / tex_w,
-		  ymax = (float)(b->OffY() + m_block_h) / tex_h;
-	DrawTexture::Instance()->Clear(m_tex, xmin, ymin, xmax, ymax);
-	
 	++m_clear_block_idx;
 	if (m_clear_block_idx >= BLOCK_X_SZ * BLOCK_Y_SZ) {
 		m_clear_block_idx -= BLOCK_X_SZ * BLOCK_Y_SZ;
 	}
 }
 
-bool CacheSymbol::InsertNode(const Prenode& prenode, std::list<DrawTask>& drawlist)
+void CacheSymbol::ClearBlockTex(const Block* b)
+{
+	float offx = b->OffX(),
+		  offy = b->OffY();
+	int tex_w = m_tex->GetWidth(),
+		tex_h = m_tex->GetHeight();
+	float xmin = offx / tex_w,
+		  ymin = offy / tex_h,
+		  xmax = (offx + m_block_w) / tex_w,
+		  ymax = (offy + m_block_h) / tex_h;
+	DrawTexture::Instance()->Clear(m_tex, xmin, ymin, xmax, ymax);
+}
+
+bool CacheSymbol::InsertNode(const Prenode& prenode, std::list<DrawTask>& drawlist, std::list<Block*>& clearlist)
 {
 	if (prenode.Width() > m_block_w && prenode.Height() > m_block_h ||
 		prenode.Width() > m_block_h && prenode.Height() > m_block_w) {
@@ -164,9 +176,23 @@ bool CacheSymbol::InsertNode(const Prenode& prenode, std::list<DrawTask>& drawli
 		}
 	}
 
-	if (!pos) {
+	if (!pos) 
+	{
 		Block* cleared = m_blocks[m_clear_block_idx];
-		ClearBlock();
+		ClearBlockData();
+
+		clearlist.push_back(cleared);
+		// update drawlist
+		std::list<DrawTask>::iterator itr = drawlist.begin();
+		for ( ; itr != drawlist.end(); ) 
+		{
+			if (itr->GetBlock() == cleared) {
+				itr = drawlist.erase(itr);
+			} else {
+				++itr;
+			}
+		}
+
 		pos = cleared->Insert(prenode, extend);
 		if (!pos) {
 			return false;
@@ -192,7 +218,7 @@ bool CacheSymbol::InsertNode(const Prenode& prenode, std::list<DrawTask>& drawli
 	dst_r.xmax = pos->r.xmax + src_extrude;
 	dst_r.ymax = pos->r.ymax + src_extrude;
 
-	drawlist.push_back(DrawTask(m_tex, prenode, src_r, dst_r, pos->is_rotated));
+	drawlist.push_back(DrawTask(m_tex, block, prenode, src_r, dst_r, pos->is_rotated));
 
 	block->Insert(node.Key(), m_nodes.size() - 1);
 
@@ -282,8 +308,9 @@ Insert(uint64_t key, int val)
 /************************************************************************/
 
 CacheSymbol::DrawTask::
-DrawTask(Texture* tex, const Prenode& pn, const Rect& src, const Rect& dst, bool rotate)
+DrawTask(Texture* tex, Block* block, const Prenode& pn, const Rect& src, const Rect& dst, bool rotate)
 	: m_tex(tex)
+	, m_block(block)
 	, m_pn(&pn)
 	, m_src(src)
 	, m_dst(dst)
