@@ -10,7 +10,9 @@ extern "C"
 
 void* dtex_query_cache(const char* key);
 
-void* dtex_create_cache_pkg_static(const char* key, int tex_size, int tex_count);
+// cache pkg static
+void* dtex_cache_pkg_static_create(const char* key, int tex_size, int tex_count);
+void  dtex_cache_pkg_static_delete(const char* key);
 void  dtex_cache_pkg_static_load(void* cache, int pkg_id);
 void  dtex_cache_pkg_static_load_finish(void* cache);
 
