@@ -15,6 +15,12 @@ void* dtex_query_cache(const char* key)
 }
 
 extern "C"
+void* dtex_cache_pkg_static_query(const char* key)
+{
+	return const_cast<Cache*>(CacheMgr::Instance()->Query(key));
+}
+
+extern "C"
 void* dtex_cache_pkg_static_create(const char* key, int tex_size, int tex_count)
 {
 	CacheMgr* mgr = CacheMgr::Instance();
