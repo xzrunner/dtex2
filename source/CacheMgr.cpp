@@ -32,11 +32,10 @@ bool CacheMgr::Delete(const std::string& key)
 	std::map<std::string, Cache*>::iterator itr = m_caches.find(key);
 	if (itr == m_caches.end()) {
 		return false;
+	} else {
+		m_caches.erase(itr);
+		return true;
 	}
-
-	delete itr->second;
-	m_caches.erase(itr);
-	return true;
 }
 
 const Cache* CacheMgr::Query(const std::string& key) const
