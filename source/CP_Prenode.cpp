@@ -1,5 +1,5 @@
 #include "CP_Prenode.h"
-#include "Texture.h"
+#include "DTEX_Texture.h"
 #include "DTEX_Package.h"
 
 #include <stddef.h>

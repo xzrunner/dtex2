@@ -1,4 +1,4 @@
-#include "Texture.h"
+#include "DTEX_Texture.h"
 #include "RenderAPI.h"
 
 namespace dtex

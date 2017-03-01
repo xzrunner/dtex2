@@ -1,5 +1,5 @@
 #include "DrawTexture.h"
-#include "Texture.h"
+#include "DTEX_Texture.h"
 #include "DTEX_Math.h"
 #include "RenderAPI.h"
 #include "ResCache.h"

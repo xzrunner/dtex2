@@ -1,5 +1,5 @@
 #include "ResCache.h"
-#include "Texture.h"
+#include "DTEX_Texture.h"
 #include "Target.h"
 #include "TextureMid.h"
 

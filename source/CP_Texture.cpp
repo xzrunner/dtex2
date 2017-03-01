@@ -1,6 +1,6 @@
 #include "CP_Texture.h"
 #include "CP_Prenode.h"
-#include "Texture.h"
+#include "DTEX_Texture.h"
 #include "TextureMid.h"
 #include "DTEX_Package.h"
 #include "DrawTexture.h"
