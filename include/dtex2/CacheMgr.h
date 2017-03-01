@@ -4,6 +4,7 @@
 #include <CU_Singleton.h>
 
 #include <map>
+#include <string>
 
 namespace dtex
 {
