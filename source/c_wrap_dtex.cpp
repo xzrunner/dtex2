@@ -1,6 +1,6 @@
 #include "CacheMgr.h"
 #include "CachePkgStatic.h"
-#include "PkgMgr.h"
+#include "DTEX_PkgMgr.h"
 #include "AsyncTask.h"
 
 #include <assert.h>

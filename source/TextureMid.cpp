@@ -1,7 +1,7 @@
 #include "TextureMid.h"
 #include "HardRes.h"
 #include "RenderAPI.h"
-#include "TextureFormat.h"
+#include "DTEX_TextureFormat.h"
 
 #include <fault.h>
 

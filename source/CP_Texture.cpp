@@ -2,12 +2,13 @@
 #include "CP_Prenode.h"
 #include "Texture.h"
 #include "TextureMid.h"
-#include "Package.h"
+#include "DTEX_Package.h"
 #include "DrawTexture.h"
 
 #include <texpack.h>
 
 #include <assert.h>
+#include <stdlib.h>
 
 namespace dtex
 {

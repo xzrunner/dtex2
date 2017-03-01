@@ -4,7 +4,8 @@
 namespace dtex
 {
 
-enum TEXTURE_FORMAT {
+enum TEXTURE_FORMAT 
+{
 	TEXTURE_INVALID = 0,
 	TEXTURE_RGBA8,
 	TEXTURE_RGBA4,

@@ -1,5 +1,5 @@
-#include "PkgMgr.h"
-#include "Package.h"
+#include "DTEX_PkgMgr.h"
+#include "DTEX_Package.h"
 
 namespace dtex
 {

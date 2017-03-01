@@ -1,5 +1,5 @@
-#include "Statistics.h"
-#include "TextureFormat.h"
+#include "DTEX_Statistics.h"
+#include "DTEX_TextureFormat.h"
 
 #include <iostream>
 

@@ -1,5 +1,5 @@
 #include "RenderAPI.h"
-#include "Statistics.h"
+#include "DTEX_Statistics.h"
 
 #include <unirender/RenderContext.h>
 

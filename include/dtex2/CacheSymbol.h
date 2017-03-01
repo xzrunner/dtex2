@@ -2,7 +2,7 @@
 #define _DTEX_CACHE_SYMBOL_H_
 
 #include "Cache.h"
-#include "S2_Math.h"
+#include "DTEX_Math.h"
 #include "CacheType.h"
 #include "NodeLUT.h"
 #include "CS_Node.h"

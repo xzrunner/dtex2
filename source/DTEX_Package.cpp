@@ -1,4 +1,6 @@
-#include "Package.h"
+#include "DTEX_Package.h"
+
+#include <stddef.h>
 
 namespace dtex
 {
