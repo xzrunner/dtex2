@@ -160,11 +160,11 @@
 				Name="texture"
 				>
 				<File
-					RelativePath="..\..\..\source\Texture.cpp"
+					RelativePath="..\..\..\source\DTEX_Texture.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\include\dtex2\Texture.h"
+					RelativePath="..\..\..\include\dtex2\DTEX_Texture.h"
 					>
 				</File>
 				<File
@@ -333,6 +333,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\source\DTEX_Statistics.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\include\dtex2\DTEX_Statistics.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\source\HardRes.cpp"
 				>
 			</File>
@@ -356,31 +364,23 @@
 				RelativePath="..\..\..\include\dtex2\ResourceAPI.h"
 				>
 			</File>
-			<File
-				RelativePath="..\..\..\source\Statistics.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\include\dtex2\Statistics.h"
-				>
-			</File>
 			<Filter
 				Name="package"
 				>
 				<File
-					RelativePath="..\..\..\source\Package.cpp"
+					RelativePath="..\..\..\source\DTEX_Package.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\include\dtex2\Package.h"
+					RelativePath="..\..\..\include\dtex2\DTEX_Package.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\source\PkgMgr.cpp"
+					RelativePath="..\..\..\source\DTEX_PkgMgr.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\include\dtex2\PkgMgr.h"
+					RelativePath="..\..\..\include\dtex2\DTEX_PkgMgr.h"
 					>
 				</File>
 			</Filter>
@@ -389,11 +389,11 @@
 			Name="utility"
 			>
 			<File
-				RelativePath="..\..\..\include\dtex2\Math.h"
+				RelativePath="..\..\..\include\dtex2\DTEX_Math.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\dtex2\TextureFormat.h"
+				RelativePath="..\..\..\include\dtex2\DTEX_TextureFormat.h"
 				>
 			</File>
 		</Filter>
