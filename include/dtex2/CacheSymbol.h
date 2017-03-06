@@ -29,8 +29,7 @@ public:
 
 	virtual int Type() const { return CACHE_SYMBOL; }
 	virtual void DebugDraw() const;
-
-	void Clear();
+	virtual void Clear();
 	
 	void LoadStart();
 	void Load(int tex_id, int tex_w, int tex_h, const Rect& r, uint64_t key, 

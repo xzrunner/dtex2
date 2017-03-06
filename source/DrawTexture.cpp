@@ -56,7 +56,7 @@ void DrawTexture::Draw(int src_tex_id, int src_w, int src_h, const Rect& src_r, 
 	RenderAPI::Draw(vertices, texcoords, src_tex_id);
 }
 
-void DrawTexture::Clear(Texture* tex)
+void DrawTexture::ClearTex(Texture* tex)
 {
 	Target* target = ResCache::Instance()->FetchTarget();
 
@@ -71,7 +71,7 @@ void DrawTexture::Clear(Texture* tex)
 	ResCache::Instance()->ReturnTarget(target);
 }
 
-void DrawTexture::Clear(Texture* tex, float xmin, float ymin, float xmax, float ymax)
+void DrawTexture::ClearTex(Texture* tex, float xmin, float ymin, float xmax, float ymax)
 {
 	Bind(tex);
 
@@ -94,6 +94,16 @@ void DrawTexture::Flush()
 	}
 }
 
+void DrawTexture::Clear()
+{
+	m_curr = NULL;
+
+	if (m_ctx.target) {
+		ResCache::Instance()->ReturnTarget(m_ctx.target);
+		m_ctx.target = NULL;
+	}
+}
+
 void DrawTexture::DrawBefore(Context& ctx)
 {
 	RenderAPI::DrawBegin();
@@ -107,11 +117,12 @@ void DrawTexture::DrawBefore(Context& ctx)
 	ctx.target = target;
 }
 
-void DrawTexture::DrawAfter(const Context& ctx)
+void DrawTexture::DrawAfter(Context& ctx)
 {
 	ctx.target->UnbindTexture();
 	ctx.target->Unbind();
 	ResCache::Instance()->ReturnTarget(ctx.target);
+	ctx.target = NULL;
 
 	RenderAPI::SetViewport(ctx.vx, ctx.vy, ctx.vw, ctx.vh);
 	RenderAPI::DrawEnd();

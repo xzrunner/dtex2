@@ -10,14 +10,20 @@ extern "C"
 
 void* dtex_query_cache(const char* key);
 
-// cache pkg static
+bool  dtex_loading_task_empty();
+
+/************************************************************************/
+/* cache pkg static                                                     */
+/************************************************************************/
+
 void* dtex_cache_pkg_static_query(const char* key);
 void* dtex_cache_pkg_static_create(const char* key, int tex_size, int tex_count);
 void  dtex_cache_pkg_static_delete(const char* key);
+
 void  dtex_cache_pkg_static_load(void* cache, int pkg_id);
 void  dtex_cache_pkg_static_load_finish(void* cache);
 
-bool  dtex_loading_task_empty();
+bool  dtex_cache_pkg_static_is_empty(const void* cache);
 
 #endif // _dtex_wrap_c_h_
 

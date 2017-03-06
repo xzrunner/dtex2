@@ -18,6 +18,7 @@ public:
 	bool Delete(const std::string& key);
 
 	const Cache* Query(const std::string& key) const;
+	void Clear();
 
 	const std::map<std::string, Cache*>& FetchAll() const { return m_caches; }
 	

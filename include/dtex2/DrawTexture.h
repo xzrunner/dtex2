@@ -16,10 +16,12 @@ public:
 	void Draw(int src_tex_id, int src_w, int src_h, const Rect& src_r, 
 		Texture* dst, const Rect& dst_r, bool rotate);
 
-	void Clear(Texture* tex);
-	void Clear(Texture* tex, float xmin, float ymin, float xmax, float ymax);
+	void ClearTex(Texture* tex);
+	void ClearTex(Texture* tex, float xmin, float ymin, float xmax, float ymax);
 
 	void Flush();
+
+	void Clear();
 	
 private:
 	struct Context
@@ -32,7 +34,7 @@ private:
 
 private:
 	void DrawBefore(Context& ctx);
-	void DrawAfter(const Context& ctx);
+	void DrawAfter(Context& ctx);
 
 	void Bind(Texture* tex);
 

@@ -10,6 +10,7 @@ public:
 	virtual ~Cache() {}
 	virtual int Type() const = 0;
 	virtual void DebugDraw() const = 0;
+	virtual void Clear() = 0;
 	
 }; // Cache
 

@@ -73,6 +73,12 @@ void CachePkgStatic::Clear()
 	for (int i = 0, n = m_textures.size(); i < n; ++i) {
 		m_textures[i]->Clear();
 	}
+
+	m_prenodes.clear();
+
+	m_pkgs.clear();
+
+	m_remain = 0;
 }
 
 void CachePkgStatic::Load(const Package* pkg)

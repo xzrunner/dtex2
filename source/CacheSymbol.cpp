@@ -53,11 +53,16 @@ void CacheSymbol::DebugDraw() const
 // only clear texture
 void CacheSymbol::Clear()
 {
-	DrawTexture::Instance()->Clear(m_tex);
+	DrawTexture::Instance()->ClearTex(m_tex);
 
 	for (int i = 0, n = BLOCK_X_SZ * BLOCK_Y_SZ; i < n; ++i) {
 		m_blocks[i]->Clear();
 	}
+
+	m_prenodes.clear();
+	m_nodes.clear();
+
+	m_clear_block_idx = 0;
 }
 
 void CacheSymbol::LoadStart()
@@ -154,7 +159,7 @@ void CacheSymbol::ClearBlockTex(const Block* b)
 		  ymin = offy / tex_h,
 		  xmax = (offx + m_block_w) / tex_w,
 		  ymax = (offy + m_block_h) / tex_h;
-	DrawTexture::Instance()->Clear(m_tex, xmin, ymin, xmax, ymax);
+	DrawTexture::Instance()->ClearTex(m_tex, xmin, ymin, xmax, ymax);
 }
 
 bool CacheSymbol::InsertNode(const Prenode& prenode, std::list<DrawTask>& drawlist, std::list<Block*>& clearlist)

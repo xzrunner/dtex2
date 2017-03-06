@@ -49,7 +49,7 @@ void CP_Texture::Clear()
 		return;
 	}
 
-	DrawTexture::Instance()->Clear(m_tex);
+	DrawTexture::Instance()->ClearTex(m_tex);
 
 	for (int i = 0, n = m_nodes.size(); i < n; ++i) {
 		delete m_nodes[i];
@@ -57,7 +57,7 @@ void CP_Texture::Clear()
 	m_nodes.clear();
 
 	assert(m_tp);
-	texpack_release(m_tp);
+	texpack_clear(m_tp);
 }
 
 bool CP_Texture::PackPrenode(const CP_Prenode& prenode, float scale, Cache* cache)

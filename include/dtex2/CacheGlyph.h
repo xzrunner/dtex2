@@ -36,11 +36,10 @@ public:
 
 	virtual int Type() const { return CACHE_GLYPH; }
 	virtual void DebugDraw() const;
+	virtual void Clear();
 
 	void Load(uint32_t* bitmap, int width, int height, uint64_t key);
 	void Flush();
-
-	void Clear();
 
 private:
 	void InitDirtyRect();

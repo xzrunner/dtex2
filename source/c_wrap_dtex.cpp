@@ -15,6 +15,12 @@ void* dtex_query_cache(const char* key)
 }
 
 extern "C"
+bool dtex_loading_task_empty()
+{
+	return AsyncTask::Instance()->IsEmpty();
+}
+
+extern "C"
 void* dtex_cache_pkg_static_query(const char* key)
 {
 	return const_cast<Cache*>(CacheMgr::Instance()->Query(key));
@@ -78,9 +84,12 @@ void dtex_cache_pkg_static_load_finish(void* cache)
 }
 
 extern "C"
-bool dtex_loading_task_empty()
+bool dtex_cache_pkg_static_is_empty(const void* cache)
 {
-	return AsyncTask::Instance()->IsEmpty();
+	const Cache* c = static_cast<const Cache*>(cache);
+	assert(c->Type() == CACHE_PKG_STATIC);
+	const CachePkgStatic* cps = static_cast<const CachePkgStatic*>(c);
+	return cps->IsEmpty();
 }
 
 }

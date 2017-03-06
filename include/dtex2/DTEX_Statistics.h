@@ -18,6 +18,8 @@ public:
 
 	void Print() const;
 
+	void Clear();
+
 private:
 	static int GetTexSize(int format, int width, int height);
 

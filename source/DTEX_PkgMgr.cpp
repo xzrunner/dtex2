@@ -12,9 +12,7 @@ PkgMgr::PkgMgr()
 
 PkgMgr::~PkgMgr()
 {
-	for (int i = 0, n = m_packages.size(); i < n; ++i) {
-		delete m_packages[i];
-	}	
+	Clear();
 }
 
 bool PkgMgr::Add(Package* pkg, int id)
@@ -36,6 +34,15 @@ const Package* PkgMgr::Query(int id) const
 	} else {
 		return NULL;
 	}
+}
+
+void PkgMgr::Clear()
+{
+	std::map<int, Package*>::iterator itr = m_packages.begin();
+	for ( ; itr != m_packages.end(); ++itr) {
+		delete itr->second;
+	}
+	m_packages.clear();
 }
 
 }

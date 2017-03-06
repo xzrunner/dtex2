@@ -46,6 +46,20 @@ void CacheGlyph::DebugDraw() const
 	DebugDraw::Draw(m_tex->GetID(), 2);
 }
 
+void CacheGlyph::Clear()
+{
+	memset(m_buf, 0, BUF_SZ);
+
+	memset(m_bitmap, 0, sizeof(uint32_t) * m_width * m_height);
+	DrawTexture::Instance()->ClearTex(m_tex);
+	texpack_clear(m_tp);
+
+	m_exists.clear();
+	m_nodes.clear();
+
+	InitDirtyRect();
+}
+
 void CacheGlyph::Load(uint32_t* bitmap, int width, int height, uint64_t key)
 {
 	std::set<uint64_t>::iterator itr = m_exists.find(key);
@@ -100,17 +114,6 @@ void CacheGlyph::Flush()
 
 	m_exists.clear();
 	m_nodes.clear();
-
-	InitDirtyRect();
-}
-
-void CacheGlyph::Clear()
-{
-	memset(m_bitmap, 0, sizeof(uint32_t) * m_width * m_height);
-	DrawTexture::Instance()->Clear(m_tex);
-	texpack_clear(m_tp);
-
-	m_exists.clear();
 
 	InitDirtyRect();
 }

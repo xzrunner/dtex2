@@ -29,8 +29,9 @@ public:
 
 	virtual int Type() const { return CACHE_PKG_STATIC; }
 	virtual void DebugDraw() const;
+	virtual void Clear();
 
-	void Clear();
+	bool IsEmpty() const { return m_pkgs.empty(); }
 
 	void Load(const Package* pkg);
 	void LoadFinish(bool async = false);

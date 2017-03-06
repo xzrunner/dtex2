@@ -48,4 +48,12 @@ const Cache* CacheMgr::Query(const std::string& key) const
 	}
 }
 
+void CacheMgr::Clear()
+{
+	std::map<std::string, Cache*>::iterator itr = m_caches.begin();
+	for ( ; itr != m_caches.end(); ++itr) {
+		itr->second->Clear();
+	}
+}
+
 }

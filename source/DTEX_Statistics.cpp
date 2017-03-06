@@ -59,6 +59,11 @@ void Statistics::Print() const
 	}
 }
 
+void Statistics::Clear()
+{
+	m_textures.clear();
+}
+
 int Statistics::GetTexSize(int format, int width, int height)
 {
 	switch (format)

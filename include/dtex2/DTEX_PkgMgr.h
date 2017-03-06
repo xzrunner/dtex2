@@ -16,6 +16,8 @@ public:
 	bool Add(Package* pkg, int id);
 	const Package* Query(int id) const;
 
+	void Clear();
+
 private:
 	std::map<int, Package*> m_packages;
 
