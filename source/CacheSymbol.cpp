@@ -286,7 +286,7 @@ Insert(const Prenode& node, int extend)
 		h = node.Height() + extend * 2;
 	texpack_pos* pos = texpack_add(m_tp, w, h, true);
 	if (!pos) {
-		return nullptr;
+		return NULL;
 	}
 
 	pos->r.xmin += extend;
