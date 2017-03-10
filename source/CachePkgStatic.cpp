@@ -274,7 +274,13 @@ void CachePkgStatic::LoadTextureCB(const void* data, size_t size, void* ud)
 
 void CachePkgStatic::LoadPartPVR4(int w, int h, const void* data, const CP_Node* node)
 {
+	assert(IS_POT(w) && IS_POT(h));
+
 	const Rect& dst_pos = node->GetDstRect();
+	if (w != dst_pos.xmax - dst_pos.xmin || 
+		h != dst_pos.ymax - dst_pos.ymin) {
+		return;
+	}
 	assert(IS_4TIMES(dst_pos.xmin) && IS_4TIMES(dst_pos.ymin));
 
 	CP_Texture* dst_tex = node->GetDstTex();
@@ -284,10 +290,6 @@ void CachePkgStatic::LoadPartPVR4(int w, int h, const void* data, const CP_Node*
 		void* pixels = gimg_pvr_init_blank(tex_w);
 		dst_tex->SetUD(pixels);
 	}
-
-	assert(IS_POT(w) && IS_POT(h)
-		&& w == dst_pos.xmax - dst_pos.xmin
-		&& h == dst_pos.ymax - dst_pos.ymin);
 
 	int grid_x = dst_pos.xmin >> 2,
 		grid_y = dst_pos.ymin >> 2;
@@ -311,9 +313,15 @@ void CachePkgStatic::LoadPartPVR4(int w, int h, const void* data, const CP_Node*
 
 void CachePkgStatic::LoadPartETC2(int w, int h, const void* data, const CP_Node* node)
 {
-	const Rect& dst_pos = node->GetDstRect();
-	assert(IS_4TIMES(dst_pos.xmin) && IS_4TIMES(dst_pos.ymin));
+	assert(IS_POT(w) && IS_POT(h));
 
+	const Rect& dst_pos = node->GetDstRect();
+	if (w != dst_pos.xmax - dst_pos.xmin || 
+		h != dst_pos.ymax - dst_pos.ymin) {
+		return;
+	}
+	assert(IS_4TIMES(dst_pos.xmin) && IS_4TIMES(dst_pos.ymin));
+	
 	CP_Texture* dst_tex = node->GetDstTex();
 	int tex_w = dst_tex->GetTexture()->GetWidth(),
 		tex_h = dst_tex->GetTexture()->GetHeight();
@@ -321,10 +329,6 @@ void CachePkgStatic::LoadPartETC2(int w, int h, const void* data, const CP_Node*
 		void* pixels = gimg_etc2_init_blank(tex_w);
 		dst_tex->SetUD(pixels);
 	}
-
-	assert(IS_POT(w) && IS_POT(h)
-		&& w == dst_pos.xmax - dst_pos.xmin
-		&& h == dst_pos.ymax - dst_pos.ymin);
 
 	int grid_x = dst_pos.xmin >> 2,
 		grid_y = dst_pos.ymin >> 2;
@@ -349,8 +353,10 @@ void CachePkgStatic::LoadPartETC2(int w, int h, const void* data, const CP_Node*
 void CachePkgStatic::LoadPartRGBA8(int w, int h, const void* data, const CP_Node* node)
 {
 	const Rect& dst_pos = node->GetDstRect();
-	assert(w == dst_pos.xmax - dst_pos.xmin
-		&& h == dst_pos.ymax - dst_pos.ymin);
+	if (w != dst_pos.xmax - dst_pos.xmin || 
+		h != dst_pos.ymax - dst_pos.ymin) {
+		return;
+	}
 
 	const uint8_t* src_data = (const uint8_t*)(data);
 	uint8_t* dst_data = (uint8_t*)(node->GetDstTex()->GetUD());
