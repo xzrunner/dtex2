@@ -221,6 +221,7 @@ void CachePkgStatic::RelocateNodes()
 				dst_tex->GetWidth(), dst_tex->GetHeight(), dst_r.xmin, dst_r.ymin, dst_r.xmax, dst_r.ymax);
 		}
 	}
+	CacheAPI::RelocatePkgFinish();
 }
 
 void CachePkgStatic::LoadTextureCB(int format, int w, int h, const void* data, void* ud)
