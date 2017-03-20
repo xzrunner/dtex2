@@ -4,6 +4,7 @@
 #include <CU_Singleton.h>
 
 #include <map>
+#include <vector>
 
 namespace dtex
 {
@@ -18,8 +19,14 @@ public:
 
 	void Clear();
 
+	void SetReleaseTag();
+	void ReleaseAfterLastTag();
+
 private:
 	std::map<int, Package*> m_packages;
+
+	bool m_release_tag;
+	std::vector<int> m_pkg_tag;
 
 	SINGLETON_DECLARATION(PkgMgr);
 
