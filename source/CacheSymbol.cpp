@@ -76,6 +76,15 @@ void CacheSymbol::Load(int tex_id, int tex_w, int tex_h, const Rect& r, uint64_t
 		return;
 	}
 
+	int w = r.xmax - r.xmin,
+		h = r.ymax - r.ymin;
+	if ((w <= m_block_w && h <= m_block_h) ||
+		(w <= m_block_h && h <= m_block_w)) {
+		;
+	} else {
+		return;
+	}
+
 	if (Query(key)) {
 		return;
 	}
@@ -164,11 +173,6 @@ void CacheSymbol::ClearBlockTex(const Block* b)
 
 bool CacheSymbol::InsertNode(const Prenode& prenode, std::list<DrawTask>& drawlist, std::list<Block*>& clearlist)
 {
-	if (prenode.Width() > m_block_w && prenode.Height() > m_block_h ||
-		prenode.Width() > m_block_h && prenode.Height() > m_block_w) {
-		return false;
-	}
-
 	int extend = prenode.Padding() + prenode.Extrude();
 
 	Block* block = NULL;
