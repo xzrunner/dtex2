@@ -62,6 +62,10 @@ void CacheGlyph::Clear()
 
 void CacheGlyph::Load(uint32_t* bitmap, int width, int height, uint64_t key)
 {
+	if (!bitmap) {
+		return;
+	}
+
 	std::set<uint64_t>::iterator itr = m_exists.find(key);
 	if (itr != m_exists.end()) {
 		return;
@@ -89,6 +93,7 @@ void CacheGlyph::Load(uint32_t* bitmap, int width, int height, uint64_t key)
 			uint8_t g = (src >> 16) & 0xff;
 			uint8_t b = (src >> 8) & 0xff;
 			uint8_t a = src & 0xff;
+
 			int dst_ptr = (pos->r.ymin + PADDING + y) * m_width + pos->r.xmin + PADDING + x;
 			m_bitmap[dst_ptr] = a << 24 | b << 16 | g << 8 | r;
 		}
