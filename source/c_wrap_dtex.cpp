@@ -75,12 +75,12 @@ void dtex_cache_pkg_static_load(void* cache, int pkg_id)
 }
 
 extern "C"
-void dtex_cache_pkg_static_load_finish(void* cache)
+void dtex_cache_pkg_static_load_finish(void* cache, bool async)
 {
 	Cache* c = static_cast<Cache*>(cache);
 	assert(c->Type() == CACHE_PKG_STATIC);
 	CachePkgStatic* cps = static_cast<CachePkgStatic*>(c);
-	cps->LoadFinish(true);
+	cps->LoadFinish(async);
 }
 
 extern "C"
