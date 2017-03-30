@@ -170,9 +170,45 @@ void CachePkgStatic::LoadTexAndRelocateNodes(bool async)
 			ResourceAPI::LoadTexture(node->GetSrcPkg()->GetID(), node->GetSrcTexIdx(), LoadTextureCB, node);
 		}
 	}
+
+	CreateTexturesID();
+	RelocateNodes();
 }
 
-void CachePkgStatic::CreateTextures()
+void CachePkgStatic::CreateTexturesID()
+{
+	for (int i = 0, n = m_textures.size(); i < n; ++i)
+	{
+		CP_Texture* tex = m_textures[i];
+		Texture* tex_impl = tex->GetTexture();
+		int w = tex_impl->GetWidth(),
+			h = tex_impl->GetHeight();
+		
+		int fmt = 0;
+		switch (LOCAL_TEX_FMT)
+		{
+		case TEXTURE_PVR4:
+			fmt = TEXTURE_PVR4;
+			break;
+		case TEXTURE_ETC2:
+			fmt = TEXTURE_ETC2;
+			break;
+		case TEXTURE_RGBA8:
+			fmt = TEXTURE_RGBA8;
+			break;
+		default:
+			assert(0);
+		}
+
+		int id = RenderAPI::CreateTextureID(w, h, fmt);
+
+		tex->SetUD(NULL);
+		tex_impl->SetID(id);
+		tex_impl->SetFormat(fmt);
+	}
+}
+
+void CachePkgStatic::UpdateTextures()
 {
 	for (int i = 0, n = m_textures.size(); i < n; ++i)
 	{
@@ -181,29 +217,23 @@ void CachePkgStatic::CreateTextures()
 		int w = tex_impl->GetWidth(),
 			h = tex_impl->GetHeight();
 		void* pixels = tex->GetUD();
-		int id = 0;
-		int fmt = 0;
+		int tex_id = tex_impl->GetID();
 		switch (LOCAL_TEX_FMT)
 		{
 		case TEXTURE_PVR4:
-			id = LoadTexturePVR4(w, h, pixels);
-			fmt = TEXTURE_PVR4;
+			LoadTexturePVR4(tex_id, w, h, pixels);
 			break;
 		case TEXTURE_ETC2:
-			id = LoadTextureETC2(w, h, pixels);
-			fmt = TEXTURE_ETC2;
+			LoadTextureETC2(tex_id, w, h, pixels);
 			break;
 		case TEXTURE_RGBA8:
-			id = RenderAPI::CreateTexture(pixels, w, h, TEXTURE_RGBA8);
-			fmt = TEXTURE_RGBA8;
+			RenderAPI::UpdateTexture(tex_id, pixels, w, h, TEXTURE_RGBA8);
 			break;
 		default:
 			assert(0);
 		}
 		free(pixels);
 		tex->SetUD(NULL);
-		tex_impl->SetID(id);
-		tex_impl->SetFormat(fmt);
 	}
 }
 
@@ -263,8 +293,7 @@ void CachePkgStatic::LoadTextureCB(int format, int w, int h, const void* data, v
 	
 	CachePkgStatic* c = static_cast<CachePkgStatic*>(node->GetUD());
 	if (c->UpRemain()) {
-		c->CreateTextures();
-		c->RelocateNodes();
+		c->UpdateTextures();
 	}
 }
 
@@ -394,33 +423,29 @@ uint8_t* CachePkgStatic::BitmapInitBland(int edge)
 	return buf;
 }
 
-int CachePkgStatic::LoadTexturePVR4(int w, int h, const void* data)
+void CachePkgStatic::LoadTexturePVR4(int tex_id, int w, int h, const void* data)
 {
-	int ret = 0;
 #if defined( __APPLE__ ) && !defined(__MACOSX)
 //	int internal_format = 0;
 //	internal_format = GL_COMPRESSED_RGBA_PVRTC_2BPPV1_IMG;
-	ret = RenderAPI::CreateTexture(data, w, h, TEXTURE_PVR4);
+	RenderAPI::UpdateTexture(tex_id, data, w, h, TEXTURE_PVR4);
 #else
 	uint8_t* uncompressed = gimg_pvr_decode(static_cast<const uint8_t*>(data), w, h);
 	gimg_revert_y(uncompressed, w, h, GPF_RGBA);
-	ret = RenderAPI::CreateTexture(uncompressed, w, h, TEXTURE_RGBA8);
+	RenderAPI::UpdateTexture(tex_id, uncompressed, w, h, TEXTURE_RGBA8);
 	free(uncompressed);
 #endif
-	return ret;
 }
 
-int CachePkgStatic::LoadTextureETC2(int w, int h, const void* data)
+void CachePkgStatic::LoadTextureETC2(int tex_id, int w, int h, const void* data)
 {
-	int ret = 0;
 #ifdef __ANDROID__
-	ret = RenderAPI::CreateTexture(data, w, h, TEXTURE_ETC2);
+	RenderAPI::UpdateTexture(tex_id, data, w, h, TEXTURE_ETC2);
 #else
 	uint8_t* uncompressed = gimg_etc2_decode(static_cast<const uint8_t*>(data), w, h, ETC2PACKAGE_RGBA_NO_MIPMAPS);
-	ret = RenderAPI::CreateTexture(uncompressed, w, h, TEXTURE_RGBA8);
+	RenderAPI::UpdateTexture(tex_id, uncompressed, w, h, TEXTURE_RGBA8);
 	free(uncompressed);
 #endif // __ANDROID__
-	return ret;
 }
 
 bool CachePkgStatic::NodeTexCmp::operator () (const CP_Node* n0, const CP_Node* n1) const 

@@ -33,6 +33,8 @@ public:
 	/************************************************************************/
 
 	static int  CreateTexture(const void* data, int width, int height, int format);
+	static int  CreateTextureID(int width, int height, int format);
+	static void UpdateTexture(int tex_id, const void* data, int width, int height, int format);
 	static void ReleaseTexture(int id);
 
 	static void UpdateTexture(const void* pixels, int w, int h, unsigned int id);

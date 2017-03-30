@@ -31,6 +31,18 @@ int RenderAPI::CreateTexture(const void* data, int width, int height, int format
 	return ret;
 }
 
+int RenderAPI::CreateTextureID(int width, int height, int format)
+{
+	int ret = RC->CreateTextureID(width, height, format);
+	Statistics::Instance()->AddTex(ret, format, width, height);
+	return ret;
+}
+
+void RenderAPI::UpdateTexture(int tex_id, const void* data, int width, int height, int format)
+{
+	RC->UpdateTexture(tex_id, data, width, height, format);
+}
+
 void RenderAPI::ReleaseTexture(int id)
 {
 	RC->BindTexture(id, 0);

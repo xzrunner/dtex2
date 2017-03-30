@@ -45,7 +45,8 @@ private:
 	void PackPrenodes();
 	void LoadTexAndRelocateNodes(bool async);
 
-	void CreateTextures();
+	void CreateTexturesID();
+	void UpdateTextures();
 
 	void RelocateNodes();
 
@@ -61,8 +62,8 @@ private:
 
 	static uint8_t* BitmapInitBland(int edge);
 
-	static int LoadTexturePVR4(int w, int h, const void* data);
-	static int LoadTextureETC2(int w, int h, const void* data);
+	static void LoadTexturePVR4(int tex_id, int w, int h, const void* data);
+	static void LoadTextureETC2(int tex_id, int w, int h, const void* data);
 
 private:
 	class NodeTexCmp
