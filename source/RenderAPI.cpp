@@ -38,11 +38,6 @@ int RenderAPI::CreateTextureID(int width, int height, int format)
 	return ret;
 }
 
-void RenderAPI::UpdateTexture(int tex_id, const void* data, int width, int height, int format)
-{
-	RC->UpdateTexture(tex_id, data, width, height, format);
-}
-
 void RenderAPI::ReleaseTexture(int id)
 {
 	RC->BindTexture(id, 0);
@@ -52,7 +47,7 @@ void RenderAPI::ReleaseTexture(int id)
 
 void RenderAPI::UpdateTexture(const void* pixels, int w, int h, unsigned int id)
 {
-	RC->UpdateTexture(pixels, w, h, id);
+	RC->UpdateTexture(id, pixels, w, h);
 }
 
 void RenderAPI::UpdateSubTex(const void* pixels, int x, int y, int w, int h, unsigned int id)

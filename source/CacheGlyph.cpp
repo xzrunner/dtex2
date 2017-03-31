@@ -54,8 +54,8 @@ void CacheGlyph::Clear()
 	DrawTexture::Instance()->ClearTex(m_tex);
 	texpack_clear(m_tp);
 
-	m_exists.clear();
-	m_nodes.clear();
+	m_all_nodes.clear();
+	m_new_nodes.clear();
 
 	InitDirtyRect();
 }
@@ -66,8 +66,8 @@ void CacheGlyph::Load(uint32_t* bitmap, int width, int height, uint64_t key)
 		return;
 	}
 
-	std::set<uint64_t>::iterator itr = m_exists.find(key);
-	if (itr != m_exists.end()) {
+	std::set<Node>::iterator itr = m_all_nodes.find(key);
+	if (itr != m_all_nodes.end()) {
 		return;
 	}
 
@@ -82,8 +82,9 @@ void CacheGlyph::Load(uint32_t* bitmap, int width, int height, uint64_t key)
 		}
 	}
 
-	m_exists.insert(key);
-	m_nodes.push_back(Node(key, pos));
+	Node node(key, pos);
+	m_all_nodes.insert(node);
+	m_new_nodes.push_back(node);
 
 	int src_ptr = 0;
 	for (int y = 0; y < height; ++y) {
@@ -104,23 +105,45 @@ void CacheGlyph::Load(uint32_t* bitmap, int width, int height, uint64_t key)
 
 void CacheGlyph::Flush()
 {
-	if (m_nodes.empty()) {
+	if (m_new_nodes.empty()) {
 		return;
 	}
 
 	UpdateTexture();
 
 	m_cb.load_start();
-	for (int i = 0, n = m_nodes.size(); i < n; ++i) {
-		const Node& node = m_nodes[i];
+	for (int i = 0, n = m_new_nodes.size(); i < n; ++i) {
+		const Node& node = m_new_nodes[i];
 		m_cb.load(m_tex->GetID(), m_tex->GetWidth(), m_tex->GetHeight(), node.GetRect(), node.Key());
 	}
+	m_new_nodes.clear();
 	m_cb.load_finish();
 
-	m_exists.clear();
-	m_nodes.clear();
-
 	InitDirtyRect();
+}
+
+bool CacheGlyph::QueryAndInsert(uint64_t key, float* texcoords, int& tex_id) const
+{
+	std::set<Node>::const_iterator itr = m_all_nodes.find(key);
+	if (itr == m_all_nodes.end()) {
+		return false;
+	}
+
+	m_new_nodes.push_back(*itr);
+
+	tex_id = m_tex->GetID();
+
+	const Rect& r = itr->GetRect();
+	float xmin = r.xmin / static_cast<float>(m_width),
+		  ymin = r.ymin / static_cast<float>(m_height),
+		  xmax = r.xmax / static_cast<float>(m_width),
+		  ymax = r.ymax / static_cast<float>(m_height);
+	texcoords[0] = xmin; texcoords[1] = ymin;
+	texcoords[2] = xmax; texcoords[3] = ymin;
+	texcoords[4] = xmax; texcoords[5] = ymax;
+	texcoords[6] = xmin; texcoords[7] = ymax;
+	
+	return true;
 }
 
 void CacheGlyph::InitDirtyRect()
@@ -172,6 +195,12 @@ void CacheGlyph::UpdateTexture()
 /************************************************************************/
 /* class CacheGlyph::Node                                               */
 /************************************************************************/
+
+CacheGlyph::Node::
+Node(uint64_t key)
+	: m_key(key)
+{
+}
 
 CacheGlyph::Node::
 Node(uint64_t key, texpack_pos* pos) 

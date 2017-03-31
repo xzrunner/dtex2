@@ -227,7 +227,7 @@ void CachePkgStatic::UpdateTextures()
 			LoadTextureETC2(tex_id, w, h, pixels);
 			break;
 		case TEXTURE_RGBA8:
-			RenderAPI::UpdateTexture(tex_id, pixels, w, h, TEXTURE_RGBA8);
+			RenderAPI::UpdateTexture(pixels, w, h, tex_id);
 			break;
 		default:
 			assert(0);
@@ -428,11 +428,11 @@ void CachePkgStatic::LoadTexturePVR4(int tex_id, int w, int h, const void* data)
 #if defined( __APPLE__ ) && !defined(__MACOSX)
 //	int internal_format = 0;
 //	internal_format = GL_COMPRESSED_RGBA_PVRTC_2BPPV1_IMG;
-	RenderAPI::UpdateTexture(tex_id, data, w, h, TEXTURE_PVR4);
+	RenderAPI::UpdateTexture(data, w, h, tex_id);
 #else
 	uint8_t* uncompressed = gimg_pvr_decode(static_cast<const uint8_t*>(data), w, h);
 	gimg_revert_y(uncompressed, w, h, GPF_RGBA);
-	RenderAPI::UpdateTexture(tex_id, uncompressed, w, h, TEXTURE_RGBA8);
+	RenderAPI::UpdateTexture(uncompressed, w, h, tex_id);
 	free(uncompressed);
 #endif
 }
@@ -440,10 +440,10 @@ void CachePkgStatic::LoadTexturePVR4(int tex_id, int w, int h, const void* data)
 void CachePkgStatic::LoadTextureETC2(int tex_id, int w, int h, const void* data)
 {
 #ifdef __ANDROID__
-	RenderAPI::UpdateTexture(tex_id, data, w, h, TEXTURE_ETC2);
+	RenderAPI::UpdateTexture(data, w, h, tex_id);
 #else
 	uint8_t* uncompressed = gimg_etc2_decode(static_cast<const uint8_t*>(data), w, h, ETC2PACKAGE_RGBA_NO_MIPMAPS);
-	RenderAPI::UpdateTexture(tex_id, uncompressed, w, h, TEXTURE_RGBA8);
+	RenderAPI::UpdateTexture(uncompressed, w, h, tex_id);
 	free(uncompressed);
 #endif // __ANDROID__
 }

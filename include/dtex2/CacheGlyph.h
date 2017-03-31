@@ -41,6 +41,9 @@ public:
 	void Load(uint32_t* bitmap, int width, int height, uint64_t key);
 	void Flush();
 
+	// query from cg's tex and insert to c2
+	bool QueryAndInsert(uint64_t key, float* texcoords, int& tex_id) const;
+
 private:
 	void InitDirtyRect();
 	void UpdateDirtyRect(const texpack_pos* pos);
@@ -51,7 +54,10 @@ private:
 	class Node
 	{
 	public:
+		Node(uint64_t key);
 		Node(uint64_t key, texpack_pos* pos);
+
+		bool operator < (const Node& node) const { return m_key < node.m_key; }
 
 		uint64_t Key() const { return m_key; }
 		const Rect& GetRect() const { return m_rect; }
@@ -71,8 +77,8 @@ private:
 	Texture*  m_tex;
 	texpack*  m_tp;
 
-	std::set<uint64_t> m_exists;
-	std::vector<Node> m_nodes;
+	std::set<Node> m_all_nodes;
+	mutable std::vector<Node> m_new_nodes;
 
 	Rect m_dirty_rect;
 
