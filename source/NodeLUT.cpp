@@ -89,7 +89,7 @@ void NodeLUT::Clear()
 void NodeLUT::Rehash() const
 {
 	if (m_hash_sz_idx + 1 >= HASH_SZ_TBL_SZ) {
-		LOGW("ActorLUT::Rehash error hash sz idx %d, %f\n", m_hash_sz_idx, (float)m_search_length / m_search_times);
+		LOGW("NodeLUT::Rehash error hash sz idx %d, %f\n", m_hash_sz_idx, (float)m_search_length / m_search_times);
 		return;
 	}
 
