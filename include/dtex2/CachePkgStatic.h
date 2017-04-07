@@ -24,7 +24,7 @@ class CP_Node;
 class CachePkgStatic : public Cache, private cu::Uncopyable
 {
 public:
-	CachePkgStatic(int tex_size, int tex_count);
+	CachePkgStatic(int tex_size);
 	virtual ~CachePkgStatic();
 
 	virtual int Type() const { return CACHE_PKG_STATIC; }
@@ -39,10 +39,10 @@ public:
 	bool UpRemain() { return --m_remain == 0; }
 
 	int GetTexSize() const { return m_tex_edge; }
-	int GetTexCount() const { return m_textures.size(); }
 
 private:
 	void PackPrenodes();
+	bool PackPrenode(const CP_Prenode& prenode, float scale);
 	void LoadTexAndRelocateNodes(bool async);
 
 	void CreateTexturesID();

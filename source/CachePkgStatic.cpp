@@ -34,20 +34,16 @@ static const int MAX_PRELOAD_COUNT = 512;
 	#define LOCAL_TEX_FMT TEXTURE_RGBA8
 #endif
 
-CachePkgStatic::CachePkgStatic(int tex_size, int tex_count)
+CachePkgStatic::CachePkgStatic(int tex_size)
 	: m_remain(0)
 {
 	int max_sz = HardRes::GetMaxTexSize();
 	while (tex_size > max_sz) {
 		tex_size = tex_size >> 1;
-		tex_count = tex_count << 2;
 	}
 
 	m_tex_edge = tex_size;
-	m_textures.resize(tex_count);
-	for (int i = 0; i < tex_count; ++i) {
-		m_textures[i] = new CP_Texture(tex_size, MAX_PRELOAD_COUNT);
-	}
+	m_textures.push_back(new CP_Texture(m_tex_edge, MAX_PRELOAD_COUNT));
 }
 
 CachePkgStatic::~CachePkgStatic()
@@ -63,9 +59,9 @@ void CachePkgStatic::DebugDraw() const
 		return;
 	}
 
-//	DebugDraw::Draw(m_textures[0]->GetTexture()->GetID(), 3);
-
 	DebugDraw::Draw(m_textures.back()->GetTexture()->GetID(), 3);
+
+//	DebugDraw::Draw(m_textures[0]->GetTexture()->GetID(), 0);
 }
 
 void CachePkgStatic::Clear()
@@ -119,22 +115,43 @@ void CachePkgStatic::LoadFinish(bool async)
 
 void CachePkgStatic::PackPrenodes()
 {
+	static const float SCALE = 1;
 	std::list<CP_Prenode>::iterator itr = m_prenodes.begin();
 	for ( ; itr != m_prenodes.end(); ++itr) 
 	{
-		bool succ = false;
-		for (int i = 0, n = m_textures.size(); i < n; ++i) {
-			if (m_textures[i]->PackPrenode(*itr, 1, this)) {
-				succ = true;
-				break;
-			}
+		const CP_Prenode& prenode = *itr;
+						
+		const Package* pkg = prenode.GetPackage();
+		int tex_idx = prenode.GetTexIdx();
+
+		const Texture* tex = pkg->GetTexture(tex_idx);
+		int w = tex->GetWidth() * prenode.GetScale() * SCALE,
+			h = tex->GetHeight() * prenode.GetScale() * SCALE;
+		if (w > m_tex_edge || h > m_tex_edge) {
+			LOGW("%s", "CachePkgStatic::PackPrenodes tex size too large, w %d, h %d\n", w, h);
+			ResourceAPI::LoadTexture(itr->GetPackage()->GetID(), itr->GetTexIdx());
+			continue;
 		}
 
-		if (!succ) {
-			LOGW("%s", "dtex_c4_load_end node insert fail.");
-			ResourceAPI::LoadTexture(itr->GetPackage()->GetID(), itr->GetTexIdx());
+		while (true) {
+			if (PackPrenode(prenode, SCALE)) {
+				break;
+			} else {
+				CP_Texture* tex = new CP_Texture(m_tex_edge, MAX_PRELOAD_COUNT);
+				m_textures.push_back(tex);
+			}
 		}
 	}
+}
+
+bool CachePkgStatic::PackPrenode(const CP_Prenode& prenode, float scale)
+{
+	for (int i = 0, n = m_textures.size(); i < n; ++i) {
+		if (m_textures[i]->PackPrenode(prenode, 1, this)) {
+			return true;
+		}
+	}
+	return false;	
 }
 
 void CachePkgStatic::LoadTexAndRelocateNodes(bool async)

@@ -17,7 +17,7 @@ bool  dtex_loading_task_empty();
 /************************************************************************/
 
 void* dtex_cache_pkg_static_query(const char* key);
-void* dtex_cache_pkg_static_create(const char* key, int tex_size, int tex_count);
+void* dtex_cache_pkg_static_create(const char* key, int tex_size);
 void  dtex_cache_pkg_static_delete(const char* key);
 
 void  dtex_cache_pkg_static_load(void* cache, int pkg_id);
