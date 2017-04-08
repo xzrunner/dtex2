@@ -40,7 +40,6 @@ int RenderAPI::CreateTextureID(int width, int height, int format)
 
 void RenderAPI::ReleaseTexture(int id)
 {
-	RC->BindTexture(id, 0);
 	RC->ReleaseTexture(id);
 	Statistics::Instance()->DeleteTex(id);
 }
