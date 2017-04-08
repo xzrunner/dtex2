@@ -15,6 +15,8 @@ class PkgMgr
 {
 public:
 	bool Add(Package* pkg, int id);
+	void Delete(int pkg);
+
 	const Package* Query(int id) const;
 
 	void Clear();

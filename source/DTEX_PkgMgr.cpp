@@ -30,6 +30,22 @@ bool PkgMgr::Add(Package* pkg, int id)
 	return true;
 }
 
+void PkgMgr::Delete(int pkg)
+{
+	std::map<int, Package*>::iterator itr = m_packages.find(pkg);
+	if (itr != m_packages.end()) {
+		delete itr->second;
+		m_packages.erase(itr);
+	}
+
+	for (int i = 0, n = m_pkg_tag.size(); i < n; ++i) {
+		if (m_pkg_tag[i] == pkg) {
+			m_pkg_tag.erase(m_pkg_tag.begin() + i);
+			break;
+		}
+	}
+}
+
 const Package* PkgMgr::Query(int id) const
 {
 	std::map<int, Package*>::const_iterator itr = m_packages.find(id);
