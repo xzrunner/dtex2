@@ -15,9 +15,9 @@ const std::string& ResourceAPI::GetTexFilepath(int pkg_id, int tex_idx, int lod_
 	return CB.get_tex_filepath(pkg_id, tex_idx, lod_layer);
 }
 
-void ResourceAPI::LoadFile(const std::string& filepath, bool async, void (*parser_cb)(const void* data, size_t size, void* ud), void* ud)
+void ResourceAPI::LoadFile(const std::string& filepath, bool use_cache, void (*parser_cb)(const void* data, size_t size, void* ud), void* ud)
 {
-	CB.load_file(filepath, async, parser_cb, ud);
+	CB.load_file(filepath, use_cache, parser_cb, ud);
 }
 
 void ResourceAPI::LoadTexture(int pkg_id, int tex_idx)
