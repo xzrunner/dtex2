@@ -15,7 +15,7 @@ void load(const char* filepath, void (*unpack)(const void* data, size_t size, vo
 
 AsyncTask::AsyncTask()
 {
-	m_loader = tasks_loader_create(4);
+	m_loader = tasks_loader_create(2);
 }
 
 AsyncTask::~AsyncTask()
