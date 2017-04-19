@@ -87,6 +87,8 @@ void DrawTexture::Flush()
 
 void DrawTexture::Clear()
 {
+	Flush();
+
 	m_curr = NULL;
 
 	if (m_ctx.target) {
