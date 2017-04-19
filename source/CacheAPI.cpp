@@ -20,4 +20,9 @@ void CacheAPI::RelocatePkgFinish()
 	CB.relocate_pkg_finish();
 }
 
+void CacheAPI::RemoveTex(int tex_id)
+{
+	CB.remove_tex(tex_id);
+}
+
 }

@@ -1,5 +1,6 @@
 #include "DTEX_Texture.h"
 #include "RenderAPI.h"
+#include "CacheAPI.h"
 
 namespace dtex
 {
@@ -16,8 +17,10 @@ Texture::Texture()
 
 Texture::~Texture()
 {
-	if (m_id != 0) {
+	if (m_id != 0) 
+	{
 		RenderAPI::ReleaseTexture(m_id);
+		CacheAPI::RemoveTex(m_id);
 	}
 }
 
