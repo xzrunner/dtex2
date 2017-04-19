@@ -58,17 +58,8 @@ void DrawTexture::Draw(int src_tex_id, int src_w, int src_h, const Rect& src_r, 
 
 void DrawTexture::ClearTex(Texture* tex)
 {
-	Target* target = ResCache::Instance()->FetchTarget();
-
-	target->Bind();
-	target->BindTexture(tex->GetID());
-
+	Bind(tex);
 	RenderAPI::ClearColor(0, 0, 0, 0);
-
-	target->UnbindTexture();
-	target->Unbind();
-
-	ResCache::Instance()->ReturnTarget(target);
 }
 
 void DrawTexture::ClearTex(Texture* tex, float xmin, float ymin, float xmax, float ymax)
