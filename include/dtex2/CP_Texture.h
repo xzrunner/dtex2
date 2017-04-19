@@ -24,7 +24,7 @@ public:
 	CP_Texture(int edge, int tp_node_count);
 	~CP_Texture();
 
-	void Clear();
+	void Clear(bool clear_tex = true);
 
 	Texture* GetTexture() const { return m_tex; }
 

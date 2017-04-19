@@ -67,7 +67,7 @@ void CachePkgStatic::DebugDraw() const
 void CachePkgStatic::Clear()
 {
 	for (int i = 0, n = m_textures.size(); i < n; ++i) {
-		m_textures[i]->Clear();
+		m_textures[i]->Clear(false);
 	}
 
 	m_prenodes.clear();

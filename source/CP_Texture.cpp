@@ -43,13 +43,15 @@ CP_Texture::~CP_Texture()
 	}
 }
 
-void CP_Texture::Clear()
+void CP_Texture::Clear(bool clear_tex)
 {
 	if (m_nodes.empty()) {
 		return;
 	}
 
-	DrawTexture::Instance()->ClearTex(m_tex);
+	if (clear_tex) {
+		DrawTexture::Instance()->ClearTex(m_tex);
+	}
 
 	for (int i = 0, n = m_nodes.size(); i < n; ++i) {
 		delete m_nodes[i];
