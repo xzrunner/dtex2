@@ -50,7 +50,7 @@ void CP_Texture::Clear(bool clear_tex)
 	}
 
 	if (clear_tex) {
-		DrawTexture::Instance()->ClearTex(m_tex);
+		DrawTexture::ClearAllTex(m_tex);
 	}
 
 	for (int i = 0, n = m_nodes.size(); i < n; ++i) {

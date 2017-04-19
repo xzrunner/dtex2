@@ -56,21 +56,6 @@ void DrawTexture::Draw(int src_tex_id, int src_w, int src_h, const Rect& src_r, 
 	RenderAPI::Draw(vertices, texcoords, src_tex_id);
 }
 
-void DrawTexture::ClearTex(Texture* tex)
-{
-	Target* target = ResCache::Instance()->FetchTarget();
-
-	target->Bind();
-	target->BindTexture(tex->GetID());
-
-	RenderAPI::ClearColor(0, 0, 0, 0);
-
-	target->UnbindTexture();
-	target->Unbind();
-
-	ResCache::Instance()->ReturnTarget(target);
-}
-
 void DrawTexture::ClearTex(Texture* tex, float xmin, float ymin, float xmax, float ymax)
 {
 	Bind(tex);
@@ -104,6 +89,21 @@ void DrawTexture::Clear()
 		ResCache::Instance()->ReturnTarget(m_ctx.target);
 		m_ctx.target = NULL;
 	}
+}
+
+void DrawTexture::ClearAllTex(Texture* tex)
+{
+	Target* target = ResCache::Instance()->FetchTarget();
+
+	target->Bind();
+	target->BindTexture(tex->GetID());
+
+	RenderAPI::ClearColor(0, 0, 0, 0);
+
+	target->UnbindTexture();
+	target->Unbind();
+
+	ResCache::Instance()->ReturnTarget(target);
 }
 
 void DrawTexture::DrawBefore(Context& ctx)

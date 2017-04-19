@@ -53,7 +53,7 @@ void CacheSymbol::DebugDraw() const
 // only clear texture
 void CacheSymbol::Clear()
 {
-	DrawTexture::Instance()->ClearTex(m_tex);
+	DrawTexture::ClearAllTex(m_tex);
 
 	for (int i = 0, n = BLOCK_X_SZ * BLOCK_Y_SZ; i < n; ++i) {
 		m_blocks[i]->Clear();

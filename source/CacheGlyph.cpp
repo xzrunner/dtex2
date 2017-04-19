@@ -51,7 +51,7 @@ void CacheGlyph::Clear()
 	memset(m_buf, 0, BUF_SZ);
 
 	memset(m_bitmap, 0, sizeof(uint32_t) * m_width * m_height);
-	DrawTexture::Instance()->ClearTex(m_tex);
+	DrawTexture::ClearAllTex(m_tex);
 	texpack_clear(m_tp);
 
 	m_all_nodes.clear();

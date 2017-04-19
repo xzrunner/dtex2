@@ -16,13 +16,14 @@ public:
 	void Draw(int src_tex_id, int src_w, int src_h, const Rect& src_r, 
 		Texture* dst, const Rect& dst_r, bool rotate);
 
-	void ClearTex(Texture* tex);
 	void ClearTex(Texture* tex, float xmin, float ymin, float xmax, float ymax);
 
 	void Flush();
 
 	void Clear();
-	
+
+	static void ClearAllTex(Texture* tex);
+
 private:
 	struct Context
 	{
