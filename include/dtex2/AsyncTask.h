@@ -13,7 +13,10 @@ namespace dtex
 class AsyncTask
 {
 public:
-	void Load(const std::string& filepath, void (*parser)(const void* data, size_t size, void* ud), void* ud);
+	void Load(const std::string& filepath, 
+		      void (*parser)(const void* data, size_t size, void* ud), 
+			  void (*release)(void* ud),
+			  void* ud);
 
 	void Update();
 

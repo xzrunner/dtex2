@@ -177,7 +177,7 @@ void CachePkgStatic::LoadTexAndRelocateNodes(bool async)
 		for (int i = 0, n = nodes.size(); i < n; ++i) {
 			CP_Node* node = nodes[i];
 			const std::string& filepath = ResourceAPI::GetTexFilepath(node->GetSrcPkg()->GetID(), node->GetSrcTexIdx(), 0);
-			AsyncTask::Instance()->Load(filepath, LoadTextureCB, node);
+			AsyncTask::Instance()->Load(filepath, LoadTextureCB, NULL, node);
 		}
 	}
 	else

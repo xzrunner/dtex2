@@ -23,11 +23,15 @@ AsyncTask::~AsyncTask()
 	tasks_loader_release(m_loader);
 }
 
-void AsyncTask::Load(const std::string& filepath, void (*parser)(const void* data, size_t size, void* ud), void* ud)
+void AsyncTask::Load(const std::string& filepath, 
+					 void (*parser)(const void* data, size_t size, void* ud), 
+					 void (*release)(void* ud),
+					 void* ud)
 {
 	struct tasks_load_cb params;
 	params.load = load;
-	params.parser = parser;
+	params.parser    = parser;
+	params.release   = release;
 	params.parser_ud = ud;
 	tasks_load_file(m_loader, filepath.c_str(), &params, "");
 }
