@@ -128,7 +128,7 @@ void CachePkgStatic::PackPrenodes()
 		int w = tex->GetWidth() * prenode.GetScale() * SCALE,
 			h = tex->GetHeight() * prenode.GetScale() * SCALE;
 		if (w > m_tex_edge || h > m_tex_edge) {
-			LOGW("%s", "CachePkgStatic::PackPrenodes tex size too large, w %d, h %d\n", w, h);
+			LOGW("CachePkgStatic::PackPrenodes tex size too large, w %d, h %d", w, h);
 			ResourceAPI::LoadTexture(itr->GetPackage()->GetID(), itr->GetTexIdx());
 			continue;
 		}
