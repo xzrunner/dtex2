@@ -65,13 +65,18 @@ void dtex_cache_pkg_static_delete(const char* key)
 }
 
 extern "C"
-void dtex_cache_pkg_static_load(void* cache, int pkg_id)
+int dtex_cache_pkg_static_load(void* cache, int pkg_id)
 {
 	Cache* c = static_cast<Cache*>(cache);
 	assert(c->Type() == CACHE_PKG_STATIC);
 	CachePkgStatic* cps = static_cast<CachePkgStatic*>(c);
 	const Package* pkg = PkgMgr::Instance()->Query(pkg_id);
+	if(!pkg) {
+		return 1;  // error
+	}
+
 	cps->Load(pkg);
+	return 0;  // success
 }
 
 extern "C"
