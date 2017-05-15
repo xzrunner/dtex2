@@ -3,6 +3,8 @@
 
 #include <tasks_loader.h>
 
+#define THREAD_NUM  (2)
+
 namespace dtex
 {
 
@@ -15,12 +17,14 @@ void load(const char* filepath, void (*unpack)(const void* data, size_t size, vo
 
 AsyncTask::AsyncTask()
 {
-	m_loader = tasks_loader_create(2);
+	m_loader = tasks_loader_create(THREAD_NUM);
 }
 
 AsyncTask::~AsyncTask()
 {
 	tasks_loader_release(m_loader);
+	free(m_loader);
+	m_loader = NULL;
 }
 
 void AsyncTask::Load(const std::string& filepath, 
@@ -43,7 +47,10 @@ void AsyncTask::Update()
 
 void AsyncTask::Clear()
 {
-	tasks_loader_clear(m_loader);
+	// tasks_loader_clear(m_loader);
+	tasks_loader_release(m_loader);
+	free(m_loader);
+	m_loader = tasks_loader_create(THREAD_NUM);
 }
 
 bool AsyncTask::IsEmpty() const
