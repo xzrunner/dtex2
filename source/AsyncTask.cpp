@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "AsyncTask.h"
 #include "ResourceAPI.h"
 
