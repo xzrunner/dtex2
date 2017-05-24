@@ -6,6 +6,7 @@
 #include "TextureRaw.h"
 #include "RenderAPI.h"
 #include "DrawTexture.h"
+#include "CacheAPI.h"
 
 #include <texpack.h>
 
@@ -59,6 +60,8 @@ void CacheSymbol::Clear()
 		m_blocks[i]->Clear();
 	}
 
+	CacheAPI::OnClearSymBlock();
+
 	m_prenodes.clear();
 	m_nodes.clear();
 
@@ -103,9 +106,18 @@ void CacheSymbol::LoadFinish()
 	m_prenodes.sort();
 	std::list<DrawTask> drawlist;
 	std::list<Block*> clearlist;
+
+	bool block_clear = false;
 	std::list<Prenode>::iterator itr_prenode = m_prenodes.begin();
-	for ( ; itr_prenode != m_prenodes.end(); ++itr_prenode) {
-		InsertNode(*itr_prenode, drawlist, clearlist);
+	for (int i = 0; itr_prenode != m_prenodes.end(); ++itr_prenode, ++i) {
+		bool clear = false;
+		InsertNode(*itr_prenode, drawlist, clearlist, clear);
+		if (clear) {
+			block_clear = true;
+		}
+	}
+	if (block_clear) {
+		CacheAPI::OnClearSymBlock();
 	}
 
 	// draw clear
@@ -171,7 +183,7 @@ void CacheSymbol::ClearBlockTex(const Block* b)
 	DrawTexture::Instance()->ClearTex(m_tex, xmin, ymin, xmax, ymax);
 }
 
-bool CacheSymbol::InsertNode(const Prenode& prenode, std::list<DrawTask>& drawlist, std::list<Block*>& clearlist)
+bool CacheSymbol::InsertNode(const Prenode& prenode, std::list<DrawTask>& drawlist, std::list<Block*>& clearlist, bool& block_clear)
 {
 	int extend = prenode.Padding() + prenode.Extrude();
 
@@ -189,6 +201,7 @@ bool CacheSymbol::InsertNode(const Prenode& prenode, std::list<DrawTask>& drawli
 	{
 		Block* cleared = m_blocks[m_clear_block_idx];
 		ClearBlockData();
+		block_clear = true;
 
 		clearlist.push_back(cleared);
 		// update drawlist

@@ -25,4 +25,9 @@ void CacheAPI::RemoveTex(int tex_id)
 	CB.remove_tex(tex_id);
 }
 
+void CacheAPI::OnClearSymBlock()
+{
+	CB.on_clear_sym_block();
+}
+
 }

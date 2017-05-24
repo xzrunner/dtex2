@@ -144,7 +144,7 @@ private:
 	}; // DrawTask
 
 private:
-	bool InsertNode(const Prenode& node, std::list<DrawTask>& drawlist, std::list<Block*>& clearlist);
+	bool InsertNode(const Prenode& node, std::list<DrawTask>& drawlist, std::list<Block*>& clearlist, bool& block_clear);
 
 private:
 	int m_loadable;
