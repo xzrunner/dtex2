@@ -14,7 +14,6 @@ class Package : private cu::Uncopyable
 {
 public:
 	Package(int id);
-	~Package();
 	
 	int GetID() const { return m_id; }
 
