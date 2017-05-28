@@ -159,14 +159,14 @@ void RenderAPI::ScissorPop()
 	DRAW_CB.scissor_pop();
 }
 
-void RenderAPI::ScissorClose()
+void RenderAPI::ScissorDisable()
 {
-	DRAW_CB.scissor_close();
+	DRAW_CB.scissor_disable();
 }
 
-void RenderAPI::ScissorOpen()
+void RenderAPI::ScissorEnable()
 {
-	DRAW_CB.scissor_open();
+	DRAW_CB.scissor_enable();
 }
 
 void RenderAPI::GetViewport(int& x, int& y, int& w, int& h)

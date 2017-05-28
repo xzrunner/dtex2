@@ -20,8 +20,8 @@ public:
 		void (*draw_flush)();
 		void (*scissor_push)(int x, int y, int w, int h);
 		void (*scissor_pop)();
-		void (*scissor_close)();
-		void (*scissor_open)();
+		void (*scissor_disable)();
+		void (*scissor_enable)();
 	};
 
 	static void InitCallback(const Callback& draw_cb);
@@ -74,8 +74,8 @@ public:
 
 	static void ScissorPush(int x, int y, int w, int h);
 	static void ScissorPop();
-	static void ScissorClose();
-	static void ScissorOpen();
+	static void ScissorDisable();
+	static void ScissorEnable();
 
 	static void GetViewport(int& x, int& y, int& w, int& h);
 	static void SetViewport(int x, int y, int w, int h);
