@@ -14,14 +14,15 @@ class CP_Texture;
 class CP_Node : private cu::Uncopyable
 {
 public:
-	CP_Node(const Package* src_pkg, int src_tex_idx, CP_Texture* dst_tex, 
-		const Rect& dst_rect, bool dst_rotate, void* ud);
+	CP_Node(const Package* src_pkg, int src_tex_idx, int src_lod,
+		CP_Texture* dst_tex, const Rect& dst_rect, bool dst_rotate, void* ud);
 	// todo
 // 	CP_Node(const CP_Node& node);
 // 	CP_Node& operator = (const CP_Node& node);
 
 	const Package* GetSrcPkg() const { return m_src_pkg; }
 	int GetSrcTexIdx() const { return m_src_tex_idx; }
+	int GetSrcLod() const { return m_src_lod; }
 
 	CP_Texture* GetDstTex() const { return m_dst_tex; }
 	const Rect& GetDstRect() const { return m_dst_rect; }
@@ -31,6 +32,7 @@ public:
 private:
 	const Package* m_src_pkg;
 	int            m_src_tex_idx;
+	int            m_src_lod;
 
 	CP_Texture* m_dst_tex;
 	Rect        m_dst_rect;

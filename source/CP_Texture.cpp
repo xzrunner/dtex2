@@ -70,6 +70,17 @@ bool CP_Texture::PackPrenode(const CP_Prenode& prenode, float scale, Cache* cach
 	const Texture* tex = pkg->GetTexture(tex_idx);
 	int w = tex->GetWidth() * prenode.GetScale() * scale,
 		h = tex->GetHeight() * prenode.GetScale() * scale;
+	switch (prenode.GetLod())
+	{
+	case 1:
+		w /= 2;
+		h /= 2;
+		break;
+	case 2:
+		w /= 4;
+		h /= 4;
+		break;
+	}
 
 	struct texpack_pos* pos = NULL;
 	if (w >= h) {
@@ -94,7 +105,7 @@ bool CP_Texture::PackPrenode(const CP_Prenode& prenode, float scale, Cache* cach
 	r.ymax = pos->r.ymax;
 
 	bool rotate = (pos->is_rotated && w >= h) || (!pos->is_rotated && h >= w);
-	m_nodes.push_back(new CP_Node(pkg, tex_idx, this, r, rotate, cache));
+	m_nodes.push_back(new CP_Node(pkg, tex_idx, prenode.GetLod(), this, r, rotate, cache));
 
 	return true;
 }

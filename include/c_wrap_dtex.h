@@ -20,7 +20,7 @@ void* dtex_cache_pkg_static_query(const char* key);
 void* dtex_cache_pkg_static_create(const char* key, int tex_size);
 void  dtex_cache_pkg_static_delete(const char* key);
 
-int  dtex_cache_pkg_static_load(void* cache, int pkg_id);
+int  dtex_cache_pkg_static_load(void* cache, int pkg_id, int lod);
 void  dtex_cache_pkg_static_load_finish(void* cache, bool async);
 
 bool  dtex_cache_pkg_static_is_empty(const void* cache);

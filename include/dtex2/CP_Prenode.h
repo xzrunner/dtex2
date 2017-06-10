@@ -9,7 +9,7 @@ class Package;
 class CP_Prenode
 {
 public:
-	CP_Prenode(const Package* pkg, int tex_idx);
+	CP_Prenode(const Package* pkg, int tex_idx, int lod);
 	// todo
 // 	CP_Prenode(const CP_Node& node);
 // 	CP_Prenode& operator = (const CP_Node& node);
@@ -25,6 +25,8 @@ public:
 
 	int GetTexIdx() const { return m_tex_idx; }
 
+	int GetLod() const { return m_lod; }
+
 	float GetScale() const { return m_scale; }
 
 private:
@@ -33,6 +35,8 @@ private:
 private:
 	const Package* m_pkg;
 	int   m_tex_idx;
+	int   m_lod;
+
 	float m_scale;
 
 }; // CP_Prenode

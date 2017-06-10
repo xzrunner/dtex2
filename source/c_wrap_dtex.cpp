@@ -65,7 +65,7 @@ void dtex_cache_pkg_static_delete(const char* key)
 }
 
 extern "C"
-int dtex_cache_pkg_static_load(void* cache, int pkg_id)
+int dtex_cache_pkg_static_load(void* cache, int pkg_id, int lod)
 {
 	Cache* c = static_cast<Cache*>(cache);
 	assert(c->Type() == CACHE_PKG_STATIC);
@@ -75,7 +75,7 @@ int dtex_cache_pkg_static_load(void* cache, int pkg_id)
 		return 1;  // error
 	}
 
-	cps->Load(pkg);
+	cps->Load(pkg, lod);
 	return 0;  // success
 }
 

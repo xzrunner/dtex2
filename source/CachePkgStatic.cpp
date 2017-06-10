@@ -77,7 +77,7 @@ void CachePkgStatic::Clear()
 	m_remain = 0;
 }
 
-void CachePkgStatic::Load(const Package* pkg)
+void CachePkgStatic::Load(const Package* pkg, int lod)
 {
 	if (m_pkgs.find(pkg->GetID()) != m_pkgs.end()) {
 		return;
@@ -89,11 +89,11 @@ void CachePkgStatic::Load(const Package* pkg)
 		assert(textures[i]->Type() == TEX_RAW);
 		TextureRaw* tex = static_cast<TextureRaw*>(textures[i]);
 		if (LOCAL_TEX_FMT != TEXTURE_RGBA8 && tex->GetFormat() != LOCAL_TEX_FMT) {
-			ResourceAPI::LoadTexture(pkg->GetID(), i);
+			ResourceAPI::LoadTexture(pkg->GetID(), i, lod);
 			continue;
 		}
 
-		m_prenodes.push_back(CP_Prenode(pkg, i));
+		m_prenodes.push_back(CP_Prenode(pkg, i, lod));
 	}
 
 	m_pkgs.insert(pkg->GetID());
@@ -127,9 +127,20 @@ void CachePkgStatic::PackPrenodes()
 		const Texture* tex = pkg->GetTexture(tex_idx);
 		int w = tex->GetWidth() * prenode.GetScale() * SCALE,
 			h = tex->GetHeight() * prenode.GetScale() * SCALE;
+		switch (prenode.GetLod())
+		{
+		case 1:
+			w /= 2;
+			h /= 2;
+			break;
+		case 2:
+			w /= 4;
+			h /= 4;
+			break;
+		}
 		if (w > m_tex_edge || h > m_tex_edge) {
 			LOGW("CachePkgStatic::PackPrenodes tex size too large, w %d, h %d", w, h);
-			ResourceAPI::LoadTexture(itr->GetPackage()->GetID(), itr->GetTexIdx());
+			ResourceAPI::LoadTexture(itr->GetPackage()->GetID(), itr->GetTexIdx(), itr->GetLod());
 			continue;
 		}
 
@@ -176,7 +187,7 @@ void CachePkgStatic::LoadTexAndRelocateNodes(bool async)
 	{
 		for (int i = 0, n = nodes.size(); i < n; ++i) {
 			CP_Node* node = nodes[i];
-			const std::string& filepath = ResourceAPI::GetTexFilepath(node->GetSrcPkg()->GetID(), node->GetSrcTexIdx(), 0);
+			const std::string& filepath = ResourceAPI::GetTexFilepath(node->GetSrcPkg()->GetID(), node->GetSrcTexIdx(), node->GetSrcLod());
 			AsyncTask::Instance()->Load(filepath, LoadTextureCB, NULL, node);
 		}
 	}
@@ -264,8 +275,8 @@ void CachePkgStatic::RelocateNodes()
 			CP_Node* node = src[j];
 			const Texture* dst_tex = node->GetDstTex()->GetTexture();
 			const Rect& dst_r = node->GetDstRect();
-			CacheAPI::RelocatePkg(node->GetSrcPkg()->GetID(), node->GetSrcTexIdx(), dst_tex->GetID(), dst_tex->GetFormat(),
-				dst_tex->GetWidth(), dst_tex->GetHeight(), dst_r.xmin, dst_r.ymin, dst_r.xmax, dst_r.ymax);
+			CacheAPI::RelocatePkg(node->GetSrcPkg()->GetID(), node->GetSrcTexIdx(), node->GetSrcLod(), dst_tex->GetID(), 
+				dst_tex->GetFormat(), dst_tex->GetWidth(), dst_tex->GetHeight(), dst_r.xmin, dst_r.ymin, dst_r.xmax, dst_r.ymax);
 		}
 	}
 	CacheAPI::RelocatePkgFinish();
