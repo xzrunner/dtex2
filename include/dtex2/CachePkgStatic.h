@@ -34,7 +34,7 @@ public:
 	bool IsEmpty() const { return m_pkgs.empty(); }
 
 	void Load(const Package* pkg, int lod);
-	void LoadFinish(bool async = false);
+	int LoadFinish(bool async = false);
 
 	bool UpRemain() { return --m_remain == 0; }
 

@@ -99,10 +99,10 @@ void CachePkgStatic::Load(const Package* pkg, int lod)
 	m_pkgs.insert(pkg->GetID());
 }
 
-void CachePkgStatic::LoadFinish(bool async)
+int CachePkgStatic::LoadFinish(bool async)
 {
 	if (m_prenodes.empty()) {
-		return;
+		return 0;
 	}
 
 	m_prenodes.unique();
@@ -111,6 +111,8 @@ void CachePkgStatic::LoadFinish(bool async)
 	m_prenodes.clear();
 
 	LoadTexAndRelocateNodes(async);
+
+	return m_textures.size();
 }
 
 void CachePkgStatic::PackPrenodes()
