@@ -13,8 +13,8 @@ class ResourceAPI
 public:
 	struct Callback
 	{
-		const std::string& (*get_tex_filepath)(int pkg_id, int tex_idx, int lod_layer);
-		void (*load_file)(const std::string& filepath, bool use_cache, void (*parser_cb)(const void* data, size_t size, void* ud), void* ud);
+		void (*get_tex_filepath)(int pkg_id, int tex_idx, int lod_layer, char* res_path);
+		void (*load_file)(const void* res_path, bool use_cache, void (*parser_cb)(const void* data, size_t size, void* ud), void* ud);
 
 		void (*load_texture)(int pkg_id, int tex_idx, int lod);
 		void (*load_texture_cb)(int pkg_id, int tex_idx, void (*cb)(int format, int w, int h, const void* data, void* ud), void* ud);
@@ -25,8 +25,8 @@ public:
 	
 	//////////////////////////////////////////////////////////////////////////
 
-	static const std::string& GetTexFilepath(int pkg_id, int tex_idx, int lod_layer);
-	static void LoadFile(const std::string& filepath, bool use_cache, void (*parser_cb)(const void* data, size_t size, void* ud), void* ud);
+	static void GetTexFilepath(int pkg_id, int tex_idx, int lod_layer, char* buf);
+	static void LoadFile(const void* res_path, bool use_cache, void (*parser_cb)(const void* data, size_t size, void* ud), void* ud);
 
 	static void LoadTexture(int pkg_id, int tex_idx, int lod);
 	static void LoadTexture(int pkg_id, int tex_idx, void (*cb)(int format, int w, int h, const void* data, void* ud), void* ud);

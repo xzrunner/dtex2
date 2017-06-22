@@ -11,9 +11,9 @@ namespace dtex
 
 SINGLETON_DEFINITION(AsyncTask);
 
-void load(const char* filepath, void (*unpack)(const void* data, size_t size, void* ud), void* ud)
+void load(const void* res_path, void (*unpack)(const void* data, size_t size, void* ud), void* ud)
 {
-	ResourceAPI::LoadFile(filepath, false, unpack, ud);
+	ResourceAPI::LoadFile(res_path, false, unpack, ud);
 }
 
 AsyncTask::AsyncTask()
@@ -28,17 +28,18 @@ AsyncTask::~AsyncTask()
 	m_loader = NULL;
 }
 
-void AsyncTask::Load(const std::string& filepath, 
+void AsyncTask::Load(const void* res_path, 
 					 void (*parser)(const void* data, size_t size, void* ud), 
 					 void (*release)(void* ud),
 					 void* ud)
 {
 	struct tasks_load_cb params;
-	params.load = load;
+	params.load      = load;
 	params.parser    = parser;
 	params.release   = release;
 	params.parser_ud = ud;
-	tasks_load_file(m_loader, filepath.c_str(), &params, "");
+	
+	tasks_load_file(m_loader, res_path, &params, "");
 }
 
 void AsyncTask::Update()
