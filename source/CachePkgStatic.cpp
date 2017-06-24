@@ -201,6 +201,7 @@ void CachePkgStatic::LoadTexAndRelocateNodes(bool async)
 			CP_Node* node = nodes[i];
 			ResourceAPI::LoadTexture(node->GetSrcPkg()->GetID(), node->GetSrcTexIdx(), LoadTextureCB, node);
 		}
+		ResourceAPI::CachePkgStaticTexOk();
 	}
 
 	CreateTexturesID();
@@ -326,6 +327,7 @@ void CachePkgStatic::LoadTextureCB(int format, int w, int h, const void* data, v
 	CachePkgStatic* c = static_cast<CachePkgStatic*>(node->GetUD());
 	if (c->UpRemain()) {
 		c->UpdateTextures();
+		ResourceAPI::CachePkgStaticTexOk();
 	}
 }
 

@@ -35,4 +35,9 @@ void ResourceAPI::LoadTexture(const void* data, size_t size, void (*cb)(int form
 	CB.load_texture_cb2(data, size, cb, ud);
 }
 
+void ResourceAPI::CachePkgStaticTexOk()
+{
+	CB.cache_pkg_static_tex_ok();
+}
+
 }

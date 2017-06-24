@@ -19,6 +19,8 @@ public:
 		void (*load_texture)(int pkg_id, int tex_idx, int lod);
 		void (*load_texture_cb)(int pkg_id, int tex_idx, void (*cb)(int format, int w, int h, const void* data, void* ud), void* ud);
 		void (*load_texture_cb2)(const void* data, size_t size, void (*cb)(int format, int w, int h, const void* data, void* ud), void* ud);
+
+		void (*cache_pkg_static_tex_ok)();
 	};
 
 	static void InitCallback(const Callback& cb);
@@ -31,6 +33,8 @@ public:
 	static void LoadTexture(int pkg_id, int tex_idx, int lod);
 	static void LoadTexture(int pkg_id, int tex_idx, void (*cb)(int format, int w, int h, const void* data, void* ud), void* ud);
 	static void LoadTexture(const void* data, size_t size, void (*cb)(int format, int w, int h, const void* data, void* ud), void* ud);
+
+	static void CachePkgStaticTexOk();
 
 }; // ResourceAPI
 
