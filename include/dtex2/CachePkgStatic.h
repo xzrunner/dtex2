@@ -40,6 +40,9 @@ public:
 
 	int GetTexSize() const { return m_tex_edge; }
 
+	bool IsAvailable() const { return m_available; }
+	void SetAvailable() { m_available = true; }
+
 private:
 	void PackPrenodes();
 	bool PackPrenode(const CP_Prenode& prenode, float scale);
@@ -82,6 +85,8 @@ private:
 	std::set<int> m_pkgs;
 
 	int m_remain;
+
+	bool m_available;
 
 }; // CachePkgStatic
 

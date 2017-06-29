@@ -25,6 +25,8 @@ int   dtex_cache_pkg_static_load_finish(void* cache, bool async);
 
 bool  dtex_cache_pkg_static_is_empty(const void* cache);
 
+bool  dtex_cache_pkg_static_is_available(const void* cache);
+
 #endif // _dtex_wrap_c_h_
 
 #ifdef __cplusplus

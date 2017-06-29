@@ -97,4 +97,13 @@ bool dtex_cache_pkg_static_is_empty(const void* cache)
 	return cps->IsEmpty();
 }
 
+extern "C"
+bool dtex_cache_pkg_static_is_available(const void* cache)
+{
+	const Cache* c = static_cast<const Cache*>(cache);
+	assert(c->Type() == CACHE_PKG_STATIC);
+	const CachePkgStatic* cps = static_cast<const CachePkgStatic*>(c);
+	return cps->IsAvailable();
+}
+
 }

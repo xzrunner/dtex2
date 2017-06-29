@@ -36,6 +36,7 @@ static const int MAX_PRELOAD_COUNT = 512;
 
 CachePkgStatic::CachePkgStatic(int tex_size)
 	: m_remain(0)
+	, m_available(false)
 {
 	int max_sz = HardRes::GetMaxTexSize();
 	while (tex_size > max_sz) {
@@ -202,6 +203,7 @@ void CachePkgStatic::LoadTexAndRelocateNodes(bool async)
 			ResourceAPI::LoadTexture(node->GetSrcPkg()->GetID(), node->GetSrcTexIdx(), LoadTextureCB, node);
 		}
 		ResourceAPI::CachePkgStaticTexOk();
+		m_available = true;
 	}
 
 	CreateTexturesID();
@@ -328,6 +330,7 @@ void CachePkgStatic::LoadTextureCB(int format, int w, int h, const void* data, v
 	if (c->UpRemain()) {
 		c->UpdateTextures();
 		ResourceAPI::CachePkgStaticTexOk();
+		c->SetAvailable();
 	}
 }
 
