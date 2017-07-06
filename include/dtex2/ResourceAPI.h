@@ -21,6 +21,9 @@ public:
 		void (*load_texture_cb2)(const void* data, size_t size, void (*cb)(int format, int w, int h, const void* data, void* ud), void* ud);
 
 		void (*cache_pkg_static_tex_ok)();
+
+		void (*stat_tex_add)(int width, int height, int format);
+		void (*stat_tex_remove)(int width, int height, int format);
 	};
 
 	static void InitCallback(const Callback& cb);
@@ -35,6 +38,9 @@ public:
 	static void LoadTexture(const void* data, size_t size, void (*cb)(int format, int w, int h, const void* data, void* ud), void* ud);
 
 	static void CachePkgStaticTexOk();
+
+	static void StatTexAdd(int width, int height, int format);
+	static void StatTexRemove(int width, int height, int format);
 
 }; // ResourceAPI
 

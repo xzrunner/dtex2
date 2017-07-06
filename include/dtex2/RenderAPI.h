@@ -34,7 +34,7 @@ public:
 
 	static int  CreateTexture(const void* data, int width, int height, int format);
 	static int  CreateTextureID(int width, int height, int format);
-	static void ReleaseTexture(int id);
+	static void ReleaseTexture(int id, int width, int height, int format);
 
 	static void UpdateTexture(const void* pixels, int w, int h, unsigned int id);
 	static void UpdateSubTex(const void* pixels, int x, int y, int w, int h, unsigned int id);

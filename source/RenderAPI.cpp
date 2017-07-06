@@ -1,5 +1,5 @@
 #include "RenderAPI.h"
-#include "DTEX_Statistics.h"
+#include "ResourceAPI.h"
 
 #include <unirender/UR_RenderContext.h>
 
@@ -26,22 +26,25 @@ void RenderAPI::InitRenderContext(ur::RenderContext* rc)
 
 int RenderAPI::CreateTexture(const void* data, int width, int height, int format)
 {
+	ResourceAPI::StatTexAdd(width, height, format);
+
 	int ret = RC->CreateTexture(data, width, height, format);
-	// Statistics::Instance()->AddTex(ret, format, width, height);
 	return ret;
 }
 
 int RenderAPI::CreateTextureID(int width, int height, int format)
 {
+	ResourceAPI::StatTexAdd(width, height, format);
+
 	int ret = RC->CreateTextureID(width, height, format);
-	// Statistics::Instance()->AddTex(ret, format, width, height);
 	return ret;
 }
 
-void RenderAPI::ReleaseTexture(int id)
+void RenderAPI::ReleaseTexture(int id, int width, int height, int format)
 {
+	ResourceAPI::StatTexRemove(width, height, format);
+
 	RC->ReleaseTexture(id);
-	// Statistics::Instance()->DeleteTex(id);
 }
 
 void RenderAPI::UpdateTexture(const void* pixels, int w, int h, unsigned int id)

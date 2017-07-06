@@ -40,4 +40,14 @@ void ResourceAPI::CachePkgStaticTexOk()
 	CB.cache_pkg_static_tex_ok();
 }
 
+void ResourceAPI::StatTexAdd(int width, int height, int format)
+{
+	CB.stat_tex_add(width, height, format);
+}
+
+void ResourceAPI::StatTexRemove(int width, int height, int format)
+{
+	CB.stat_tex_remove(width, height, format);
+}
+
 }

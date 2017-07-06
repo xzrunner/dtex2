@@ -19,7 +19,7 @@ Texture::~Texture()
 {
 	if (m_id != 0) 
 	{
-		RenderAPI::ReleaseTexture(m_id);
+		RenderAPI::ReleaseTexture(m_id, m_width, m_height, m_format);
 		CacheAPI::RemoveTex(m_id);
 	}
 }

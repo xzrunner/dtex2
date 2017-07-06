@@ -3,7 +3,6 @@
 #include "DrawTexture.h"
 #include "DTEX_PkgMgr.h"
 #include "AsyncTask.h"
-#include "DTEX_Statistics.h"
 #include "ResCache.h"
 
 namespace dtex
@@ -15,7 +14,6 @@ void Facade::Clear()
 	DrawTexture::Instance()->Clear();
 	PkgMgr::Instance()->Clear();
 	AsyncTask::Instance()->Clear();
-	Statistics::Instance()->Clear();
 	ResCache::Instance()->Clear();
 }
 
