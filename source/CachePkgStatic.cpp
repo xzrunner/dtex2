@@ -90,7 +90,6 @@ void CachePkgStatic::Load(const Package* pkg, int lod)
 		assert(textures[i]->Type() == TEX_RAW);
 		TextureRaw* tex = static_cast<TextureRaw*>(textures[i]);
 		if (LOCAL_TEX_FMT != TEXTURE_RGBA8 && tex->GetFormat() != LOCAL_TEX_FMT) {
-			ResourceAPI::LoadTexture(pkg->GetID(), i, lod);
 			continue;
 		}
 
@@ -143,7 +142,6 @@ void CachePkgStatic::PackPrenodes()
 		}
 		if (w > m_tex_edge || h > m_tex_edge) {
 			LOGW("CachePkgStatic::PackPrenodes tex size too large, w %d, h %d", w, h);
-			ResourceAPI::LoadTexture(itr->GetPackage()->GetID(), itr->GetTexIdx(), itr->GetLod());
 			continue;
 		}
 
