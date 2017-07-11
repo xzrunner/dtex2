@@ -15,6 +15,7 @@
 #include <gimg_etc2.h>
 #include <gimg_import.h>
 #include <gimg_typedef.h>
+#include <unirender/UR_RenderContext.h>
 
 #include <algorithm>
 
@@ -480,6 +481,16 @@ void CachePkgStatic::LoadTextureETC2(int tex_id, int w, int h, const void* data)
 {
 #ifdef __ANDROID__
 	RenderAPI::UpdateTexture(data, w, h, tex_id);
+#elif defined( __APPLE__ ) && !defined(__MACOSX)
+	RenderAPI::UpdateTexture(data, w, h, tex_id);
+#elif defined _WIN32
+	if (RenderAPI::IsSupportETC2()) {
+		RenderAPI::UpdateTexture(data, w, h, tex_id);
+	} else {
+		uint8_t* uncompressed = gimg_etc2_decode(static_cast<const uint8_t*>(data), w, h, ETC2PACKAGE_RGBA_NO_MIPMAPS);
+		RenderAPI::UpdateTexture(uncompressed, w, h, tex_id);
+		free(uncompressed);
+	}
 #else
 	uint8_t* uncompressed = gimg_etc2_decode(static_cast<const uint8_t*>(data), w, h, ETC2PACKAGE_RGBA_NO_MIPMAPS);
 	RenderAPI::UpdateTexture(uncompressed, w, h, tex_id);

@@ -88,6 +88,8 @@ public:
 	static bool IsTexture(unsigned int id);
 	static void CheckError();
 
+	static bool IsSupportETC2();
+
 }; // RenderAPI
 
 }

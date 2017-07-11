@@ -201,4 +201,9 @@ void RenderAPI::CheckError()
 	RC->CheckError();
 }
 
+bool RenderAPI::IsSupportETC2()
+{
+	return RC->IsSupportETC2();
+}
+
 }
