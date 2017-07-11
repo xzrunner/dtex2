@@ -24,7 +24,7 @@ class CP_Node;
 class CachePkgStatic : public Cache, private cu::Uncopyable
 {
 public:
-	CachePkgStatic(int tex_size);
+	CachePkgStatic(int tex_size, int tex_fmt);
 	virtual ~CachePkgStatic();
 
 	virtual int Type() const { return CACHE_PKG_STATIC; }
@@ -39,6 +39,7 @@ public:
 	bool UpRemain() { return --m_remain == 0; }
 
 	int GetTexSize() const { return m_tex_edge; }
+	int GetTexFmt() const { return m_tex_fmt; }
 
 	bool IsAvailable() const { return m_available; }
 	void SetAvailable() { m_available = true; }
@@ -77,6 +78,7 @@ private:
 
 private:
 	int m_tex_edge;
+	int m_tex_fmt;
 
 	std::vector<CP_Texture*> m_textures;
 

@@ -34,9 +34,10 @@ static const int MAX_PRELOAD_COUNT = 512;
 	#define LOCAL_TEX_FMT TEXTURE_RGBA8
 #endif
 
-CachePkgStatic::CachePkgStatic(int tex_size)
+CachePkgStatic::CachePkgStatic(int tex_size, int tex_fmt)
 	: m_remain(0)
 	, m_available(false)
+
 {
 	int max_sz = HardRes::GetMaxTexSize();
 	while (tex_size > max_sz) {
@@ -44,6 +45,9 @@ CachePkgStatic::CachePkgStatic(int tex_size)
 	}
 
 	m_tex_edge = tex_size;
+
+	m_tex_fmt = (tex_fmt == TEXTURE_INVALID ? tex_fmt : LOCAL_TEX_FMT);
+
 	m_textures.push_back(new CP_Texture(m_tex_edge, MAX_PRELOAD_COUNT));
 }
 
@@ -89,7 +93,7 @@ void CachePkgStatic::Load(const Package* pkg, int lod)
 	{
 		assert(textures[i]->Type() == TEX_RAW);
 		TextureRaw* tex = static_cast<TextureRaw*>(textures[i]);
-		if (LOCAL_TEX_FMT != TEXTURE_RGBA8 && tex->GetFormat() != LOCAL_TEX_FMT) {
+		if (m_tex_fmt != TEXTURE_RGBA8 && tex->GetFormat() != m_tex_fmt) {
 			continue;
 		}
 
@@ -218,7 +222,7 @@ void CachePkgStatic::CreateTexturesID()
 			h = tex_impl->GetHeight();
 		
 		int fmt = 0;
-		switch (LOCAL_TEX_FMT)
+		switch (m_tex_fmt)
 		{
 		case TEXTURE_PVR4:
 			fmt = TEXTURE_PVR4;
@@ -251,7 +255,7 @@ void CachePkgStatic::UpdateTextures()
 			h = tex_impl->GetHeight();
 		void* pixels = tex->GetUD();
 		int tex_id = tex_impl->GetID();
-		switch (LOCAL_TEX_FMT)
+		switch (m_tex_fmt)
 		{
 		case TEXTURE_PVR4:
 			LoadTexturePVR4(tex_id, w, h, pixels);
@@ -290,7 +294,8 @@ void CachePkgStatic::RelocateNodes()
 void CachePkgStatic::LoadTextureCB(int format, int w, int h, const void* data, void* ud)
 {
 	CP_Node* node = static_cast<CP_Node*>(ud);
-	switch (LOCAL_TEX_FMT)
+	CachePkgStatic* cache = static_cast<CachePkgStatic*>(node->GetUD());
+	switch (cache->GetTexFmt())
 	{
 	case TEXTURE_PVR4:
 		assert(format == TEXTURE_PVR4);
@@ -324,11 +329,10 @@ void CachePkgStatic::LoadTextureCB(int format, int w, int h, const void* data, v
 		assert(0);
 	}
 	
-	CachePkgStatic* c = static_cast<CachePkgStatic*>(node->GetUD());
-	if (c->UpRemain()) {
-		c->UpdateTextures();
+	if (cache->UpRemain()) {
+		cache->UpdateTextures();
 		ResourceAPI::CachePkgStaticTexOk();
-		c->SetAvailable();
+		cache->SetAvailable();
 	}
 }
 

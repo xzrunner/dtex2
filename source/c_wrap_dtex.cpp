@@ -27,7 +27,7 @@ void* dtex_cache_pkg_static_query(const char* key)
 }
 
 extern "C"
-void* dtex_cache_pkg_static_create(const char* key, int tex_size)
+void* dtex_cache_pkg_static_create(const char* key, int tex_size, int tex_fmt)
 {
 	CacheMgr* mgr = CacheMgr::Instance();
 
@@ -46,7 +46,7 @@ void* dtex_cache_pkg_static_create(const char* key, int tex_size)
 	}
 
 	// insert
-	Cache* cache = new CachePkgStatic(tex_size);
+	Cache* cache = new CachePkgStatic(tex_size, tex_fmt);
 	bool succ = mgr->Add(cache, key);
 	assert(succ);
 
