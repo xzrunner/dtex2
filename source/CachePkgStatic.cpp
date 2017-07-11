@@ -229,7 +229,19 @@ void CachePkgStatic::CreateTexturesID()
 			fmt = TEXTURE_PVR4;
 			break;
 		case TEXTURE_ETC2:
+#ifdef __ANDROID__
 			fmt = TEXTURE_ETC2;
+#elif defined( __APPLE__ ) && !defined(__MACOSX)
+			fmt = TEXTURE_ETC2;
+#elif defined _WIN32
+		if (RenderAPI::IsSupportETC2()) {
+			fmt = TEXTURE_ETC2;
+		} else {
+			fmt = TEXTURE_RGBA8;
+		}
+#else
+			fmt = TEXTURE_RGBA8;
+#endif // __ANDROID__		
 			break;
 		case TEXTURE_RGBA8:
 			fmt = TEXTURE_RGBA8;
