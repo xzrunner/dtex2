@@ -46,7 +46,7 @@ CachePkgStatic::CachePkgStatic(int tex_size, int tex_fmt)
 
 	m_tex_edge = tex_size;
 
-	m_tex_fmt = (tex_fmt == TEXTURE_INVALID ? tex_fmt : LOCAL_TEX_FMT);
+	m_tex_fmt = (tex_fmt == TEXTURE_INVALID ? LOCAL_TEX_FMT : tex_fmt);
 
 	m_textures.push_back(new CP_Texture(m_tex_edge, MAX_PRELOAD_COUNT));
 }
