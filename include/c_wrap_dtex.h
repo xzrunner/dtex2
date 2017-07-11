@@ -16,6 +16,20 @@ bool  dtex_loading_task_empty();
 /* cache pkg static                                                     */
 /************************************************************************/
 
+enum DTEX_TEXTURE_FORMAT {
+	DTEX_TEXTURE_INVALID = 0,
+	DTEX_TEXTURE_RGBA8,
+	DTEX_TEXTURE_RGBA4,
+	DTEX_TEXTURE_RGB,
+	DTEX_TEXTURE_RGB565,
+	DTEX_TEXTURE_A8,
+	DTEX_TEXTURE_DEPTH,	// use for render target
+	DTEX_TEXTURE_PVR2,
+	DTEX_TEXTURE_PVR4,
+	DTEX_TEXTURE_ETC1,
+	DTEX_TEXTURE_ETC2,
+};
+
 void* dtex_cache_pkg_static_query(const char* key);
 void* dtex_cache_pkg_static_create(const char* key, int tex_size, int tex_fmt);
 void  dtex_cache_pkg_static_delete(const char* key);
