@@ -274,6 +274,9 @@ void CachePkgStatic::UpdateTextures()
 		int w = tex_impl->GetWidth(),
 			h = tex_impl->GetHeight();
 		void* pixels = tex->GetUD();
+		if (!pixels) {
+			return;
+		}
 		int tex_id = tex_impl->GetID();
 		switch (m_tex_fmt)
 		{
@@ -314,6 +317,9 @@ void CachePkgStatic::RelocateNodes()
 void CachePkgStatic::LoadTextureCB(int format, int w, int h, const void* data, void* ud)
 {
 	CP_Node* node = static_cast<CP_Node*>(ud);
+	if (!node->GetUD()) {
+		return;
+	}
 	CachePkgStatic* cache = static_cast<CachePkgStatic*>(node->GetUD());
 	switch (cache->GetTexFmt())
 	{
@@ -390,6 +396,9 @@ void CachePkgStatic::LoadPartPVR4(int w, int h, const void* data, const CP_Node*
 		grid_h = h >> 2;
 	const uint8_t* src_data = (const uint8_t*)(data);
 	uint8_t* dst_data = (uint8_t*)(dst_tex->GetUD());
+	if (!dst_data) {
+		return;
+	}
 	for (int y = 0; y < grid_h; ++y) 
 	{
 		for (int x = 0; x < grid_w; ++x) 
@@ -433,6 +442,9 @@ void CachePkgStatic::LoadPartETC2(int w, int h, const void* data, const CP_Node*
 		grid_h = h >> 2;
 	const uint8_t* src_data = (const uint8_t*)(data);
 	uint8_t* dst_data = (uint8_t*)(dst_tex->GetUD());
+	if (!dst_data) {
+		return;
+	}
 	const int grid_sz = sizeof(uint8_t) * 8 * 2;
 	const int large_grid_w = tex_w >> 2;
 	for (int y = 0; y < grid_h; ++y) 
@@ -457,6 +469,9 @@ void CachePkgStatic::LoadPartRGBA8(int w, int h, const void* data, const CP_Node
 
 	const uint8_t* src_data = (const uint8_t*)(data);
 	uint8_t* dst_data = (uint8_t*)(node->GetDstTex()->GetUD());
+	if (!dst_data) {
+		return;
+	}
 	const int large_w = node->GetDstTex()->GetTexture()->GetWidth();
 	for (int y = 0; y < h; ++y) {
 		int idx_src = w * y;
