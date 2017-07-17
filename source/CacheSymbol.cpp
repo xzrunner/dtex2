@@ -7,6 +7,7 @@
 #include "RenderAPI.h"
 #include "DrawTexture.h"
 #include "CacheAPI.h"
+#include "ResourceAPI.h"
 
 #include <texpack.h>
 
@@ -22,6 +23,9 @@ CacheSymbol::CacheSymbol(int width, int height)
 	, m_clear_block_idx(0)
 {
 	m_tex = new TextureMid(width, height, true);
+	if (m_tex == NULL) {
+		ResourceAPI::ErrorReload();
+	}
 
 	int x = 0, y = 0;
 	m_block_w = width / BLOCK_X_SZ;
@@ -29,7 +33,11 @@ CacheSymbol::CacheSymbol(int width, int height)
 	int i = 0;
 	for (int iy = 0; iy < BLOCK_Y_SZ; ++iy) {
 		for (int ix = 0; ix < BLOCK_X_SZ; ++ix) {
-			m_blocks[i++] = new Block(m_tex, x, y, m_block_w, m_block_h);
+			Block* block = new Block(m_tex, x, y, m_block_w, m_block_h);
+			if (block == NULL) {
+				ResourceAPI::ErrorReload();
+			}
+			m_blocks[i++] = block;
 			x += m_block_w;
 		}
 		x = 0;

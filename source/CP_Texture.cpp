@@ -4,6 +4,7 @@
 #include "TextureMid.h"
 #include "DTEX_Package.h"
 #include "DrawTexture.h"
+#include "ResourceAPI.h"
 
 #include <texpack.h>
 
@@ -19,6 +20,9 @@ CP_Texture::CP_Texture(int edge, int tp_node_count)
 	, m_ud(NULL)
 {
 	m_tex = new TextureMid(edge, edge, false);
+	if (m_tex == NULL) {
+		ResourceAPI::ErrorReload();
+	}
 
 	m_region.xmin = m_region.ymin = 0;
 	m_region.xmax = m_region.ymax = edge;
@@ -105,7 +109,11 @@ bool CP_Texture::PackPrenode(const CP_Prenode& prenode, float scale, Cache* cach
 	r.ymax = pos->r.ymax;
 
 	bool rotate = (pos->is_rotated && w >= h) || (!pos->is_rotated && h >= w);
-	m_nodes.push_back(new CP_Node(pkg, tex_idx, prenode.GetLod(), this, r, rotate, cache));
+	CP_Node* node = new CP_Node(pkg, tex_idx, prenode.GetLod(), this, r, rotate, cache);
+	if (node == NULL) {
+		ResourceAPI::ErrorReload();
+	}
+	m_nodes.push_back(node);
 
 	return true;
 }

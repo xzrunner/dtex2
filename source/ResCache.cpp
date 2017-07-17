@@ -2,6 +2,7 @@
 #include "DTEX_Texture.h"
 #include "Target.h"
 #include "TextureMid.h"
+#include "ResourceAPI.h"
 
 #include <assert.h>
 
@@ -56,7 +57,12 @@ void ResCache::ReturnTexture(Texture* texture)
 Target* ResCache::FetchTarget()
 {
 	if (m_targets.empty()) {
-		return new Target();
+		Target* t = new Target();
+		if (t == NULL) {
+			ResourceAPI::ErrorReload();
+			return NULL;
+		}
+		return t;
 	}
 
 	Target* ret = m_targets.back();

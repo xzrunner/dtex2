@@ -49,7 +49,11 @@ CachePkgStatic::CachePkgStatic(int tex_size, int tex_fmt)
 
 	m_tex_fmt = (tex_fmt == TEXTURE_INVALID ? LOCAL_TEX_FMT : tex_fmt);
 
-	m_textures.push_back(new CP_Texture(m_tex_edge, MAX_PRELOAD_COUNT));
+	CP_Texture* tex = new CP_Texture(m_tex_edge, MAX_PRELOAD_COUNT);
+	if (tex == NULL) {
+		ResourceAPI::ErrorReload();
+	}
+	m_textures.push_back(tex);
 }
 
 CachePkgStatic::~CachePkgStatic()
@@ -155,6 +159,9 @@ void CachePkgStatic::PackPrenodes()
 				break;
 			} else {
 				CP_Texture* tex = new CP_Texture(m_tex_edge, MAX_PRELOAD_COUNT);
+				if (tex == NULL) {
+					ResourceAPI::ErrorReload();
+				}
 				m_textures.push_back(tex);
 			}
 		}
@@ -370,6 +377,10 @@ void CachePkgStatic::LoadPartPVR4(int w, int h, const void* data, const CP_Node*
 		tex_h = dst_tex->GetTexture()->GetHeight();
 	if (!dst_tex->GetUD()) {
 		void* pixels = gimg_pvr_init_blank(tex_w);
+		if (pixels == NULL) {
+			ResourceAPI::ErrorReload();
+			return;
+		}
 		dst_tex->SetUD(pixels);
 	}
 
@@ -409,6 +420,10 @@ void CachePkgStatic::LoadPartETC2(int w, int h, const void* data, const CP_Node*
 		tex_h = dst_tex->GetTexture()->GetHeight();
 	if (!dst_tex->GetUD()) {
 		void* pixels = gimg_etc2_init_blank(tex_w);
+		if (pixels == NULL) {
+			ResourceAPI::ErrorReload();
+			return;
+		}
 		dst_tex->SetUD(pixels);
 	}
 
@@ -453,7 +468,15 @@ void CachePkgStatic::LoadPartRGBA8(int w, int h, const void* data, const CP_Node
 void CachePkgStatic::LoadPartRGBA8FromPVR4(int w, int h, const void* data, const CP_Node* node)
 {
 	const uint8_t* pixels = (const uint8_t*)(data);
+	if (pixels == NULL) {
+		ResourceAPI::ErrorReload();
+		return;
+	}
 	uint8_t* uncompressed = gimg_pvr_decode(pixels, w, h);
+	if (uncompressed == NULL) {
+		ResourceAPI::ErrorReload();
+		return;
+	}
 	gimg_revert_y(uncompressed, w, h, GPF_RGBA);
 	LoadPartRGBA8(w, h, uncompressed, node);
 	free(uncompressed);
@@ -463,6 +486,10 @@ void CachePkgStatic::LoadPartRGBA8FromETC2(int w, int h, const void* data, const
 {
 	const uint8_t* pixels = (const uint8_t*)(data);
 	uint8_t* uncompressed = gimg_etc2_decode(pixels, w, h, ETC2PACKAGE_RGBA_NO_MIPMAPS);
+	if (uncompressed == NULL) {
+		ResourceAPI::ErrorReload();
+		return;
+	}
 	LoadPartRGBA8(w, h, uncompressed, node);
 	free(uncompressed);
 }
@@ -471,6 +498,10 @@ uint8_t* CachePkgStatic::BitmapInitBland(int edge)
 {
 	size_t sz = edge * edge * 4;
 	uint8_t* buf = (uint8_t*)malloc(sz);
+	if (buf == NULL) {
+		ResourceAPI::ErrorReload();
+		return NULL;
+	}
 	memset(buf, 0, sz);
 	return buf;
 }
@@ -483,6 +514,10 @@ void CachePkgStatic::LoadTexturePVR4(int tex_id, int w, int h, const void* data)
 	RenderAPI::UpdateTexture(data, w, h, tex_id);
 #else
 	uint8_t* uncompressed = gimg_pvr_decode(static_cast<const uint8_t*>(data), w, h);
+	if (uncompressed == NULL) {
+		ResourceAPI::ErrorReload();
+		return;
+	}
 	gimg_revert_y(uncompressed, w, h, GPF_RGBA);
 	RenderAPI::UpdateTexture(uncompressed, w, h, tex_id);
 	free(uncompressed);
@@ -500,11 +535,19 @@ void CachePkgStatic::LoadTextureETC2(int tex_id, int w, int h, const void* data)
 		RenderAPI::UpdateTexture(data, w, h, tex_id);
 	} else {
 		uint8_t* uncompressed = gimg_etc2_decode(static_cast<const uint8_t*>(data), w, h, ETC2PACKAGE_RGBA_NO_MIPMAPS);
+		if (uncompressed == NULL) {
+			ResourceAPI::ErrorReload();
+			return;
+		}
 		RenderAPI::UpdateTexture(uncompressed, w, h, tex_id);
 		free(uncompressed);
 	}
 #else
 	uint8_t* uncompressed = gimg_etc2_decode(static_cast<const uint8_t*>(data), w, h, ETC2PACKAGE_RGBA_NO_MIPMAPS);
+	if (uncompressed == NULL) {
+		ResourceAPI::ErrorReload();
+		return;
+	}
 	RenderAPI::UpdateTexture(uncompressed, w, h, tex_id);
 	free(uncompressed);
 #endif // __ANDROID__

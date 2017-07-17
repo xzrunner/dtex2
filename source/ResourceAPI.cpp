@@ -10,6 +10,11 @@ void ResourceAPI::InitCallback(const Callback& cb)
 	CB = cb;
 }
 
+void ResourceAPI::ErrorReload()
+{
+	CB.error_reload();
+}
+
 void ResourceAPI::GetTexFilepath(int pkg_id, int tex_idx, int lod_layer, char* res_path)
 {
 	CB.get_tex_filepath(pkg_id, tex_idx, lod_layer, res_path);

@@ -2,6 +2,7 @@
 #include "CachePkgStatic.h"
 #include "DTEX_PkgMgr.h"
 #include "AsyncTask.h"
+#include "ResourceAPI.h"
 
 #include <assert.h>
 
@@ -47,6 +48,10 @@ void* dtex_cache_pkg_static_create(const char* key, int tex_size, int tex_fmt)
 
 	// insert
 	Cache* cache = new CachePkgStatic(tex_size, tex_fmt);
+	if (cache == NULL) {
+		ResourceAPI::ErrorReload();
+		return NULL;
+	}
 	bool succ = mgr->Add(cache, key);
 	assert(succ);
 

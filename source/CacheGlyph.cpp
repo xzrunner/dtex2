@@ -3,6 +3,7 @@
 #include "DebugDraw.h"
 #include "RenderAPI.h"
 #include "DrawTexture.h"
+#include "ResourceAPI.h"
 
 #include <texpack.h>
 
@@ -30,6 +31,10 @@ CacheGlyph::CacheGlyph(int width, int height, const Callback& cb)
 	m_tp     = texpack_create(width, height, MAX_NODE_SIZE);
 
 	InitDirtyRect();
+
+	if (!m_buf || !m_bitmap || !m_tex || !m_tp) {
+		ResourceAPI::ErrorReload();
+	}
 }
 
 CacheGlyph::~CacheGlyph()

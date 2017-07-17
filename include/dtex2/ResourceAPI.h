@@ -13,6 +13,8 @@ class ResourceAPI
 public:
 	struct Callback
 	{
+		void (*error_reload)();
+
 		void (*get_tex_filepath)(int pkg_id, int tex_idx, int lod_layer, char* res_path);
 		void (*load_file)(const void* res_path, bool use_cache, void (*parser_cb)(const void* data, size_t size, void* ud), void* ud);
 
@@ -29,6 +31,8 @@ public:
 	static void InitCallback(const Callback& cb);
 	
 	//////////////////////////////////////////////////////////////////////////
+
+	static void ErrorReload();
 
 	static void GetTexFilepath(int pkg_id, int tex_idx, int lod_layer, char* buf);
 	static void LoadFile(const void* res_path, bool use_cache, void (*parser_cb)(const void* data, size_t size, void* ud), void* ud);

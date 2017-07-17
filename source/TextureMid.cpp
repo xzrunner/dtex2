@@ -2,6 +2,7 @@
 #include "HardRes.h"
 #include "RenderAPI.h"
 #include "DTEX_TextureFormat.h"
+#include "ResourceAPI.h"
 
 #include <fault.h>
 
@@ -34,8 +35,9 @@ TextureMid::~TextureMid()
 int TextureMid::InitPixels(int width, int height)
 {
 	uint32_t* empty_data = new uint32_t[width*height];
-	if (!empty_data) {
-		fault("TextureMid malloc fail.");
+	if (empty_data == NULL) {
+		ResourceAPI::ErrorReload();
+		return -1;
 	}
 
 // 	uint32_t col = 0x66ff0000;

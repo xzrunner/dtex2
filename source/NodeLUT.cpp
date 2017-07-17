@@ -1,4 +1,5 @@
 #include "NodeLUT.h"
+#include "ResourceAPI.h"
 
 #include <logger.h>
 
@@ -20,6 +21,9 @@ NodeLUT::NodeLUT()
 {
 	m_hash_sz_idx = 0;
 	m_hash = new std::vector<Node>[HASH_SZ_TBL[m_hash_sz_idx]];
+	if (m_hash == NULL) {
+		ResourceAPI::ErrorReload();
+	}
 }
 
 NodeLUT::~NodeLUT()
@@ -80,6 +84,9 @@ void NodeLUT::Clear()
 
 	delete[] m_hash;
 	m_hash = new std::vector<Node>[HASH_SZ_TBL[m_hash_sz_idx]];	
+	if (m_hash == NULL) {
+		ResourceAPI::ErrorReload();
+	}
 
 	m_search_length = m_search_times = 0;
 
@@ -95,6 +102,10 @@ void NodeLUT::Rehash() const
 
 	++m_hash_sz_idx;
 	std::vector<Node>* new_hash = new std::vector<Node>[HASH_SZ_TBL[m_hash_sz_idx]];
+	if (new_hash == NULL) {
+		ResourceAPI::ErrorReload();
+		return;
+	}
 	for (int i = 0, n = HASH_SZ_TBL[m_hash_sz_idx - 1]; i < n; ++i) {
 		const std::vector<Node>& list = m_hash[i];
 		for (int j = 0, m = list.size(); j < m; ++j) {
