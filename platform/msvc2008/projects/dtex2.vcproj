@@ -333,10 +333,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\source\DTEX_Statistics.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\include\dtex2\DTEX_Statistics.h"
 				>
 			</File>
