@@ -9,6 +9,7 @@ LOCAL_MODULE := dtex2
 LOCAL_C_INCLUDES  := \
 	${DTEX2_SRC_PATH}/include \
 	${DTEX2_SRC_PATH}/include/dtex2 \
+	${SHADERLAB_SRC_PATH}/include/shaderlab \
 	${PS_SRC_PATH} \
 	${CU_SRC_PATH} \
 	${TASKS_SRC_PATH} \
