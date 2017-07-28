@@ -43,6 +43,7 @@ public:
 
 	// query from cg's tex and insert to c2
 	bool QueryAndInsert(uint64_t key, float* texcoords, int& tex_id) const;
+	bool Exist(uint64_t key) const;
 
 private:
 	void InitDirtyRect();

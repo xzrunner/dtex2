@@ -5,6 +5,8 @@
 #include "DrawTexture.h"
 #include "ResourceAPI.h"
 
+#include "ShaderMgr.h"
+#include "Shader.h"
 #include <texpack.h>
 
 #include <algorithm>
@@ -14,8 +16,8 @@
 namespace dtex
 {
 
-static const int BUF_SZ = 128 * 128;
-static const int MAX_NODE_SIZE = 256;
+static const int BUF_SZ = 256 * 256;
+static const int MAX_NODE_SIZE = 512;
 
 static const int PADDING = 1;
 
@@ -58,7 +60,6 @@ void CacheGlyph::Clear()
 	memset(m_bitmap, 0, sizeof(uint32_t) * m_width * m_height);
 	DrawTexture::ClearAllTex(m_tex);
 	texpack_clear(m_tp);
-
 	m_all_nodes.clear();
 	m_new_nodes.clear();
 
@@ -80,6 +81,12 @@ void CacheGlyph::Load(uint32_t* bitmap, int width, int height, uint64_t key)
 	if (!pos) 
 	{
 		Flush();
+
+		sl::Shader* shader = sl::ShaderMgr::Instance()->GetShader();
+		if (shader) {
+			shader->Commit();
+		}
+
 		Clear();
 		pos = texpack_add(m_tp, width + PADDING * 2, height + PADDING * 2, false);
 		if (!pos) {
@@ -108,6 +115,7 @@ void CacheGlyph::Load(uint32_t* bitmap, int width, int height, uint64_t key)
 	UpdateDirtyRect(pos);
 }
 
+
 void CacheGlyph::Flush()
 {
 	if (m_new_nodes.empty()) {
@@ -123,8 +131,15 @@ void CacheGlyph::Flush()
 	}
 	m_new_nodes.clear();
 	m_cb.load_finish();
-
 	InitDirtyRect();
+}
+
+bool CacheGlyph::Exist(uint64_t key) const {
+	std::set<Node>::const_iterator itr = m_all_nodes.find(key);
+	if (itr == m_all_nodes.end()) {
+		return false;
+	}
+	return true;
 }
 
 bool CacheGlyph::QueryAndInsert(uint64_t key, float* texcoords, int& tex_id) const
