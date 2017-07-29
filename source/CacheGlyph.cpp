@@ -14,8 +14,8 @@
 namespace dtex
 {
 
-static const int BUF_SZ = 128 * 128;
-static const int MAX_NODE_SIZE = 256;
+static const int BUF_SZ = 256 * 256;
+static const int MAX_NODE_SIZE = 512;
 
 static const int PADDING = 1;
 
@@ -79,8 +79,8 @@ void CacheGlyph::Load(uint32_t* bitmap, int width, int height, uint64_t key)
 	texpack_pos* pos = texpack_add(m_tp, width + PADDING * 2, height + PADDING * 2, false);
 	if (!pos) 
 	{
-		RenderAPI::Flush();
 		Flush();
+		RenderAPI::Flush();
 		Clear();
 		pos = texpack_add(m_tp, width + PADDING * 2, height + PADDING * 2, false);
 		if (!pos) {
