@@ -43,7 +43,8 @@ public:
 
 	// query from cg's tex and insert to c2
 	bool QueryAndInsert(uint64_t key, float* texcoords, int& tex_id) const;
-
+	bool Exist(uint64_t key) const { return m_all_nodes.find(key) != m_all_nodes.end(); }
+	
 private:
 	void InitDirtyRect();
 	void UpdateDirtyRect(const texpack_pos* pos);
