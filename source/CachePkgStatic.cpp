@@ -236,11 +236,9 @@ void CachePkgStatic::CreateTexturesID()
 			fmt = TEXTURE_PVR4;
 			break;
 		case TEXTURE_ETC2:
-#ifdef __ANDROID__
+#if defined( __APPLE__ ) && !defined(__MACOSX)
 			fmt = TEXTURE_ETC2;
-#elif defined( __APPLE__ ) && !defined(__MACOSX)
-			fmt = TEXTURE_ETC2;
-#elif defined _WIN32
+#elif defined _WIN32 || defined __ANDROID__
 		if (RenderAPI::IsSupportETC2()) {
 			fmt = TEXTURE_ETC2;
 		} else {
@@ -541,11 +539,9 @@ void CachePkgStatic::LoadTexturePVR4(int tex_id, int w, int h, const void* data)
 
 void CachePkgStatic::LoadTextureETC2(int tex_id, int w, int h, const void* data)
 {
-#ifdef __ANDROID__
+#if defined( __APPLE__ ) && !defined(__MACOSX)
 	RenderAPI::UpdateTexture(data, w, h, tex_id);
-#elif defined( __APPLE__ ) && !defined(__MACOSX)
-	RenderAPI::UpdateTexture(data, w, h, tex_id);
-#elif defined _WIN32
+#elif defined _WIN32 || defined __ANDROID__
 	if (RenderAPI::IsSupportETC2()) {
 		RenderAPI::UpdateTexture(data, w, h, tex_id);
 	} else {
