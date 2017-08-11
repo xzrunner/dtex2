@@ -236,17 +236,11 @@ void CachePkgStatic::CreateTexturesID()
 			fmt = TEXTURE_PVR4;
 			break;
 		case TEXTURE_ETC2:
-#if defined( __APPLE__ ) && !defined(__MACOSX)
-			fmt = TEXTURE_ETC2;
-#elif defined _WIN32 || defined __ANDROID__
-		if (RenderAPI::IsSupportETC2()) {
-			fmt = TEXTURE_ETC2;
-		} else {
-			fmt = TEXTURE_RGBA8;
-		}
-#else
-			fmt = TEXTURE_RGBA8;
-#endif // __ANDROID__		
+			if (RenderAPI::IsSupportETC2()) {
+				fmt = TEXTURE_ETC2;
+			} else {
+				fmt = TEXTURE_RGBA8;
+			}
 			break;
 		case TEXTURE_RGBA8:
 			fmt = TEXTURE_RGBA8;
@@ -539,9 +533,6 @@ void CachePkgStatic::LoadTexturePVR4(int tex_id, int w, int h, const void* data)
 
 void CachePkgStatic::LoadTextureETC2(int tex_id, int w, int h, const void* data)
 {
-#if defined( __APPLE__ ) && !defined(__MACOSX)
-	RenderAPI::UpdateTexture(data, w, h, tex_id);
-#elif defined _WIN32 || defined __ANDROID__
 	if (RenderAPI::IsSupportETC2()) {
 		RenderAPI::UpdateTexture(data, w, h, tex_id);
 	} else {
@@ -553,15 +544,6 @@ void CachePkgStatic::LoadTextureETC2(int tex_id, int w, int h, const void* data)
 		RenderAPI::UpdateTexture(uncompressed, w, h, tex_id);
 		free(uncompressed);
 	}
-#else
-	uint8_t* uncompressed = gimg_etc2_decode(static_cast<const uint8_t*>(data), w, h, ETC2PACKAGE_RGBA_NO_MIPMAPS);
-	if (uncompressed == NULL) {
-		ResourceAPI::ErrorReload();
-		return;
-	}
-	RenderAPI::UpdateTexture(uncompressed, w, h, tex_id);
-	free(uncompressed);
-#endif // __ANDROID__
 }
 
 bool CachePkgStatic::NodeTexCmp::operator () (const CP_Node* n0, const CP_Node* n1) const 
