@@ -1,8 +1,8 @@
 #include "CacheMgr.h"
 #include "CachePkgStatic.h"
 #include "DTEX_PkgMgr.h"
-#include "AsyncTask.h"
 #include "ResourceAPI.h"
+#include "LoadResTask.h"
 
 #include <assert.h>
 
@@ -18,7 +18,7 @@ void* dtex_query_cache(const char* key)
 extern "C"
 bool dtex_loading_task_empty()
 {
-	return AsyncTask::Instance()->IsEmpty();
+	return LoadResTask::IsTaskEmpty();
 }
 
 extern "C"

@@ -8,7 +8,7 @@
 #include "RenderAPI.h"
 #include "DebugDraw.h"
 #include "CacheAPI.h"
-#include "AsyncTask.h"
+#include "LoadResTask.h"
 
 #include <logger.h>
 #include <gimg_pvr.h>
@@ -16,6 +16,7 @@
 #include <gimg_import.h>
 #include <gimg_typedef.h>
 #include <unirender/UR_RenderContext.h>
+#include <multitask/ThreadPool.h>
 
 #include <algorithm>
 
@@ -201,9 +202,9 @@ void CachePkgStatic::LoadTexAndRelocateNodes(bool async)
 		for (int i = 0, n = nodes.size(); i < n; ++i) {
 			CP_Node* node = nodes[i];
 
-			static char BUF[512];
-			ResourceAPI::GetTexFilepath(node->GetSrcPkg()->GetID(), node->GetSrcTexIdx(), node->GetSrcLod(), BUF);
-			AsyncTask::Instance()->Load(BUF, LoadTextureCB, NULL, node);
+			LoadResTask* task = new LoadResTask(LoadTextureCB, node);
+			ResourceAPI::GetTexFilepath(node->GetSrcPkg()->GetID(), node->GetSrcTexIdx(), node->GetSrcLod(), task->GetResPath());
+			mt::ThreadPool::Instance()->AddTask(task);
 		}
 	}
 	else

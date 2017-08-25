@@ -20,9 +20,9 @@ void ResourceAPI::GetTexFilepath(int pkg_id, int tex_idx, int lod_layer, char* r
 	CB.get_tex_filepath(pkg_id, tex_idx, lod_layer, res_path);
 }
 
-void ResourceAPI::LoadFile(const void* res_path, bool use_cache, void (*parser_cb)(const void* data, size_t size, void* ud), void* ud)
+void ResourceAPI::LoadFile(const void* res_path, bool use_cache, void (*load_cb)(const void* data, size_t size, void* ud), void* ud)
 {
-	CB.load_file(res_path, use_cache, parser_cb, ud);
+	CB.load_file(res_path, use_cache, load_cb, ud);
 }
 
 void ResourceAPI::LoadTexture(int pkg_id, int tex_idx, int lod)
