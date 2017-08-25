@@ -1,6 +1,8 @@
 #include "LoadResTask.h"
 #include "ResourceAPI.h"
 
+#include <stdlib.h>
+
 namespace dtex
 {
 
