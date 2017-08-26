@@ -3,6 +3,8 @@
 
 #include <string>
 
+namespace mt { class Task; }
+
 namespace dtex
 {
 
@@ -24,6 +26,8 @@ public:
 
 		void (*cache_pkg_static_tex_ok)();
 
+		void (*submit_task)(mt::Task* task);
+
 		void (*stat_tex_add)(int width, int height, int format);
 		void (*stat_tex_remove)(int width, int height, int format);
 	};
@@ -42,6 +46,8 @@ public:
 	static void LoadTexture(const void* data, size_t size, void (*cb)(int format, int w, int h, const void* data, void* ud), void* ud);
 
 	static void CachePkgStaticTexOk();
+
+	static void SubmitTask(mt::Task* task);
 
 	static void StatTexAdd(int width, int height, int format);
 	static void StatTexRemove(int width, int height, int format);

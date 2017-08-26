@@ -8,6 +8,7 @@ class Facade
 {
 public:
 	static void Clear();
+	static void Flush();
 
 }; // Facade
 

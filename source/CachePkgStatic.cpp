@@ -202,9 +202,9 @@ void CachePkgStatic::LoadTexAndRelocateNodes(bool async)
 		for (int i = 0, n = nodes.size(); i < n; ++i) {
 			CP_Node* node = nodes[i];
 
-			LoadResTask* task = new LoadResTask(LoadTextureCB, node);
+			LoadResTask* task = LoadResTaskMgr::Instance()->Fetch(LoadTextureCB, node);
 			ResourceAPI::GetTexFilepath(node->GetSrcPkg()->GetID(), node->GetSrcTexIdx(), node->GetSrcLod(), task->GetResPath());
-			mt::ThreadPool::Instance()->AddTask(task);
+			ResourceAPI::SubmitTask(task);
 		}
 	}
 	else

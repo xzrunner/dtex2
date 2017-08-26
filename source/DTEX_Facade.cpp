@@ -3,6 +3,7 @@
 #include "DrawTexture.h"
 #include "DTEX_PkgMgr.h"
 #include "ResCache.h"
+#include "LoadResTask.h"
 
 namespace dtex
 {
@@ -13,6 +14,11 @@ void Facade::Clear()
 	DrawTexture::Instance()->Clear();
 	PkgMgr::Instance()->Clear();
 	ResCache::Instance()->Clear();
+}
+
+void Facade::Flush()
+{
+	LoadResTaskMgr::Instance()->Flush();
 }
 
 }

@@ -18,7 +18,7 @@ void* dtex_query_cache(const char* key)
 extern "C"
 bool dtex_loading_task_empty()
 {
-	return LoadResTask::IsTaskEmpty();
+	return LoadResTaskMgr::Instance()->IsEmpty();
 }
 
 extern "C"

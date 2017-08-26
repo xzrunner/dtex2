@@ -45,6 +45,11 @@ void ResourceAPI::CachePkgStaticTexOk()
 	CB.cache_pkg_static_tex_ok();
 }
 
+void ResourceAPI::SubmitTask(mt::Task* task)
+{
+	CB.submit_task(task);
+}
+
 void ResourceAPI::StatTexAdd(int width, int height, int format)
 {
 	CB.stat_tex_add(width, height, format);

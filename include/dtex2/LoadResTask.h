@@ -1,6 +1,7 @@
 #ifndef _DTEX_LOAD_RES_TASK_H_
 #define _DTEX_LOAD_RES_TASK_H_
 
+#include <CU_Singleton.h>
 #include <multitask/Task.h>
 
 namespace dtex
@@ -13,13 +14,15 @@ public:
 	virtual ~LoadResTask();
 
 	virtual void Run();
-	virtual bool Finish();
+
+	void Flush();
 
 	void OnLoad(const void* data, size_t size);
 
 	char* GetResPath() { return m_res_path; }
 
-	static bool IsTaskEmpty() { return m_count == 0; }
+	void Init(void (*finish_cb)(const void* data, size_t size, void* ud), void* ud);
+	void Release();
 
 private:
 	static const unsigned int TASK_TYPE = 3;
@@ -33,9 +36,29 @@ private:
 	void (*m_on_finish)(const void* data, size_t size, void* ud);
 	void* m_ud;
 
-	static int m_count;
-
 }; // LoadResTask
+
+class LoadResTaskMgr
+{
+public:
+	LoadResTask* Fetch(void (*finish_cb)(const void* data, size_t size, void* ud), void* ud);
+
+	void AddResult(LoadResTask* task);
+
+	bool IsEmpty() { return m_count == 0; }
+	void AddCount() { ++m_count; }
+
+	void Flush();
+
+private:
+	int m_count;
+
+	mt::TaskQueue m_freelist;
+	mt::SafeTaskQueue m_result;
+
+	SINGLETON_DECLARATION(LoadResTaskMgr)
+
+}; // LoadResTaskMgr
 
 }
 
