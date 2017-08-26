@@ -46,7 +46,6 @@ public:
 	void AddResult(LoadResTask* task);
 
 	bool IsEmpty() { return m_count == 0; }
-	void AddCount() { ++m_count; }
 
 	void Flush();
 

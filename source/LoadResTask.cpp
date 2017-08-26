@@ -90,6 +90,7 @@ LoadResTaskMgr::LoadResTaskMgr()
 
 LoadResTask* LoadResTaskMgr::Fetch(void (*finish_cb)(const void* data, size_t size, void* ud), void* ud)
 {
+	++m_count;
 	mt::Task* t = m_freelist.Front();
 	LoadResTask* tt = static_cast<LoadResTask*>(t);	
 	if (!tt) {
@@ -114,6 +115,7 @@ void LoadResTaskMgr::Flush()
 		tt->Flush();
 		tt->Release();
 		m_freelist.Push(t);
+		--m_count;
 	}
 }
 
