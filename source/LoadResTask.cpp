@@ -112,6 +112,7 @@ void LoadResTaskMgr::Flush()
 	{
 		LoadResTask* tt = static_cast<LoadResTask*>(t);
 		tt->Flush();
+		tt->Release();
 		m_freelist.Push(t);
 	}
 }
