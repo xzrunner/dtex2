@@ -37,9 +37,9 @@ on_load(const void* data, size_t size, void* ud)
 
 void LoadResTask::Run()
 {
-	LoadResTaskMgr::Instance()->AddResult(this);
-
 	ResourceAPI::LoadFile(m_res_path, false, on_load, this);
+
+	LoadResTaskMgr::Instance()->AddResult(this);
 }
 
 void LoadResTask::Flush()
