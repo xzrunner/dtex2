@@ -13,8 +13,7 @@ namespace dtex
 /************************************************************************/
 
 LoadResTask::LoadResTask(void (*finish_cb)(const void* data, size_t size, void* ud), void* ud)
-	: mt::Task(TASK_TYPE)
-	, m_on_finish(finish_cb)
+	: m_on_finish(finish_cb)
 	, m_ud(ud)
 {
 	memset(m_res_path, 0, sizeof(m_res_path));
