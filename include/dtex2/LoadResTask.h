@@ -25,6 +25,9 @@ public:
 	void Release();
 
 private:
+	static const unsigned int TASK_TYPE = 3;
+
+private:
 	char m_res_path[512];
 
 	void*  m_data;
