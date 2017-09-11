@@ -20,6 +20,8 @@ LOCAL_C_INCLUDES  := \
 LOCAL_SRC_FILES := \
 	$(subst $(LOCAL_PATH)/,,$(shell find $(LOCAL_PATH)/source/ -name "*.cpp" -print)) \
 
+LOCAL_CPPFLAGS  := -std=c++11
+
 LOCAL_STATIC_LIBRARIES := \
 	multitask \
 
