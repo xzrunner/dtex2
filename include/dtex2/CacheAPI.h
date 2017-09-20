@@ -13,7 +13,7 @@ public:
 		void (*relocate_pkg_finish)();
 		void (*remove_tex)(int tex_id);
 
-		void (*on_clear_sym_block)();
+		void (*on_clear_sym_block)(int block_id);
 	};
 
 	static void InitCallback(const Callback& cb);
@@ -24,7 +24,7 @@ public:
 	static void RelocatePkgFinish();
 	static void RemoveTex(int tex_id);
 
-	static void OnClearSymBlock();
+	static void OnClearSymBlock(int block_id);
 
 }; // CacheAPI
 

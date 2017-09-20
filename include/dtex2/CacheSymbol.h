@@ -36,7 +36,7 @@ public:
 		int padding = 0, int extrude = 0, int src_extrude = 0);
 	void LoadFinish();
 
-	const CS_Node* Query(uint64_t key) const;
+	const CS_Node* Query(uint64_t key, int& block_id) const;
 
 	int GetTexID() const;
 
@@ -144,7 +144,7 @@ private:
 	}; // DrawTask
 
 private:
-	bool InsertNode(const Prenode& node, std::list<DrawTask>& drawlist, std::list<Block*>& clearlist, bool& block_clear);
+	bool InsertNode(const Prenode& node, std::list<DrawTask>& drawlist, std::list<Block*>& clearlist);
 
 private:
 	int m_loadable;

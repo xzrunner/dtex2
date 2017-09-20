@@ -68,7 +68,8 @@ void CacheSymbol::Clear()
 		m_blocks[i]->Clear();
 	}
 
-	CacheAPI::OnClearSymBlock();
+	// -1 for all
+	CacheAPI::OnClearSymBlock(-1);
 
 	m_prenodes.clear();
 	m_nodes.clear();
@@ -96,7 +97,8 @@ void CacheSymbol::Load(int tex_id, int tex_w, int tex_h, const Rect& r, uint64_t
 		return;
 	}
 
-	if (Query(key)) {
+	int block_id;
+	if (Query(key, block_id)) {
 		return;
 	}
 
@@ -119,13 +121,10 @@ void CacheSymbol::LoadFinish()
 	std::list<Prenode>::iterator itr_prenode = m_prenodes.begin();
 	for (int i = 0; itr_prenode != m_prenodes.end(); ++itr_prenode, ++i) {
 		bool clear = false;
-		InsertNode(*itr_prenode, drawlist, clearlist, clear);
+		InsertNode(*itr_prenode, drawlist, clearlist);
 		if (clear) {
 			block_clear = true;
 		}
-	}
-	if (block_clear) {
-		CacheAPI::OnClearSymBlock();
 	}
 
 	// draw clear
@@ -149,16 +148,18 @@ void CacheSymbol::LoadFinish()
 	m_prenodes.clear();
 }
 
-const CS_Node* CacheSymbol::Query(uint64_t key) const
+const CS_Node* CacheSymbol::Query(uint64_t key, int& block_id) const
 {
 	for (int i = 0, n = BLOCK_X_SZ * BLOCK_Y_SZ; i < n; ++i) 
 	{
 		int idx = m_blocks[i]->Query(key);
 		if (idx != -1) {
+			block_id = i;
 			assert(idx >= 0 && idx < m_nodes.size());
 			return &m_nodes[idx];
 		}
 	}
+	block_id = -1;
 	return NULL;
 }
 
@@ -171,6 +172,7 @@ void CacheSymbol::ClearBlockData()
 {
 	Block* b = m_blocks[m_clear_block_idx];
 	b->Clear();
+	CacheAPI::OnClearSymBlock(m_clear_block_idx);
 
 	++m_clear_block_idx;
 	if (m_clear_block_idx >= BLOCK_X_SZ * BLOCK_Y_SZ) {
@@ -191,7 +193,7 @@ void CacheSymbol::ClearBlockTex(const Block* b)
 	DrawTexture::Instance()->ClearTex(m_tex, xmin, ymin, xmax, ymax);
 }
 
-bool CacheSymbol::InsertNode(const Prenode& prenode, std::list<DrawTask>& drawlist, std::list<Block*>& clearlist, bool& block_clear)
+bool CacheSymbol::InsertNode(const Prenode& prenode, std::list<DrawTask>& drawlist, std::list<Block*>& clearlist)
 {
 	int extend = prenode.Padding() + prenode.Extrude();
 
@@ -209,7 +211,6 @@ bool CacheSymbol::InsertNode(const Prenode& prenode, std::list<DrawTask>& drawli
 	{
 		Block* cleared = m_blocks[m_clear_block_idx];
 		ClearBlockData();
-		block_clear = true;
 
 		clearlist.push_back(cleared);
 		// update drawlist
