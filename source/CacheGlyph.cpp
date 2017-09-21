@@ -70,9 +70,7 @@ void CacheGlyph::Load(uint32_t* bitmap, int width, int height, uint64_t key)
 	if (!bitmap) {
 		return;
 	}
-
-	std::set<Node>::iterator itr = m_all_nodes.find(key);
-	if (itr != m_all_nodes.end()) {
+	if (Exist(key)) {
 		return;
 	}
 
@@ -88,7 +86,12 @@ void CacheGlyph::Load(uint32_t* bitmap, int width, int height, uint64_t key)
 		}
 	}
 
-	Node node(key, pos);
+	Rect r;
+	r.xmin = pos->r.xmin + PADDING;
+	r.ymin = pos->r.ymin + PADDING;
+	r.xmax = pos->r.xmax - PADDING;
+	r.ymax = pos->r.ymax - PADDING;
+	auto node = std::make_pair(key, r);
 	m_all_nodes.insert(node);
 	m_new_nodes.push_back(node);
 
@@ -119,8 +122,8 @@ void CacheGlyph::Flush()
 
 	m_cb.load_start();
 	for (int i = 0, n = m_new_nodes.size(); i < n; ++i) {
-		const Node& node = m_new_nodes[i];
-		m_cb.load(m_tex->GetID(), m_tex->GetWidth(), m_tex->GetHeight(), node.GetRect(), node.Key());
+		m_cb.load(m_tex->GetID(), m_tex->GetWidth(), m_tex->GetHeight(), 
+			m_new_nodes[i].second, m_new_nodes[i].first);
 	}
 	m_new_nodes.clear();
 	m_cb.load_finish();
@@ -130,7 +133,7 @@ void CacheGlyph::Flush()
 
 bool CacheGlyph::QueryAndInsert(uint64_t key, float* texcoords, int& tex_id) const
 {
-	std::set<Node>::const_iterator itr = m_all_nodes.find(key);
+	std::unordered_map<uint64_t, Rect>::const_iterator itr = m_all_nodes.find(key);
 	if (itr == m_all_nodes.end()) {
 		return false;
 	}
@@ -139,7 +142,7 @@ bool CacheGlyph::QueryAndInsert(uint64_t key, float* texcoords, int& tex_id) con
 
 	tex_id = m_tex->GetID();
 
-	const Rect& r = itr->GetRect();
+	const Rect& r = itr->second;
 	float xmin = r.xmin / static_cast<float>(m_width),
 		  ymin = r.ymin / static_cast<float>(m_height),
 		  xmax = r.xmax / static_cast<float>(m_width),
@@ -196,26 +199,6 @@ void CacheGlyph::UpdateTexture()
 		dst += w;
 	}
 	RenderAPI::UpdateSubTex(m_buf, x, y, w, h, m_tex->GetID());
-}
-
-/************************************************************************/
-/* class CacheGlyph::Node                                               */
-/************************************************************************/
-
-CacheGlyph::Node::
-Node(uint64_t key)
-	: m_key(key)
-{
-}
-
-CacheGlyph::Node::
-Node(uint64_t key, texpack_pos* pos) 
-	: m_key(key)
-{
-	m_rect.xmin = pos->r.xmin + PADDING;
-	m_rect.ymin = pos->r.ymin + PADDING;
-	m_rect.xmax = pos->r.xmax - PADDING;
-	m_rect.ymax = pos->r.ymax - PADDING;
 }
 
 }

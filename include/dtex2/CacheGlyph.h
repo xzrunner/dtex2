@@ -7,8 +7,8 @@
 
 #include <CU_Uncopyable.h>
 
-#include <set>
 #include <vector>
+#include <unordered_map>
 
 #include <stdint.h>
 
@@ -52,23 +52,6 @@ private:
 	void UpdateTexture();
 
 private:
-	class Node
-	{
-	public:
-		Node(uint64_t key);
-		Node(uint64_t key, texpack_pos* pos);
-
-		bool operator < (const Node& node) const { return m_key < node.m_key; }
-
-		uint64_t Key() const { return m_key; }
-		const Rect& GetRect() const { return m_rect; }
-
-	private:
-		uint64_t m_key;
-		Rect m_rect;
-	}; // Node
-
-private:
 	int m_width, m_height;
 	Callback m_cb;
 
@@ -78,8 +61,8 @@ private:
 	Texture*  m_tex;
 	texpack*  m_tp;
 
-	std::set<Node> m_all_nodes;
-	mutable std::vector<Node> m_new_nodes;
+	std::unordered_map<uint64_t, Rect> m_all_nodes;
+	mutable std::vector<std::pair<uint64_t, Rect>> m_new_nodes;
 
 	Rect m_dirty_rect;
 
