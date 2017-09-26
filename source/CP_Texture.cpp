@@ -72,8 +72,8 @@ bool CP_Texture::PackPrenode(const CP_Prenode& prenode, float scale, Cache* cach
 	int tex_idx = prenode.GetTexIdx();
 
 	const Texture* tex = pkg->GetTexture(tex_idx);
-	int w = tex->GetWidth() * prenode.GetScale() * scale,
-		h = tex->GetHeight() * prenode.GetScale() * scale;
+	int w = static_cast<int>(tex->GetWidth() * prenode.GetScale() * scale),
+		h = static_cast<int>(tex->GetHeight() * prenode.GetScale() * scale);
 	switch (prenode.GetLod())
 	{
 	case 1:

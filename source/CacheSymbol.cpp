@@ -155,7 +155,7 @@ const CS_Node* CacheSymbol::Query(uint64_t key, int& block_id) const
 		int idx = m_blocks[i]->Query(key);
 		if (idx != -1) {
 			block_id = i;
-			assert(idx >= 0 && idx < m_nodes.size());
+			assert(idx >= 0 && static_cast<size_t>(idx) < m_nodes.size());
 			return &m_nodes[idx];
 		}
 	}
@@ -182,8 +182,8 @@ void CacheSymbol::ClearBlockData()
 
 void CacheSymbol::ClearBlockTex(const Block* b)
 {
-	float offx = b->OffX(),
-		  offy = b->OffY();
+	float offx = static_cast<float>(b->OffX()),
+		  offy = static_cast<float>(b->OffY());
 	int tex_w = m_tex->GetWidth(),
 		tex_h = m_tex->GetHeight();
 	float xmin = offx / tex_w,

@@ -20,7 +20,7 @@ Package::~Package()
 
 Texture* Package::GetTexture(int idx) const
 {
-	if (idx < 0 || idx >= m_textures.size()) {
+	if (idx < 0 || static_cast<size_t>(idx) >= m_textures.size()) {
 		return NULL;
 	}
 

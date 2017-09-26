@@ -63,10 +63,10 @@ void DrawTexture::ClearTex(Texture* tex, float xmin, float ymin, float xmax, flo
 	int w = m_curr->GetWidth(),
 		h = m_curr->GetHeight();
 	RenderAPI::ScissorPush(
-		w * xmin, 
-		h * ymin, 
-		w * (xmax - xmin), 
-		h * (ymax - ymin));
+		static_cast<int>(w * xmin),
+		static_cast<int>(h * ymin),
+		static_cast<int>(w * (xmax - xmin)),
+		static_cast<int>(h * (ymax - ymin)));
 	RenderAPI::ClearColor(0, 0, 0, 0);
 	RenderAPI::ScissorPop();
 }

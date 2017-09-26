@@ -137,8 +137,8 @@ void CachePkgStatic::PackPrenodes()
 		int tex_idx = prenode.GetTexIdx();
 
 		const Texture* tex = pkg->GetTexture(tex_idx);
-		int w = tex->GetWidth() * prenode.GetScale() * SCALE,
-			h = tex->GetHeight() * prenode.GetScale() * SCALE;
+		int w = static_cast<int>(tex->GetWidth() * prenode.GetScale() * SCALE),
+			h = static_cast<int>(tex->GetHeight() * prenode.GetScale() * SCALE);
 		switch (prenode.GetLod())
 		{
 		case 1:
