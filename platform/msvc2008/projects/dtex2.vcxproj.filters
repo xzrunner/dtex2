@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="dataset">
+      <UniqueIdentifier>{f2565f6c-9678-4c54-933d-13a43b762282}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dataset\texture">
+      <UniqueIdentifier>{14e786cf-64eb-44cd-8aae-8f6b18c593ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cache">
+      <UniqueIdentifier>{37898ad3-52c2-4647-a3bb-ddf6f8d2fddd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cache\package">
+      <UniqueIdentifier>{eea88778-75d0-49f2-82e4-df641f370ba5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cache\symbol">
+      <UniqueIdentifier>{62276a8a-2657-4a06-9a1d-05299df24120}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cache\glyph">
+      <UniqueIdentifier>{51a69b2b-e15a-422d-a879-f63ef55901b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="render">
+      <UniqueIdentifier>{125b7952-9c5e-4934-8b87-e90e1b0c3ce2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{e5256d33-de34-4379-bd26-a24363ad96f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource\package">
+      <UniqueIdentifier>{61a0917f-41fb-46a4-a536-1eb29b5cea7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utility">
+      <UniqueIdentifier>{0472e444-9219-465f-8425-d1f73ad768eb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\Target.cpp">
+      <Filter>dataset</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\DTEX_Texture.cpp">
+      <Filter>dataset\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\TextureMid.cpp">
+      <Filter>dataset\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\TextureRaw.cpp">
+      <Filter>dataset\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\CacheAPI.cpp">
+      <Filter>cache</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\CacheMgr.cpp">
+      <Filter>cache</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\CachePkgStatic.cpp">
+      <Filter>cache\package</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\CP_Node.cpp">
+      <Filter>cache\package</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\CP_Prenode.cpp">
+      <Filter>cache\package</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\CP_Texture.cpp">
+      <Filter>cache\package</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\CacheSymbol.cpp">
+      <Filter>cache\symbol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\CS_Node.cpp">
+      <Filter>cache\symbol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\NodeLUT.cpp">
+      <Filter>cache\symbol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\CacheGlyph.cpp">
+      <Filter>cache\glyph</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\DebugDraw.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\DrawTexture.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\RenderAPI.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\HardRes.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\LoadResTask.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\ResCache.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\ResourceAPI.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\DTEX_Package.cpp">
+      <Filter>resource\package</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\DTEX_PkgMgr.cpp">
+      <Filter>resource\package</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\c_wrap_dtex.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\dtex2\Target.h">
+      <Filter>dataset</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\DTEX_Texture.h">
+      <Filter>dataset\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\TextureMid.h">
+      <Filter>dataset\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\TextureRaw.h">
+      <Filter>dataset\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\TextureType.h">
+      <Filter>dataset\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\Cache.h">
+      <Filter>cache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\CacheAPI.h">
+      <Filter>cache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\CacheMgr.h">
+      <Filter>cache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\CacheType.h">
+      <Filter>cache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\CachePkgStatic.h">
+      <Filter>cache\package</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\CP_Node.h">
+      <Filter>cache\package</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\CP_Prenode.h">
+      <Filter>cache\package</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\CP_Texture.h">
+      <Filter>cache\package</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\CacheSymbol.h">
+      <Filter>cache\symbol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\CS_Node.h">
+      <Filter>cache\symbol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\NodeLUT.h">
+      <Filter>cache\symbol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\CacheGlyph.h">
+      <Filter>cache\glyph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\DebugDraw.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\DrawTexture.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\RenderAPI.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\DTEX_Statistics.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\HardRes.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\LoadResTask.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\ResCache.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\ResourceAPI.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\DTEX_Package.h">
+      <Filter>resource\package</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\DTEX_PkgMgr.h">
+      <Filter>resource\package</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\DTEX_Math.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\DTEX_TextureFormat.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\c_wrap_dtex.h" />
+  </ItemGroup>
+</Project>

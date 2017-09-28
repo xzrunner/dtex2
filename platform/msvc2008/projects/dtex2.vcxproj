@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>1.dtex2</ProjectName>
+    <ProjectGuid>{A502C49C-7014-4D77-8BD9-B3F917AD34B0}</ProjectGuid>
+    <RootNamespace>dtex2</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>15.0.26730.12</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\dtex2\x86\Debug\</OutDir>
+    <IntDir>..\dtex2\x86\Debug\obj\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\dtex2\x86\Release\</OutDir>
+    <IntDir>..\dtex2\x86\Release\obj\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\include\dtex2;..\..\..\..\cu\src\cu;..\..\..\..\logger\src\logger;..\..\..\..\fs\src\fs;..\..\..\..\texpack\src\texpack;..\..\..\..\gimg\src\gimg;..\..\..\..\unirender\include;..\..\..\..\multitask\include;..\..\..\..\editor-external\c99;..\..\..\..\editor-external\pthread\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;EASY_EDITOR;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\..\..\include\dtex2;..\..\..\..\cu\src\cu;..\..\..\..\logger\src\logger;..\..\..\..\fs\src\fs;..\..\..\..\texpack\src\texpack;..\..\..\..\gimg\src\gimg;..\..\..\..\unirender\include;..\..\..\..\multitask\include;..\..\..\..\editor-external\c99;..\..\..\..\editor-external\pthread\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;EASY_EDITOR;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\CacheAPI.cpp" />
+    <ClCompile Include="..\..\..\source\CacheGlyph.cpp" />
+    <ClCompile Include="..\..\..\source\CacheMgr.cpp" />
+    <ClCompile Include="..\..\..\source\CachePkgStatic.cpp" />
+    <ClCompile Include="..\..\..\source\CacheSymbol.cpp" />
+    <ClCompile Include="..\..\..\source\CP_Node.cpp" />
+    <ClCompile Include="..\..\..\source\CP_Prenode.cpp" />
+    <ClCompile Include="..\..\..\source\CP_Texture.cpp" />
+    <ClCompile Include="..\..\..\source\CS_Node.cpp" />
+    <ClCompile Include="..\..\..\source\c_wrap_dtex.cpp" />
+    <ClCompile Include="..\..\..\source\DebugDraw.cpp" />
+    <ClCompile Include="..\..\..\source\DrawTexture.cpp" />
+    <ClCompile Include="..\..\..\source\DTEX_Package.cpp" />
+    <ClCompile Include="..\..\..\source\DTEX_PkgMgr.cpp" />
+    <ClCompile Include="..\..\..\source\DTEX_Texture.cpp" />
+    <ClCompile Include="..\..\..\source\HardRes.cpp" />
+    <ClCompile Include="..\..\..\source\LoadResTask.cpp" />
+    <ClCompile Include="..\..\..\source\NodeLUT.cpp" />
+    <ClCompile Include="..\..\..\source\RenderAPI.cpp" />
+    <ClCompile Include="..\..\..\source\ResCache.cpp" />
+    <ClCompile Include="..\..\..\source\ResourceAPI.cpp" />
+    <ClCompile Include="..\..\..\source\Target.cpp" />
+    <ClCompile Include="..\..\..\source\TextureMid.cpp" />
+    <ClCompile Include="..\..\..\source\TextureRaw.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\c_wrap_dtex.h" />
+    <ClInclude Include="..\..\..\include\dtex2\Cache.h" />
+    <ClInclude Include="..\..\..\include\dtex2\CacheAPI.h" />
+    <ClInclude Include="..\..\..\include\dtex2\CacheGlyph.h" />
+    <ClInclude Include="..\..\..\include\dtex2\CacheMgr.h" />
+    <ClInclude Include="..\..\..\include\dtex2\CachePkgStatic.h" />
+    <ClInclude Include="..\..\..\include\dtex2\CacheSymbol.h" />
+    <ClInclude Include="..\..\..\include\dtex2\CacheType.h" />
+    <ClInclude Include="..\..\..\include\dtex2\CP_Node.h" />
+    <ClInclude Include="..\..\..\include\dtex2\CP_Prenode.h" />
+    <ClInclude Include="..\..\..\include\dtex2\CP_Texture.h" />
+    <ClInclude Include="..\..\..\include\dtex2\CS_Node.h" />
+    <ClInclude Include="..\..\..\include\dtex2\DebugDraw.h" />
+    <ClInclude Include="..\..\..\include\dtex2\DrawTexture.h" />
+    <ClInclude Include="..\..\..\include\dtex2\DTEX_Math.h" />
+    <ClInclude Include="..\..\..\include\dtex2\DTEX_Package.h" />
+    <ClInclude Include="..\..\..\include\dtex2\DTEX_PkgMgr.h" />
+    <ClInclude Include="..\..\..\include\dtex2\DTEX_Statistics.h" />
+    <ClInclude Include="..\..\..\include\dtex2\DTEX_Texture.h" />
+    <ClInclude Include="..\..\..\include\dtex2\DTEX_TextureFormat.h" />
+    <ClInclude Include="..\..\..\include\dtex2\HardRes.h" />
+    <ClInclude Include="..\..\..\include\dtex2\LoadResTask.h" />
+    <ClInclude Include="..\..\..\include\dtex2\NodeLUT.h" />
+    <ClInclude Include="..\..\..\include\dtex2\RenderAPI.h" />
+    <ClInclude Include="..\..\..\include\dtex2\ResCache.h" />
+    <ClInclude Include="..\..\..\include\dtex2\ResourceAPI.h" />
+    <ClInclude Include="..\..\..\include\dtex2\Target.h" />
+    <ClInclude Include="..\..\..\include\dtex2\TextureMid.h" />
+    <ClInclude Include="..\..\..\include\dtex2\TextureRaw.h" />
+    <ClInclude Include="..\..\..\include\dtex2\TextureType.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

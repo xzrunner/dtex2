@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="1.dtex2"
-	ProjectGUID="{EE2229A3-AD5F-46E7-AFAB-729F8AA18036}"
+	ProjectGUID="{A502C49C-7014-4D77-8BD9-B3F917AD34B0}"
 	RootNamespace="dtex2"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
