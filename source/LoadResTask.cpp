@@ -80,7 +80,7 @@ void LoadResTask::Release()
 /* class LoadResTaskMgr                                                 */
 /************************************************************************/
 
-SINGLETON_DEFINITION(LoadResTaskMgr)
+CU_SINGLETON_DEFINITION(LoadResTaskMgr)
 
 LoadResTaskMgr::LoadResTaskMgr()
 	: m_count(0)

@@ -4,7 +4,7 @@
 #include "DTEX_Math.h"
 #include "CP_Node.h"
 
-#include <CU_Uncopyable.h>
+#include <cu/uncopyable.h>
 
 #include <vector>
 #include <set>

@@ -1,7 +1,7 @@
 #ifndef _DTEX_LOAD_RES_TASK_H_
 #define _DTEX_LOAD_RES_TASK_H_
 
-#include <CU_Singleton.h>
+#include <cu/cu_macro.h>
 #include <multitask/Task.h>
 
 namespace dtex
@@ -52,7 +52,7 @@ private:
 	mt::TaskQueue m_freelist;
 	mt::SafeTaskQueue m_result;
 
-	SINGLETON_DECLARATION(LoadResTaskMgr)
+	CU_SINGLETON_DECLARATION(LoadResTaskMgr)
 
 }; // LoadResTaskMgr
 

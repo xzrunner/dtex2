@@ -1,7 +1,7 @@
 #ifndef _DTEX_RES_CACHE_H_
 #define _DTEX_RES_CACHE_H_
 
-#include <CU_Singleton.h>
+#include <cu/cu_macro.h>
 
 #include <vector>
 
@@ -26,7 +26,7 @@ private:
 	std::vector<Texture*> m_textures;
 	std::vector<Target*>  m_targets;
 	
-	SINGLETON_DECLARATION(ResCache);
+	CU_SINGLETON_DECLARATION(ResCache);
 
 }; // ResCache
 

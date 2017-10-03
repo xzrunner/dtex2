@@ -7,7 +7,7 @@
 #include "NodeLUT.h"
 #include "CS_Node.h"
 
-#include <CU_Uncopyable.h>
+#include <cu/uncopyable.h>
 
 #include <list>
 

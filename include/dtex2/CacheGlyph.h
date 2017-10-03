@@ -5,7 +5,7 @@
 #include "CacheType.h"
 #include "DTEX_Math.h"
 
-#include <CU_Uncopyable.h>
+#include <cu/uncopyable.h>
 
 #include <vector>
 #include <unordered_map>

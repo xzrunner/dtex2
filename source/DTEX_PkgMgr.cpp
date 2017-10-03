@@ -4,7 +4,7 @@
 namespace dtex
 {
 
-SINGLETON_DEFINITION(PkgMgr);
+CU_SINGLETON_DEFINITION(PkgMgr);
 
 PkgMgr::PkgMgr()
 {

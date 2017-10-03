@@ -1,7 +1,7 @@
 #ifndef _DTEX_PKG_MGR_H_
 #define _DTEX_PKG_MGR_H_
 
-#include <CU_Singleton.h>
+#include <cu/cu_macro.h>
 
 #include <map>
 #include <vector>
@@ -24,7 +24,7 @@ public:
 private:
 	std::map<int, Package*> m_packages;
 
-	SINGLETON_DECLARATION(PkgMgr);
+	CU_SINGLETON_DECLARATION(PkgMgr);
 
 }; // PkgMgr
 

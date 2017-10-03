@@ -3,7 +3,7 @@
 
 #include "TextureType.h"
 
-#include <CU_Uncopyable.h>
+#include <cu/uncopyable.h>
 
 namespace dtex
 {

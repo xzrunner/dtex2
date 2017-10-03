@@ -8,7 +8,7 @@
 namespace dtex
 {
 
-SINGLETON_DEFINITION(DrawTexture);
+CU_SINGLETON_DEFINITION(DrawTexture);
 
 DrawTexture::DrawTexture()
 	: m_curr(NULL)

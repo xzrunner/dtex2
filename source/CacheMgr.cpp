@@ -6,7 +6,7 @@
 namespace dtex
 {
 
-SINGLETON_DEFINITION(CacheMgr);
+CU_SINGLETON_DEFINITION(CacheMgr);
 
 CacheMgr::CacheMgr()
 {

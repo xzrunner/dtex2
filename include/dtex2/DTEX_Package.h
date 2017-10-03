@@ -1,7 +1,7 @@
 #ifndef _DTEX_PACKAGE_H_
 #define _DTEX_PACKAGE_H_
 
-#include <CU_Uncopyable.h>
+#include <cu/uncopyable.h>
 
 #include <vector>
 

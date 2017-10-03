@@ -9,7 +9,7 @@
 namespace dtex
 {
 
-SINGLETON_DEFINITION(ResCache);
+CU_SINGLETON_DEFINITION(ResCache);
 
 ResCache::ResCache()
 {

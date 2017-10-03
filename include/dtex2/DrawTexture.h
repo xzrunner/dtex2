@@ -1,7 +1,7 @@
 #ifndef _DTEX_DRAW_TEXTURE_H_
 #define _DTEX_DRAW_TEXTURE_H_
 
-#include <CU_Singleton.h>
+#include <cu/cu_macro.h>
 
 namespace dtex
 {
@@ -43,7 +43,7 @@ private:
 	Texture* m_curr;
 	Context m_ctx;
 
-	SINGLETON_DECLARATION(DrawTexture);
+	CU_SINGLETON_DECLARATION(DrawTexture);
 
 }; // DrawTexture
 

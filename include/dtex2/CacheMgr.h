@@ -1,7 +1,7 @@
 #ifndef _DTEX_CACHE_MGR_H_
 #define _DTEX_CACHE_MGR_H_
 
-#include <CU_Singleton.h>
+#include <cu/cu_macro.h>
 
 #include <map>
 #include <string>
@@ -25,7 +25,7 @@ public:
 private:
 	std::map<std::string, Cache*> m_caches;
 
-	SINGLETON_DECLARATION(CacheMgr);
+	CU_SINGLETON_DECLARATION(CacheMgr);
 
 }; // CacheMgr
 

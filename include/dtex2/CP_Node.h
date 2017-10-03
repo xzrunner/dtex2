@@ -3,7 +3,7 @@
 
 #include "DTEX_Math.h"
 
-#include <CU_Uncopyable.h>
+#include <cu/uncopyable.h>
 
 namespace dtex
 {
