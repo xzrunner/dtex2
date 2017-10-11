@@ -9,14 +9,14 @@ namespace dtex
 class TextureMid : public Texture
 {
 public:
-	TextureMid(int width, int height, bool init_pixels);
+	TextureMid(int width, int height, int bpp, bool init_pixels);
 	virtual ~TextureMid();
 	
 	virtual TEXTURE_TYPE Type() const { return TEX_MID; }
 	virtual size_t Size() const { return sizeof(TextureMid); }
 
 private:
-	int InitPixels(int width, int height);
+	int InitPixels(int width, int height, int bpp);
 
 }; // TextureMid
 

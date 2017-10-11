@@ -22,7 +22,7 @@ CacheSymbol::CacheSymbol(int width, int height)
 	: m_loadable(0)
 	, m_clear_block_idx(0)
 {
-	m_tex = new TextureMid(width, height, true);
+	m_tex = new TextureMid(width, height, 4, true);
 	if (m_tex == NULL) {
 		ResourceAPI::ErrorReload();
 	}

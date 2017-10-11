@@ -19,7 +19,7 @@ class Cache;
 class CP_Texture : private cu::Uncopyable
 {
 public:
-	CP_Texture(int edge, int tp_node_count);
+	CP_Texture(int edge, int bpp, int tp_node_count);
 	~CP_Texture();
 
 	void Clear(bool clear_tex = true);
