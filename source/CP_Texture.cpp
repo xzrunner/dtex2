@@ -14,12 +14,12 @@
 namespace dtex
 {
 
-CP_Texture::CP_Texture(int edge, int tp_node_count)
+CP_Texture::CP_Texture(int edge, int bpp, int tp_node_count)
 	: m_tex(NULL)
 	, m_tp(NULL)
 	, m_ud(NULL)
 {
-	m_tex = new TextureMid(edge, edge, false);
+	m_tex = new TextureMid(edge, edge, bpp, false);
 	if (m_tex == NULL) {
 		ResourceAPI::ErrorReload();
 	}

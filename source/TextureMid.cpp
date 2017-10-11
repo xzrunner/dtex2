@@ -8,11 +8,12 @@
 
 #include <stdint.h>
 #include <string.h>
+#include <assert.h>
 
 namespace dtex
 {
 
-TextureMid::TextureMid(int width, int height, bool init_pixels)
+TextureMid::TextureMid(int width, int height, int bpp, bool init_pixels)
 {
 	const int max_edge = HardRes::GetMaxTexSize();
 	if (width > max_edge) {
@@ -24,7 +25,7 @@ TextureMid::TextureMid(int width, int height, bool init_pixels)
 	SetSize(width, height);
 
 	if (init_pixels) {
-		m_id = InitPixels(width, height);
+		m_id = InitPixels(width, height, bpp);
 	}
 }
 
@@ -32,9 +33,10 @@ TextureMid::~TextureMid()
 {
 }
 
-int TextureMid::InitPixels(int width, int height)
+int TextureMid::InitPixels(int width, int height, int bpp)
 {
-	uint32_t* empty_data = new uint32_t[width*height];
+	size_t sz = width * height * bpp;
+	uint8_t* empty_data = new uint8_t[sz];
 	if (empty_data == NULL) {
 		ResourceAPI::ErrorReload();
 		return -1;
@@ -48,9 +50,15 @@ int TextureMid::InitPixels(int width, int height)
 // 		}
 // 	}
 
-	memset(empty_data, 0, width*height*4);
+	memset(empty_data, 0, sz);
 
-	int id = RenderAPI::CreateTexture(empty_data, width, height, TEXTURE_RGBA8);
+	assert(bpp == 4 || bpp == 2);
+	int fmt = TEXTURE_RGBA8;
+	if (bpp == 2) {
+		fmt = TEXTURE_RGBA4;
+	}
+
+	int id = RenderAPI::CreateTexture(empty_data, width, height, fmt);
 	delete[] empty_data;
 	if (RenderAPI::OutOfMemory()) {
 		fault("TextureMid CreateTexture fail.");
