@@ -1,9 +1,9 @@
 #ifndef _DTEX_NODE_LUT_H_
 #define _DTEX_NODE_LUT_H_
 
-#include <stdint.h>
+#include <memmgr/Allocator.h>
 
-#include <vector>
+#include <stdint.h>
 
 namespace dtex
 {
@@ -37,7 +37,7 @@ private:
 	int Hash(uint64_t key) const;
 
 private:
-	mutable std::vector<Node>* m_hash;
+	mutable mm::AllocVector<Node>* m_hash;
 	mutable int m_hash_sz_idx;
 
 	mutable int m_search_length;
