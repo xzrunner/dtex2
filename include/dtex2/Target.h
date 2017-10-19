@@ -3,8 +3,6 @@
 
 #include <cu/uncopyable.h>
 
-#include <vector>
-
 namespace dtex
 {
 

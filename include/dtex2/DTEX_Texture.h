@@ -4,6 +4,7 @@
 #include "TextureType.h"
 
 #include <cu/uncopyable.h>
+#include <memmgr/Allocator.h>
 
 namespace dtex
 {
@@ -15,6 +16,7 @@ public:
 	virtual ~Texture();
 
 	virtual TEXTURE_TYPE Type() const = 0;
+	virtual size_t Size() const = 0;
 
 	int   GetWidth() const { return m_width; }
 	int   GetHeight() const { return m_height; }
@@ -28,6 +30,12 @@ public:
 	int  GetFormat() const { return m_format; }
 	void SetFormat(int format) { m_format = format; }
 
+	static void deleter(Texture* tex) {
+		size_t sz = tex->Size();
+		tex->~Texture();
+		mm::AllocHelper::Free(static_cast<void*>(tex), sz);
+	};
+
 protected:
 	unsigned int m_id;
 	int m_format;
@@ -38,6 +46,8 @@ protected:
 	bool m_cache_locked;
 
 }; // Texture
+
+using TexturePtr = std::unique_ptr<Texture, decltype(&Texture::deleter)>;
 
 }
 

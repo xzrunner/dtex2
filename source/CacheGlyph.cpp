@@ -5,6 +5,7 @@
 #include "DrawTexture.h"
 #include "ResourceAPI.h"
 
+#include <cu/cu_stl.h>
 #include <texpack.h>
 
 #include <algorithm>
@@ -133,7 +134,7 @@ void CacheGlyph::Flush()
 
 bool CacheGlyph::QueryAndInsert(uint64_t key, float* texcoords, int& tex_id) const
 {
-	std::unordered_map<uint64_t, Rect>::const_iterator itr = m_all_nodes.find(key);
+	auto itr = m_all_nodes.find(key);
 	if (itr == m_all_nodes.end()) {
 		return false;
 	}

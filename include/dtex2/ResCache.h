@@ -2,8 +2,7 @@
 #define _DTEX_RES_CACHE_H_
 
 #include <cu/cu_macro.h>
-
-#include <vector>
+#include <cu/cu_stl.h>
 
 namespace dtex
 {
@@ -23,8 +22,8 @@ public:
 	void ReturnTarget(Target* target);
 
 private:
-	std::vector<Texture*> m_textures;
-	std::vector<Target*>  m_targets;
+	CU_VEC<Texture*> m_textures;
+	CU_VEC<Target*>  m_targets;
 	
 	CU_SINGLETON_DECLARATION(ResCache);
 

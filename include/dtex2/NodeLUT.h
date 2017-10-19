@@ -1,7 +1,7 @@
 #ifndef _DTEX_NODE_LUT_H_
 #define _DTEX_NODE_LUT_H_
 
-#include <memmgr/Allocator.h>
+#include <cu/cu_stl.h>
 
 #include <stdint.h>
 
@@ -37,7 +37,7 @@ private:
 	int Hash(uint64_t key) const;
 
 private:
-	mutable mm::AllocVector<Node>* m_hash;
+	mutable CU_VEC<Node>* m_hash;
 	mutable int m_hash_sz_idx;
 
 	mutable int m_search_length;

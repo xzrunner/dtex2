@@ -20,7 +20,7 @@ NodeLUT::NodeLUT()
 	, m_count(0)
 {
 	m_hash_sz_idx = 0;
-	m_hash = new mm::AllocVector<Node>[HASH_SZ_TBL[m_hash_sz_idx]];
+	m_hash = new CU_VEC<Node>[HASH_SZ_TBL[m_hash_sz_idx]];
 	if (m_hash == NULL) {
 		ResourceAPI::ErrorReload();
 	}
@@ -83,7 +83,7 @@ void NodeLUT::Clear()
 	m_hash_sz_idx = 0;
 
 	delete[] m_hash;
-	m_hash = new mm::AllocVector<Node>[HASH_SZ_TBL[m_hash_sz_idx]];	
+	m_hash = new CU_VEC<Node>[HASH_SZ_TBL[m_hash_sz_idx]];	
 	if (m_hash == NULL) {
 		ResourceAPI::ErrorReload();
 	}
@@ -101,7 +101,7 @@ void NodeLUT::Rehash() const
 	}
 
 	++m_hash_sz_idx;
-	mm::AllocVector<Node>* new_hash = new mm::AllocVector<Node>[HASH_SZ_TBL[m_hash_sz_idx]];
+	CU_VEC<Node>* new_hash = new CU_VEC<Node>[HASH_SZ_TBL[m_hash_sz_idx]];
 	if (new_hash == NULL) {
 		ResourceAPI::ErrorReload();
 		return;

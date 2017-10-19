@@ -1,8 +1,6 @@
 #include "CacheMgr.h"
 #include "Cache.h"
 
-#include <string>
-
 namespace dtex
 {
 
@@ -14,22 +12,22 @@ CacheMgr::CacheMgr()
 
 CacheMgr::~CacheMgr()
 {
-	std::map<std::string, Cache*>::iterator itr = m_caches.begin();
+	CU_MAP<CU_STR, Cache*>::iterator itr = m_caches.begin();
 	for ( ; itr != m_caches.end(); ++itr) {
 		delete itr->second;
 	}
 }
 
-bool CacheMgr::Add(Cache* cache, const std::string& key)
+bool CacheMgr::Add(Cache* cache, const CU_STR& key)
 {
-	std::pair<std::map<std::string, Cache*>::iterator, bool> ret 
+	std::pair<CU_MAP<CU_STR, Cache*>::iterator, bool> ret 
 		= m_caches.insert(std::make_pair(key, cache));
 	return ret.second;
 }
 
-bool CacheMgr::Delete(const std::string& key)
+bool CacheMgr::Delete(const CU_STR& key)
 {
-	std::map<std::string, Cache*>::iterator itr = m_caches.find(key);
+	CU_MAP<CU_STR, Cache*>::iterator itr = m_caches.find(key);
 	if (itr == m_caches.end()) {
 		return false;
 	} else {
@@ -38,9 +36,9 @@ bool CacheMgr::Delete(const std::string& key)
 	}
 }
 
-const Cache* CacheMgr::Query(const std::string& key) const
+const Cache* CacheMgr::Query(const CU_STR& key) const
 {
-	std::map<std::string, Cache*>::const_iterator itr = m_caches.find(key);
+	CU_MAP<CU_STR, Cache*>::const_iterator itr = m_caches.find(key);
 	if (itr != m_caches.end()) {
 		return itr->second;
 	} else {
@@ -50,7 +48,7 @@ const Cache* CacheMgr::Query(const std::string& key) const
 
 void CacheMgr::Clear()
 {
-	std::map<std::string, Cache*>::iterator itr = m_caches.begin();
+	CU_MAP<CU_STR, Cache*>::iterator itr = m_caches.begin();
 	for ( ; itr != m_caches.end(); ++itr) {
 		itr->second->Clear();
 	}

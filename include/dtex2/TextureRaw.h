@@ -13,6 +13,7 @@ public:
 	virtual ~TextureRaw();
 	
 	virtual TEXTURE_TYPE Type() const { return TEX_RAW; }
+	virtual size_t Size() const { return sizeof(TextureRaw); }
 
 private:
 	// for etc1

@@ -6,9 +6,7 @@
 #include "DTEX_Math.h"
 
 #include <cu/uncopyable.h>
-
-#include <vector>
-#include <unordered_map>
+#include <cu/cu_stl.h>
 
 #include <stdint.h>
 
@@ -61,8 +59,8 @@ private:
 	Texture*  m_tex;
 	texpack*  m_tp;
 
-	std::unordered_map<uint64_t, Rect> m_all_nodes;
-	mutable std::vector<std::pair<uint64_t, Rect>> m_new_nodes;
+	CU_UNORDERED_MAP<uint64_t, Rect> m_all_nodes;
+	mutable CU_VEC<std::pair<uint64_t, Rect>> m_new_nodes;
 
 	Rect m_dirty_rect;
 

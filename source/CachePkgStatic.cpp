@@ -94,15 +94,13 @@ void CachePkgStatic::Load(const Package* pkg, int lod)
 		return;
 	}
 
-	const std::vector<Texture*>& textures = pkg->GetTextures();
+	auto& textures = pkg->GetTextures();
 	for (int i = 0, n = textures.size(); i < n; ++i) 
 	{
 		assert(textures[i]->Type() == TEX_RAW);
-		TextureRaw* tex = static_cast<TextureRaw*>(textures[i]);
-		if (m_tex_fmt != TEXTURE_RGBA8 && tex->GetFormat() != m_tex_fmt) {
+		if (m_tex_fmt != TEXTURE_RGBA8 && textures[i]->GetFormat() != m_tex_fmt) {
 			continue;
 		}
-
 		m_prenodes.push_back(CP_Prenode(pkg, i, lod));
 	}
 
@@ -128,7 +126,7 @@ int CachePkgStatic::LoadFinish(bool async)
 void CachePkgStatic::PackPrenodes()
 {
 	static const float SCALE = 1;
-	std::list<CP_Prenode>::iterator itr = m_prenodes.begin();
+	CU_LIST<CP_Prenode>::iterator itr = m_prenodes.begin();
 	for ( ; itr != m_prenodes.end(); ++itr) 
 	{
 		const CP_Prenode& prenode = *itr;
@@ -186,11 +184,11 @@ void CachePkgStatic::LoadTexAndRelocateNodes(bool async)
 		count += m_textures[i]->GetNodes().size();
 	}
 
-	std::vector<CP_Node*> nodes;
+	CU_VEC<CP_Node*> nodes;
 	nodes.reserve(count);
 
 	for (int i = 0, n = m_textures.size(); i < n; ++i) {
-		const std::vector<CP_Node*>& src = m_textures[i]->GetNodes();
+		const CU_VEC<CP_Node*>& src = m_textures[i]->GetNodes();
 		copy(src.begin(), src.end(), back_inserter(nodes));
 	}
 	std::sort(nodes.begin(), nodes.end(), NodeTexCmp());
@@ -294,7 +292,7 @@ void CachePkgStatic::RelocateNodes()
 {
 	for (int i = 0, n = m_textures.size(); i < n; ++i) 
 	{
-		const std::vector<CP_Node*>& src = m_textures[i]->GetNodes();
+		const CU_VEC<CP_Node*>& src = m_textures[i]->GetNodes();
 		for (int j = 0, m = src.size(); j < m; ++j) 
 		{
 			CP_Node* node = src[j];

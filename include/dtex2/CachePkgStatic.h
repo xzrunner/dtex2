@@ -6,10 +6,7 @@
 #include "CacheType.h"
 
 #include <cu/uncopyable.h>
-
-#include <list>
-#include <vector>
-#include <set>
+#include <cu/cu_stl.h>
 
 #include <stdint.h>
 #include <stddef.h>
@@ -80,11 +77,11 @@ private:
 	int m_tex_edge;
 	int m_tex_fmt;
 
-	std::vector<CP_Texture*> m_textures;
+	CU_VEC<CP_Texture*> m_textures;
 
-	std::list<CP_Prenode> m_prenodes;
+	CU_LIST<CP_Prenode> m_prenodes;
 
-	std::set<int> m_pkgs;
+	CU_SET<int> m_pkgs;
 
 	int m_remain;
 

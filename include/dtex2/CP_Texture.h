@@ -5,9 +5,7 @@
 #include "CP_Node.h"
 
 #include <cu/uncopyable.h>
-
-#include <vector>
-#include <set>
+#include <cu/cu_stl.h>
 
 struct texpack;
 
@@ -30,7 +28,7 @@ public:
 
 	bool PackPrenode(const CP_Prenode& prenode, float scale, Cache* cache);
 
-	const std::vector<CP_Node*>& GetNodes() const { return m_nodes; }
+	const CU_VEC<CP_Node*>& GetNodes() const { return m_nodes; }
 
 	void* GetUD() const { return m_ud; } 
 	void  SetUD(void* ud) { m_ud = ud; }
@@ -39,7 +37,7 @@ private:
 	Texture* m_tex;
 	Rect     m_region;
 
-	std::vector<CP_Node*> m_nodes;		
+	CU_VEC<CP_Node*> m_nodes;		
 
 	texpack* m_tp;
 

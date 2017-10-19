@@ -1,8 +1,6 @@
 #ifndef _DTEX_RESOURCE_API_H_
 #define _DTEX_RESOURCE_API_H_
 
-#include <string>
-
 namespace mt { class Task; }
 
 namespace dtex
