@@ -7,20 +7,19 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := dtex2
 
 LOCAL_C_INCLUDES  := \
+	${CLIB_PATH} \
 	${DTEX2_SRC_PATH}/include \
 	${DTEX2_SRC_PATH}/include/dtex2 \
 	${PS_SRC_PATH} \
-	${CU_SRC_PATH} \
 	${MULTITASK_SRC_PATH}/include \
 	${TEXPACK_SRC_PATH} \
 	${LOGGER_SRC_PATH} \
 	${GIMG_SRC_PATH} \
 	${UNIRENDER_SRC_PATH}/include \
+	${MEMMGR_SRC_PATH}/include \
 
 LOCAL_SRC_FILES := \
 	$(subst $(LOCAL_PATH)/,,$(shell find $(LOCAL_PATH)/source/ -name "*.cpp" -print)) \
-
-LOCAL_CPPFLAGS  := -std=c++11
 
 LOCAL_STATIC_LIBRARIES := \
 	multitask \
