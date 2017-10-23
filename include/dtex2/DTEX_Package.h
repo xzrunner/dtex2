@@ -18,7 +18,7 @@ public:
     	
 	int GetID() const { return m_id; }
 
-	void AddTexture(TexturePtr& tex) { m_textures.push_back(std::move(tex)); }
+	void AddTexture(TexturePtr&& tex) { m_textures.push_back(std::move(tex)); }
 	auto& GetTextures() const { return m_textures; }
 
 	Texture* GetTexture(int idx) const;
