@@ -80,7 +80,7 @@ private:
 
 	CU_VEC<CP_Texture*> m_textures;
 
-	CU_LIST<CP_Prenode> m_prenodes;
+	std::list<CP_Prenode> m_prenodes;
 
 	CU_SET<int> m_pkgs;
 
