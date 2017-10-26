@@ -42,7 +42,7 @@ const Cache* CacheMgr::Query(const CU_STR& key) const
 	if (itr != m_caches.end()) {
 		return itr->second;
 	} else {
-		return NULL;
+		return nullptr;
 	}
 }
 

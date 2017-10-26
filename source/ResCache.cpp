@@ -42,7 +42,7 @@ Texture* ResCache::FetchTexture(int width, int height)
 			return tex;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 void ResCache::ReturnTexture(Texture* texture)
@@ -58,9 +58,9 @@ Target* ResCache::FetchTarget()
 {
 	if (m_targets.empty()) {
 		Target* t = new Target();
-		if (t == NULL) {
+		if (t == nullptr) {
 			ResourceAPI::ErrorReload();
-			return NULL;
+			return nullptr;
 		}
 		return t;
 	}

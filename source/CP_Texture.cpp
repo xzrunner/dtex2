@@ -15,12 +15,12 @@ namespace dtex
 {
 
 CP_Texture::CP_Texture(int edge, int bpp, int tp_node_count)
-	: m_tex(NULL)
-	, m_tp(NULL)
-	, m_ud(NULL)
+	: m_tex(nullptr)
+	, m_tp(nullptr)
+	, m_ud(nullptr)
 {
 	m_tex = new TextureMid(edge, edge, bpp, false);
-	if (m_tex == NULL) {
+	if (m_tex == nullptr) {
 		ResourceAPI::ErrorReload();
 	}
 
@@ -43,7 +43,7 @@ CP_Texture::~CP_Texture()
 	if (m_ud) {
 		uint8_t* pixels = static_cast<uint8_t*>(m_ud);
 		free(pixels);
-		m_ud = NULL;
+		m_ud = nullptr;
 	}
 }
 
@@ -86,7 +86,7 @@ bool CP_Texture::PackPrenode(const CP_Prenode& prenode, float scale, Cache* cach
 		break;
 	}
 
-	struct texpack_pos* pos = NULL;
+	struct texpack_pos* pos = nullptr;
 	if (w >= h) {
 		pos = texpack_add(m_tp, w, h, true);
 	} else {
@@ -110,7 +110,7 @@ bool CP_Texture::PackPrenode(const CP_Prenode& prenode, float scale, Cache* cach
 
 	bool rotate = (pos->is_rotated && w >= h) || (!pos->is_rotated && h >= w);
 	CP_Node* node = new CP_Node(pkg, tex_idx, prenode.GetLod(), this, r, rotate, cache);
-	if (node == NULL) {
+	if (node == nullptr) {
 		ResourceAPI::ErrorReload();
 	}
 	m_nodes.push_back(node);

@@ -14,7 +14,7 @@ Package::Package(int id)
 Texture* Package::GetTexture(int idx) const
 {
 	if (idx < 0 || static_cast<size_t>(idx) >= m_textures.size()) {
-		return NULL;
+		return nullptr;
 	}
 
 	return m_textures[idx].get();

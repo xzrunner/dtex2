@@ -21,7 +21,7 @@ NodeLUT::NodeLUT()
 {
 	m_hash_sz_idx = 0;
 	m_hash = new CU_VEC<Node>[HASH_SZ_TBL[m_hash_sz_idx]];
-	if (m_hash == NULL) {
+	if (m_hash == nullptr) {
 		ResourceAPI::ErrorReload();
 	}
 }
@@ -84,7 +84,7 @@ void NodeLUT::Clear()
 
 	delete[] m_hash;
 	m_hash = new CU_VEC<Node>[HASH_SZ_TBL[m_hash_sz_idx]];	
-	if (m_hash == NULL) {
+	if (m_hash == nullptr) {
 		ResourceAPI::ErrorReload();
 	}
 
@@ -102,7 +102,7 @@ void NodeLUT::Rehash() const
 
 	++m_hash_sz_idx;
 	CU_VEC<Node>* new_hash = new CU_VEC<Node>[HASH_SZ_TBL[m_hash_sz_idx]];
-	if (new_hash == NULL) {
+	if (new_hash == nullptr) {
 		ResourceAPI::ErrorReload();
 		return;
 	}

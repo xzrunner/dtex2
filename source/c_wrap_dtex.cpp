@@ -48,9 +48,9 @@ void* dtex_cache_pkg_static_create(const char* key, int tex_size, int tex_fmt)
 
 	// insert
 	Cache* cache = new CachePkgStatic(tex_size, tex_fmt);
-	if (cache == NULL) {
+	if (cache == nullptr) {
 		ResourceAPI::ErrorReload();
-		return NULL;
+		return nullptr;
 	}
 	bool succ = mgr->Add(cache, key);
 	assert(succ);

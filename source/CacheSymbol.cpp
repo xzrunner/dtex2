@@ -23,7 +23,7 @@ CacheSymbol::CacheSymbol(int width, int height)
 	, m_clear_block_idx(0)
 {
 	m_tex = new TextureMid(width, height, 4, true);
-	if (m_tex == NULL) {
+	if (m_tex == nullptr) {
 		ResourceAPI::ErrorReload();
 	}
 
@@ -34,7 +34,7 @@ CacheSymbol::CacheSymbol(int width, int height)
 	for (int iy = 0; iy < BLOCK_Y_SZ; ++iy) {
 		for (int ix = 0; ix < BLOCK_X_SZ; ++ix) {
 			Block* block = new Block(m_tex, x, y, m_block_w, m_block_h);
-			if (block == NULL) {
+			if (block == nullptr) {
 				ResourceAPI::ErrorReload();
 			}
 			m_blocks[i++] = block;
@@ -160,7 +160,7 @@ const CS_Node* CacheSymbol::Query(uint64_t key, int& block_id) const
 		}
 	}
 	block_id = -1;
-	return NULL;
+	return nullptr;
 }
 
 int CacheSymbol::GetTexID() const
@@ -197,8 +197,8 @@ bool CacheSymbol::InsertNode(const Prenode& prenode, std::list<DrawTask>& drawli
 {
 	int extend = prenode.Padding() + prenode.Extrude();
 
-	Block* block = NULL;
-	texpack_pos* pos = NULL;
+	Block* block = nullptr;
+	texpack_pos* pos = nullptr;
 	for (int i = 0, n = BLOCK_X_SZ * BLOCK_Y_SZ; i < n; ++i) {
 		pos = m_blocks[i]->Insert(prenode, extend);
 		if (pos) {
@@ -312,7 +312,7 @@ Insert(const Prenode& node, int extend)
 		h = node.Height() + extend * 2;
 	texpack_pos* pos = texpack_add(m_tp, w, h, true);
 	if (!pos) {
-		return NULL;
+		return nullptr;
 	}
 
 	pos->r.xmin += extend;

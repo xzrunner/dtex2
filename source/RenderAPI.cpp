@@ -8,7 +8,7 @@ namespace dtex
 
 static RenderAPI::Callback DRAW_CB;
 
-static ur::RenderContext* RC = NULL;
+static ur::RenderContext* RC = nullptr;
 
 void RenderAPI::InitCallback(const Callback& draw_cb)
 {

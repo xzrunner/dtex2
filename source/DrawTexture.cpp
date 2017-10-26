@@ -11,7 +11,7 @@ namespace dtex
 CU_SINGLETON_DEFINITION(DrawTexture);
 
 DrawTexture::DrawTexture()
-	: m_curr(NULL)
+	: m_curr(nullptr)
 {
 }
 
@@ -75,7 +75,7 @@ void DrawTexture::Flush()
 {
 	if (m_curr) {
 		DrawAfter(m_ctx);
-		m_curr = NULL;
+		m_curr = nullptr;
 	}
 }
 
@@ -83,11 +83,11 @@ void DrawTexture::Clear()
 {
 	Flush();
 
-	m_curr = NULL;
+	m_curr = nullptr;
 
 	if (m_ctx.target) {
 		ResCache::Instance()->ReturnTarget(m_ctx.target);
-		m_ctx.target = NULL;
+		m_ctx.target = nullptr;
 	}
 }
 
@@ -124,7 +124,7 @@ void DrawTexture::DrawAfter(Context& ctx)
 	ctx.target->UnbindTexture();
 	ctx.target->Unbind();
 	ResCache::Instance()->ReturnTarget(ctx.target);
-	ctx.target = NULL;
+	ctx.target = nullptr;
 
 	RenderAPI::SetViewport(ctx.vx, ctx.vy, ctx.vw, ctx.vh);
 	RenderAPI::DrawEnd();

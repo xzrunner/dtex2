@@ -39,7 +39,7 @@ const Package* PkgMgr::Query(int id) const
 	if (itr != m_packages.end()) {
 		return itr->second.get();
 	} else {
-		return NULL;
+		return nullptr;
 	}
 }
 

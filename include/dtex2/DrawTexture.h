@@ -30,7 +30,7 @@ private:
 		int vx, vy, vw, vh;
 		Target* target;
 
-		Context() : vx(0), vy(0), vw(0), vh(0), target(NULL) {}
+		Context() : vx(0), vy(0), vw(0), vh(0), target(nullptr) {}
 	};
 
 private:

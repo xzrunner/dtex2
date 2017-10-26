@@ -18,7 +18,7 @@ LoadResTask::LoadResTask(void (*finish_cb)(const void* data, size_t size, void* 
 {
 	memset(m_res_path, 0, sizeof(m_res_path));
 
-	m_data = NULL;
+	m_data = nullptr;
 	m_size = 0;
 }
 
@@ -51,7 +51,7 @@ void LoadResTask::Flush()
 void LoadResTask::OnLoad(const void* data, size_t size)
 {
 	if (m_data) {
-		free(m_data); m_data = NULL;
+		free(m_data); m_data = nullptr;
 	}
 	m_size = size;
 	m_data = malloc(m_size);
@@ -72,7 +72,7 @@ void LoadResTask::Init(void (*finish_cb)(const void* data, size_t size, void* ud
 
 void LoadResTask::Release()
 {
-	free(m_data); m_data = NULL;
+	free(m_data); m_data = nullptr;
 	m_size = 0;
 }
 

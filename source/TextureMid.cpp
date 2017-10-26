@@ -37,7 +37,7 @@ int TextureMid::InitPixels(int width, int height, int bpp)
 {
 	size_t sz = width * height * bpp;
 	uint8_t* empty_data = new uint8_t[sz];
-	if (empty_data == NULL) {
+	if (empty_data == nullptr) {
 		ResourceAPI::ErrorReload();
 		return -1;
 	}

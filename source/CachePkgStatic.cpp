@@ -51,7 +51,7 @@ CachePkgStatic::CachePkgStatic(int tex_size, int tex_fmt)
 	m_tex_fmt = (tex_fmt == TEXTURE_INVALID ? LOCAL_TEX_FMT : tex_fmt);
 
 	CP_Texture* tex = new CP_Texture(m_tex_edge, 2, MAX_PRELOAD_COUNT);
-	if (tex == NULL) {
+	if (tex == nullptr) {
 		ResourceAPI::ErrorReload();
 	}
 	m_textures.push_back(tex);
@@ -158,7 +158,7 @@ void CachePkgStatic::PackPrenodes()
 				break;
 			} else {
 				CP_Texture* tex = new CP_Texture(m_tex_edge, 2, MAX_PRELOAD_COUNT);
-				if (tex == NULL) {
+				if (tex == nullptr) {
 					ResourceAPI::ErrorReload();
 				}
 				m_textures.push_back(tex);
@@ -250,7 +250,7 @@ void CachePkgStatic::CreateTexturesID()
 
 		int id = RenderAPI::CreateTextureID(w, h, fmt);
 
-		tex->SetUD(NULL);
+		tex->SetUD(nullptr);
 		tex_impl->SetID(id);
 		tex_impl->SetFormat(fmt);
 	}
@@ -284,7 +284,7 @@ void CachePkgStatic::UpdateTextures()
 			assert(0);
 		}
 		free(pixels);
-		tex->SetUD(NULL);
+		tex->SetUD(nullptr);
 	}
 }
 
@@ -377,7 +377,7 @@ void CachePkgStatic::LoadPartPVR4(int w, int h, const void* data, const CP_Node*
 		tex_h = dst_tex->GetTexture()->GetHeight();
 	if (!dst_tex->GetUD()) {
 		void* pixels = gimg_pvr_init_blank(tex_w);
-		if (pixels == NULL) {
+		if (pixels == nullptr) {
 			ResourceAPI::ErrorReload();
 			return;
 		}
@@ -423,7 +423,7 @@ void CachePkgStatic::LoadPartETC2(int w, int h, const void* data, const CP_Node*
 		tex_h = dst_tex->GetTexture()->GetHeight();
 	if (!dst_tex->GetUD()) {
 		void* pixels = gimg_etc2_init_blank(tex_w);
-		if (pixels == NULL) {
+		if (pixels == nullptr) {
 			ResourceAPI::ErrorReload();
 			return;
 		}
@@ -478,7 +478,7 @@ void CachePkgStatic::LoadPartRGBA4FromRGBA8(int w, int h, const void* data, cons
 {
 	const uint8_t* pixels = (const uint8_t*)(data);
 	uint8_t* rgba4 = gimg_rgba8_to_rgba4_dither(pixels, w, h);
-	if (rgba4 == NULL) {
+	if (rgba4 == nullptr) {
 		ResourceAPI::ErrorReload();
 		return;
 	}
@@ -489,17 +489,17 @@ void CachePkgStatic::LoadPartRGBA4FromRGBA8(int w, int h, const void* data, cons
 void CachePkgStatic::LoadPartRGBA4FromPVR4(int w, int h, const void* data, const CP_Node* node)
 {
 	const uint8_t* pixels = (const uint8_t*)(data);
-	if (pixels == NULL) {
+	if (pixels == nullptr) {
 		ResourceAPI::ErrorReload();
 		return;
 	}
 	uint8_t* rgba8 = gimg_pvr_decode_rgba8(pixels, w, h);
-	if (rgba8 == NULL) {
+	if (rgba8 == nullptr) {
 		ResourceAPI::ErrorReload();
 		return;
 	}
 	uint8_t* rgba4 = gimg_rgba8_to_rgba4_dither(rgba8, w, h);
-	if (rgba4 == NULL) {
+	if (rgba4 == nullptr) {
 		ResourceAPI::ErrorReload();
 		return;
 	}
@@ -513,12 +513,12 @@ void CachePkgStatic::LoadPartRGBA4FromETC2(int w, int h, const void* data, const
 {
 	const uint8_t* pixels = (const uint8_t*)(data);
 	uint8_t* rgba8 = gimg_etc2_decode_rgba8(pixels, w, h, ETC2PACKAGE_RGBA_NO_MIPMAPS);
-	if (rgba8 == NULL) {
+	if (rgba8 == nullptr) {
 		ResourceAPI::ErrorReload();
 		return;
 	}
 	uint8_t* rgba4 = gimg_rgba8_to_rgba4_dither(rgba8, w, h);
-	if (rgba4 == NULL) {
+	if (rgba4 == nullptr) {
 		ResourceAPI::ErrorReload();
 		return;
 	}
@@ -531,9 +531,9 @@ uint8_t* CachePkgStatic::BitmapInitBland(int edge)
 {
 	size_t sz = edge * edge * 2;
 	uint8_t* buf = (uint8_t*)malloc(sz);
-	if (buf == NULL) {
+	if (buf == nullptr) {
 		ResourceAPI::ErrorReload();
-		return NULL;
+		return nullptr;
 	}
 	memset(buf, 0, sz);
 	return buf;
@@ -547,7 +547,7 @@ void CachePkgStatic::LoadTexturePVR4(int tex_id, int w, int h, const void* data)
 	RenderAPI::UpdateTexture(data, w, h, tex_id);
 #else
 	uint8_t* rgba8 = gimg_pvr_decode_rgba8(static_cast<const uint8_t*>(data), w, h);
-	if (rgba8 == NULL) {
+	if (rgba8 == nullptr) {
 		ResourceAPI::ErrorReload();
 		return;
 	}
@@ -565,12 +565,12 @@ void CachePkgStatic::LoadTextureETC2(int tex_id, int w, int h, const void* data)
 		RenderAPI::UpdateTexture(data, w, h, tex_id);
 	} else {
 		uint8_t* rgba8 = gimg_etc2_decode_rgba8(static_cast<const uint8_t*>(data), w, h, ETC2PACKAGE_RGBA_NO_MIPMAPS);
-		if (rgba8 == NULL) {
+		if (rgba8 == nullptr) {
 			ResourceAPI::ErrorReload();
 			return;
 		}
 		uint8_t* rgba4 = gimg_rgba8_to_rgba4_dither(rgba8, w, h);
-		if (rgba4 == NULL) {
+		if (rgba4 == nullptr) {
 			ResourceAPI::ErrorReload();
 			return;
 		}
