@@ -1,9 +1,9 @@
 #ifndef _DTEX_CACHE_PACKAGE_STATIC_H_
 #define _DTEX_CACHE_PACKAGE_STATIC_H_
 
-#include "CP_Prenode.h"
-#include "Cache.h"
-#include "CacheType.h"
+#include "dtex2/CP_Prenode.h"
+#include "dtex2/Cache.h"
+#include "dtex2/CacheType.h"
 
 #include <cu/uncopyable.h>
 #include <cu/cu_stl.h>

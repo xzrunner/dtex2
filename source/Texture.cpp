@@ -1,6 +1,6 @@
-#include "DTEX_Texture.h"
-#include "RenderAPI.h"
-#include "CacheAPI.h"
+#include "dtex2/Texture.h"
+#include "dtex2/RenderAPI.h"
+#include "dtex2/CacheAPI.h"
 
 namespace dtex
 {

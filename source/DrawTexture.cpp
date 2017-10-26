@@ -1,9 +1,9 @@
-#include "DrawTexture.h"
-#include "DTEX_Texture.h"
-#include "DTEX_Math.h"
-#include "RenderAPI.h"
-#include "ResCache.h"
-#include "Target.h"
+#include "dtex2/DrawTexture.h"
+#include "dtex2/Texture.h"
+#include "dtex2/Math.h"
+#include "dtex2/RenderAPI.h"
+#include "dtex2/ResCache.h"
+#include "dtex2/Target.h"
 
 namespace dtex
 {

@@ -1,5 +1,5 @@
-#include "DTEX_Package.h"
-#include "DTEX_Texture.h"
+#include "dtex2/Package.h"
+#include "dtex2/Texture.h"
 
 #include <stddef.h>
 

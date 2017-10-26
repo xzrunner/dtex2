@@ -1,5 +1,5 @@
-#include "Target.h"
-#include "RenderAPI.h"
+#include "dtex2/Target.h"
+#include "dtex2/RenderAPI.h"
 
 #include <assert.h>
 

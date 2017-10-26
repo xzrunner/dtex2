@@ -1,10 +1,10 @@
-#include "CP_Texture.h"
-#include "CP_Prenode.h"
-#include "DTEX_Texture.h"
-#include "TextureMid.h"
-#include "DTEX_Package.h"
-#include "DrawTexture.h"
-#include "ResourceAPI.h"
+#include "dtex2/CP_Texture.h"
+#include "dtex2/CP_Prenode.h"
+#include "dtex2/Texture.h"
+#include "dtex2/TextureMid.h"
+#include "dtex2/Package.h"
+#include "dtex2/DrawTexture.h"
+#include "dtex2/ResourceAPI.h"
 
 #include <texpack.h>
 

@@ -1,4 +1,4 @@
-#include "ResourceAPI.h"
+#include "dtex2/ResourceAPI.h"
 
 namespace dtex
 {

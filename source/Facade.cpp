@@ -1,9 +1,9 @@
-#include "DTEX_Facade.h"
-#include "CacheMgr.h"
-#include "DrawTexture.h"
-#include "DTEX_PkgMgr.h"
-#include "ResCache.h"
-#include "LoadResTask.h"
+#include "dtex2/Facade.h"
+#include "dtex2/CacheMgr.h"
+#include "dtex2/DrawTexture.h"
+#include "dtex2/PkgMgr.h"
+#include "dtex2/ResCache.h"
+#include "dtex2/LoadResTask.h"
 
 namespace dtex
 {

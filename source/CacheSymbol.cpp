@@ -1,13 +1,13 @@
-#include "CacheSymbol.h"
-#include "HardRes.h"
-#include "TextureMid.h"
-#include "CS_Node.h"
-#include "DebugDraw.h"
-#include "TextureRaw.h"
-#include "RenderAPI.h"
-#include "DrawTexture.h"
-#include "CacheAPI.h"
-#include "ResourceAPI.h"
+#include "dtex2/CacheSymbol.h"
+#include "dtex2/HardRes.h"
+#include "dtex2/TextureMid.h"
+#include "dtex2/CS_Node.h"
+#include "dtex2/DebugDraw.h"
+#include "dtex2/TextureRaw.h"
+#include "dtex2/RenderAPI.h"
+#include "dtex2/DrawTexture.h"
+#include "dtex2/CacheAPI.h"
+#include "dtex2/ResourceAPI.h"
 
 #include <texpack.h>
 

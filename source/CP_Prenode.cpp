@@ -1,6 +1,6 @@
-#include "CP_Prenode.h"
-#include "DTEX_Texture.h"
-#include "DTEX_Package.h"
+#include "dtex2/CP_Prenode.h"
+#include "dtex2/Texture.h"
+#include "dtex2/Package.h"
 
 #include <stddef.h>
 #include <assert.h>

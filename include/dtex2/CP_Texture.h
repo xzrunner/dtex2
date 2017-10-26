@@ -1,8 +1,8 @@
 #ifndef _DTEX_CACHE_PACKAGE_TEXTURE_H_
 #define _DTEX_CACHE_PACKAGE_TEXTURE_H_
 
-#include "DTEX_Math.h"
-#include "CP_Node.h"
+#include "dtex2/Math.h"
+#include "dtex2/CP_Node.h"
 
 #include <cu/uncopyable.h>
 #include <cu/cu_stl.h>

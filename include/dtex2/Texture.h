@@ -1,7 +1,7 @@
 #ifndef _DTEX_TEXTURE_H_
 #define _DTEX_TEXTURE_H_
 
-#include "TextureType.h"
+#include "dtex2/TextureType.h"
 
 #include <cu/uncopyable.h>
 #include <memmgr/Allocator.h>

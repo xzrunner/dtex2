@@ -1,21 +1,21 @@
-#include "CachePkgStatic.h"
-#include "CP_Texture.h"
-#include "TextureRaw.h"
-#include "HardRes.h"
-#include "DTEX_Package.h"
-#include "DTEX_TextureFormat.h"
-#include "ResourceAPI.h"
-#include "RenderAPI.h"
-#include "DebugDraw.h"
-#include "CacheAPI.h"
-#include "LoadResTask.h"
+#include "dtex2/CachePkgStatic.h"
+#include "dtex2/CP_Texture.h"
+#include "dtex2/TextureRaw.h"
+#include "dtex2/HardRes.h"
+#include "dtex2/Package.h"
+#include "dtex2/TextureFormat.h"
+#include "dtex2/ResourceAPI.h"
+#include "dtex2/RenderAPI.h"
+#include "dtex2/DebugDraw.h"
+#include "dtex2/CacheAPI.h"
+#include "dtex2/LoadResTask.h"
 
 #include <logger.h>
 #include <gimg_pvr.h>
 #include <gimg_etc2.h>
 #include <gimg_import.h>
 #include <gimg_typedef.h>
-#include <unirender/UR_RenderContext.h>
+#include <unirender/RenderContext.h>
 #include <multitask/ThreadPool.h>
 
 #include <algorithm>

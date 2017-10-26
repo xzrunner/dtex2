@@ -1,7 +1,7 @@
 #ifndef _DTEX_PKG_MGR_H_
 #define _DTEX_PKG_MGR_H_
 
-#include "DTEX_Package.h"
+#include "dtex2/Package.h"
 
 #include <cu/cu_macro.h>
 #include <cu/cu_stl.h>

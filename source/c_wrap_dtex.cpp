@@ -1,8 +1,8 @@
-#include "CacheMgr.h"
-#include "CachePkgStatic.h"
-#include "DTEX_PkgMgr.h"
-#include "ResourceAPI.h"
-#include "LoadResTask.h"
+#include "dtex2/CacheMgr.h"
+#include "dtex2/CachePkgStatic.h"
+#include "dtex2/PkgMgr.h"
+#include "dtex2/ResourceAPI.h"
+#include "dtex2/LoadResTask.h"
 
 #include <assert.h>
 

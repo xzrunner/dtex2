@@ -1,5 +1,5 @@
-#include "DebugDraw.h"
-#include "RenderAPI.h"
+#include "dtex2/DebugDraw.h"
+#include "dtex2/RenderAPI.h"
 
 namespace dtex
 {

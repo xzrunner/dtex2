@@ -1,7 +1,7 @@
-#include "RenderAPI.h"
-#include "ResourceAPI.h"
+#include "dtex2/RenderAPI.h"
+#include "dtex2/ResourceAPI.h"
 
-#include <unirender/UR_RenderContext.h>
+#include <unirender/RenderContext.h>
 
 namespace dtex
 {

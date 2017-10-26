@@ -1,8 +1,8 @@
-#include "TextureMid.h"
-#include "HardRes.h"
-#include "RenderAPI.h"
-#include "DTEX_TextureFormat.h"
-#include "ResourceAPI.h"
+#include "dtex2/TextureMid.h"
+#include "dtex2/HardRes.h"
+#include "dtex2/RenderAPI.h"
+#include "dtex2/TextureFormat.h"
+#include "dtex2/ResourceAPI.h"
 
 #include <fault.h>
 

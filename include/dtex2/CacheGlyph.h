@@ -1,9 +1,9 @@
 #ifndef _DTEX_CACHE_GLYPH_H_
 #define _DTEX_CACHE_GLYPH_H_
 
-#include "Cache.h"
-#include "CacheType.h"
-#include "DTEX_Math.h"
+#include "dtex2/Cache.h"
+#include "dtex2/CacheType.h"
+#include "dtex2/Math.h"
 
 #include <cu/uncopyable.h>
 #include <cu/cu_stl.h>

@@ -1,5 +1,5 @@
-#include "CS_Node.h"
-#include "DTEX_Texture.h"
+#include "dtex2/CS_Node.h"
+#include "dtex2/Texture.h"
 
 #include <texpack.h>
 

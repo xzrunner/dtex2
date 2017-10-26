@@ -1,7 +1,7 @@
 #ifndef _DTEX_TEXTURE_MID_H_
 #define _DTEX_TEXTURE_MID_H_
 
-#include "DTEX_Texture.h"
+#include "dtex2/Texture.h"
 
 namespace dtex
 {

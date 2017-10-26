@@ -1,5 +1,5 @@
-#include "TextureRaw.h"
-#include "RenderAPI.h"
+#include "dtex2/TextureRaw.h"
+#include "dtex2/RenderAPI.h"
 
 namespace dtex
 {

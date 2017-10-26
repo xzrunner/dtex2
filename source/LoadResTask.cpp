@@ -1,5 +1,5 @@
-#include "LoadResTask.h"
-#include "ResourceAPI.h"
+#include "dtex2/LoadResTask.h"
+#include "dtex2/ResourceAPI.h"
 
 #include <stdlib.h>
 #include <assert.h>

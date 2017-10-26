@@ -1,4 +1,4 @@
-#include "HardRes.h"
+#include "dtex2/HardRes.h"
 
 namespace dtex
 {

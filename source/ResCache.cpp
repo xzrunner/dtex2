@@ -1,8 +1,8 @@
-#include "ResCache.h"
-#include "DTEX_Texture.h"
-#include "Target.h"
-#include "TextureMid.h"
-#include "ResourceAPI.h"
+#include "dtex2/ResCache.h"
+#include "dtex2/Texture.h"
+#include "dtex2/Target.h"
+#include "dtex2/TextureMid.h"
+#include "dtex2/ResourceAPI.h"
 
 #include <assert.h>
 

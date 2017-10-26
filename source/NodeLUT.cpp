@@ -1,5 +1,5 @@
-#include "NodeLUT.h"
-#include "ResourceAPI.h"
+#include "dtex2/NodeLUT.h"
+#include "dtex2/ResourceAPI.h"
 
 #include <logger.h>
 

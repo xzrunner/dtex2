@@ -1,7 +1,7 @@
 #ifndef _DTEX_PACKAGE_H_
 #define _DTEX_PACKAGE_H_
 
-#include "DTEX_Texture.h"
+#include "dtex2/Texture.h"
 
 #include <cu/uncopyable.h>
 #include <cu/cu_stl.h>

@@ -1,5 +1,5 @@
-#include "CacheMgr.h"
-#include "Cache.h"
+#include "dtex2/CacheMgr.h"
+#include "dtex2/Cache.h"
 
 namespace dtex
 {

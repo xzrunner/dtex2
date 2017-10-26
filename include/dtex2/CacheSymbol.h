@@ -1,11 +1,11 @@
 #ifndef _DTEX_CACHE_SYMBOL_H_
 #define _DTEX_CACHE_SYMBOL_H_
 
-#include "Cache.h"
-#include "DTEX_Math.h"
-#include "CacheType.h"
-#include "NodeLUT.h"
-#include "CS_Node.h"
+#include "dtex2/Cache.h"
+#include "dtex2/Math.h"
+#include "dtex2/CacheType.h"
+#include "dtex2/NodeLUT.h"
+#include "dtex2/CS_Node.h"
 
 #include <cu/uncopyable.h>
 #include <cu/cu_stl.h>

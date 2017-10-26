@@ -1,9 +1,9 @@
-#include "CacheGlyph.h"
-#include "TextureMid.h"
-#include "DebugDraw.h"
-#include "RenderAPI.h"
-#include "DrawTexture.h"
-#include "ResourceAPI.h"
+#include "dtex2/CacheGlyph.h"
+#include "dtex2/TextureMid.h"
+#include "dtex2/DebugDraw.h"
+#include "dtex2/RenderAPI.h"
+#include "dtex2/DrawTexture.h"
+#include "dtex2/ResourceAPI.h"
 
 #include <cu/cu_stl.h>
 #include <texpack.h>

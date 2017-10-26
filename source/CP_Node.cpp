@@ -1,4 +1,4 @@
-#include "CP_Node.h"
+#include "dtex2/CP_Node.h"
 
 namespace dtex
 {
