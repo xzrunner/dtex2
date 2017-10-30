@@ -52,7 +52,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\include\dtex2;..\..\..\..\cu\src\cu;..\..\..\..\logger\src\logger;..\..\..\..\fs\src\fs;..\..\..\..\texpack\src\texpack;..\..\..\..\gimg\src\gimg;..\..\..\..\unirender\include;..\..\..\..\multitask\include;..\..\..\..\editor-external\c99;..\..\..\..\editor-external\pthread\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\logger\src\logger;..\..\..\..\fs\src\fs;..\..\..\..\memmgr\include;..\..\..\..\flatten\include;..\..\..\..\cooking\include;..\..\..\..\ds\src\ds;..\..\..\..\texpack\src\texpack;..\..\..\..\gimg\src\gimg;..\..\..\..\unirender\include;..\..\..\..\multitask\include;..\..\..\..\editor-external\c99;..\..\..\..\editor-external\pthread\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;EASY_EDITOR;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -66,7 +66,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\include\dtex2;..\..\..\..\cu\src\cu;..\..\..\..\logger\src\logger;..\..\..\..\fs\src\fs;..\..\..\..\texpack\src\texpack;..\..\..\..\gimg\src\gimg;..\..\..\..\unirender\include;..\..\..\..\multitask\include;..\..\..\..\editor-external\c99;..\..\..\..\editor-external\pthread\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\logger\src\logger;..\..\..\..\fs\src\fs;..\..\..\..\memmgr\include;..\..\..\..\flatten\include;..\..\..\..\cooking\include;..\..\..\..\ds\src\ds;..\..\..\..\texpack\src\texpack;..\..\..\..\gimg\src\gimg;..\..\..\..\unirender\include;..\..\..\..\multitask\include;..\..\..\..\editor-external\c99;..\..\..\..\editor-external\pthread\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;EASY_EDITOR;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -88,9 +88,10 @@
     <ClCompile Include="..\..\..\source\c_wrap_dtex.cpp" />
     <ClCompile Include="..\..\..\source\DebugDraw.cpp" />
     <ClCompile Include="..\..\..\source\DrawTexture.cpp" />
-    <ClCompile Include="..\..\..\source\DTEX_Package.cpp" />
-    <ClCompile Include="..\..\..\source\DTEX_PkgMgr.cpp" />
-    <ClCompile Include="..\..\..\source\DTEX_Texture.cpp" />
+    <ClCompile Include="..\..\..\source\Facade.cpp" />
+    <ClCompile Include="..\..\..\source\Package.cpp" />
+    <ClCompile Include="..\..\..\source\PkgMgr.cpp" />
+    <ClCompile Include="..\..\..\source\Texture.cpp" />
     <ClCompile Include="..\..\..\source\HardRes.cpp" />
     <ClCompile Include="..\..\..\source\LoadResTask.cpp" />
     <ClCompile Include="..\..\..\source\NodeLUT.cpp" />
@@ -116,12 +117,12 @@
     <ClInclude Include="..\..\..\include\dtex2\CS_Node.h" />
     <ClInclude Include="..\..\..\include\dtex2\DebugDraw.h" />
     <ClInclude Include="..\..\..\include\dtex2\DrawTexture.h" />
-    <ClInclude Include="..\..\..\include\dtex2\DTEX_Math.h" />
-    <ClInclude Include="..\..\..\include\dtex2\DTEX_Package.h" />
-    <ClInclude Include="..\..\..\include\dtex2\DTEX_PkgMgr.h" />
-    <ClInclude Include="..\..\..\include\dtex2\DTEX_Statistics.h" />
-    <ClInclude Include="..\..\..\include\dtex2\DTEX_Texture.h" />
-    <ClInclude Include="..\..\..\include\dtex2\DTEX_TextureFormat.h" />
+    <ClInclude Include="..\..\..\include\dtex2\Facade.h" />
+    <ClInclude Include="..\..\..\include\dtex2\Math.h" />
+    <ClInclude Include="..\..\..\include\dtex2\Package.h" />
+    <ClInclude Include="..\..\..\include\dtex2\PkgMgr.h" />
+    <ClInclude Include="..\..\..\include\dtex2\Texture.h" />
+    <ClInclude Include="..\..\..\include\dtex2\TextureFormat.h" />
     <ClInclude Include="..\..\..\include\dtex2\HardRes.h" />
     <ClInclude Include="..\..\..\include\dtex2\LoadResTask.h" />
     <ClInclude Include="..\..\..\include\dtex2\NodeLUT.h" />

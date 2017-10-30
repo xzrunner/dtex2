@@ -2,42 +2,39 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="dataset">
-      <UniqueIdentifier>{f2565f6c-9678-4c54-933d-13a43b762282}</UniqueIdentifier>
+      <UniqueIdentifier>{c74b5408-8dfa-4711-a61d-635488fb590f}</UniqueIdentifier>
     </Filter>
     <Filter Include="dataset\texture">
-      <UniqueIdentifier>{14e786cf-64eb-44cd-8aae-8f6b18c593ff}</UniqueIdentifier>
+      <UniqueIdentifier>{a03b78a1-d166-4ad2-893e-54efc3fdbe38}</UniqueIdentifier>
     </Filter>
     <Filter Include="cache">
-      <UniqueIdentifier>{37898ad3-52c2-4647-a3bb-ddf6f8d2fddd}</UniqueIdentifier>
+      <UniqueIdentifier>{af14ad7b-a13e-4cdf-9b95-503d312aff5e}</UniqueIdentifier>
     </Filter>
     <Filter Include="cache\package">
-      <UniqueIdentifier>{eea88778-75d0-49f2-82e4-df641f370ba5}</UniqueIdentifier>
+      <UniqueIdentifier>{e60460af-2957-4fae-91c8-8670b9bbdbdb}</UniqueIdentifier>
     </Filter>
     <Filter Include="cache\symbol">
-      <UniqueIdentifier>{62276a8a-2657-4a06-9a1d-05299df24120}</UniqueIdentifier>
+      <UniqueIdentifier>{4f54dec1-e24f-4133-b08c-30d9f71812c4}</UniqueIdentifier>
     </Filter>
     <Filter Include="cache\glyph">
-      <UniqueIdentifier>{51a69b2b-e15a-422d-a879-f63ef55901b8}</UniqueIdentifier>
+      <UniqueIdentifier>{b1700cf4-d2a5-40a3-8723-8bf855d85364}</UniqueIdentifier>
     </Filter>
     <Filter Include="render">
-      <UniqueIdentifier>{125b7952-9c5e-4934-8b87-e90e1b0c3ce2}</UniqueIdentifier>
+      <UniqueIdentifier>{c7be366a-c994-490c-b05d-f27961786ead}</UniqueIdentifier>
     </Filter>
     <Filter Include="resource">
-      <UniqueIdentifier>{e5256d33-de34-4379-bd26-a24363ad96f2}</UniqueIdentifier>
+      <UniqueIdentifier>{24e68b32-a02b-4912-90b2-37eda83a3a19}</UniqueIdentifier>
     </Filter>
     <Filter Include="resource\package">
-      <UniqueIdentifier>{61a0917f-41fb-46a4-a536-1eb29b5cea7a}</UniqueIdentifier>
+      <UniqueIdentifier>{b661ab1e-731d-4a20-8c1b-877158d8ab58}</UniqueIdentifier>
     </Filter>
     <Filter Include="utility">
-      <UniqueIdentifier>{0472e444-9219-465f-8425-d1f73ad768eb}</UniqueIdentifier>
+      <UniqueIdentifier>{19aa40ab-3b3f-47c3-ba7e-cfe566d9dec9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\Target.cpp">
       <Filter>dataset</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\DTEX_Texture.cpp">
-      <Filter>dataset\texture</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\TextureMid.cpp">
       <Filter>dataset\texture</Filter>
@@ -96,20 +93,21 @@
     <ClCompile Include="..\..\..\source\ResourceAPI.cpp">
       <Filter>resource</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\DTEX_Package.cpp">
-      <Filter>resource\package</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\DTEX_PkgMgr.cpp">
-      <Filter>resource\package</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\c_wrap_dtex.cpp" />
+    <ClCompile Include="..\..\..\source\Facade.cpp" />
+    <ClCompile Include="..\..\..\source\Texture.cpp">
+      <Filter>dataset\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Package.cpp">
+      <Filter>resource\package</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\PkgMgr.cpp">
+      <Filter>resource\package</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\dtex2\Target.h">
       <Filter>dataset</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\dtex2\DTEX_Texture.h">
-      <Filter>dataset\texture</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\dtex2\TextureMid.h">
       <Filter>dataset\texture</Filter>
@@ -165,9 +163,6 @@
     <ClInclude Include="..\..\..\include\dtex2\RenderAPI.h">
       <Filter>render</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\dtex2\DTEX_Statistics.h">
-      <Filter>resource</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\dtex2\HardRes.h">
       <Filter>resource</Filter>
     </ClInclude>
@@ -180,18 +175,22 @@
     <ClInclude Include="..\..\..\include\dtex2\ResourceAPI.h">
       <Filter>resource</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\dtex2\DTEX_Package.h">
-      <Filter>resource\package</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\dtex2\DTEX_PkgMgr.h">
-      <Filter>resource\package</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\dtex2\DTEX_Math.h">
-      <Filter>utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\dtex2\DTEX_TextureFormat.h">
-      <Filter>utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\c_wrap_dtex.h" />
+    <ClInclude Include="..\..\..\include\dtex2\Math.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\TextureFormat.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\Facade.h" />
+    <ClInclude Include="..\..\..\include\dtex2\Texture.h">
+      <Filter>dataset\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\Package.h">
+      <Filter>resource\package</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\PkgMgr.h">
+      <Filter>resource\package</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
