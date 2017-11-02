@@ -1,5 +1,5 @@
-#ifndef _DTEX_MATH_H_
-#define _DTEX_MATH_H_
+#ifndef _DTEX_TYPEDEF_H_
+#define _DTEX_TYPEDEF_H_
 
 #include <stdint.h>
 
@@ -22,4 +22,4 @@ struct Rect
 
 }
 
-#endif // _DTEX_MATH_H_
+#endif // _DTEX_TYPEDEF_H_

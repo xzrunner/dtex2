@@ -3,7 +3,7 @@
 
 #include "dtex2/Cache.h"
 #include "dtex2/CacheType.h"
-#include "dtex2/Math.h"
+#include "dtex2/typedef.h"
 
 #include <cu/uncopyable.h>
 #include <cu/cu_stl.h>

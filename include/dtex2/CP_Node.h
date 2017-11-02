@@ -1,7 +1,7 @@
 #ifndef _DTEX_CACHE_PACKAGE_NODE_H_
 #define _DTEX_CACHE_PACKAGE_NODE_H_
 
-#include "dtex2/Math.h"
+#include "dtex2/typedef.h"
 
 #include <cu/uncopyable.h>
 

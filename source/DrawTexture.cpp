@@ -1,6 +1,6 @@
 #include "dtex2/DrawTexture.h"
 #include "dtex2/Texture.h"
-#include "dtex2/Math.h"
+#include "dtex2/typedef.h"
 #include "dtex2/RenderAPI.h"
 #include "dtex2/ResCache.h"
 #include "dtex2/Target.h"
