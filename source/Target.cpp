@@ -24,7 +24,6 @@ void Target::BindTexture(int tex_id)
 	}
 
 	RenderAPI::TargetBindTexture(tex_id);
-	RenderAPI::CheckTargetStatus();
 
 	m_texture_id = tex_id;
 }

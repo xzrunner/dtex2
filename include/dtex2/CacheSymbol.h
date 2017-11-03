@@ -126,12 +126,12 @@ private:
 		bool operator == (const DrawTask& node) const { return m_pn->TexID() == node.m_pn->TexID(); }
 		bool operator < (const DrawTask& node) const { return m_pn->TexID() < node.m_pn->TexID(); }
 
-		void Draw() const;
+		bool Draw() const;
 
 		const Block* GetBlock() const { return m_block; }
 
 	private:
-		void DrawExtrude(int src_tex_id, int src_w, int src_h, const Rect& src_r, const Rect& dst_r, bool rotate, int extrude) const;
+		bool DrawExtrude(int src_tex_id, int src_w, int src_h, const Rect& src_r, const Rect& dst_r, bool rotate, int extrude) const;
 
 	private:
 		Texture* m_tex;
