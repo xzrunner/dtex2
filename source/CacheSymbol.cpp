@@ -141,7 +141,7 @@ void CacheSymbol::LoadFinish()
 		auto itr_drawlist = drawlist.begin();
 		for (; itr_drawlist != drawlist.end(); ++itr_drawlist) {
 			if (!itr_drawlist->Draw()) {
-				throw std::exception("draw fail.");
+				throw std::exception();
 			}
 		}
 		DrawTexture::Instance()->Flush();
