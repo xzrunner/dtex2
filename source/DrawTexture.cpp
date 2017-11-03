@@ -15,9 +15,13 @@ DrawTexture::DrawTexture()
 {
 }
 
-void DrawTexture::Draw(int src_tex_id, int src_w, int src_h, const Rect& src_r, Texture* dst, const Rect& dst_r, bool rotate)
+bool DrawTexture::Draw(int src_tex_id, int src_w, int src_h, const Rect& src_r, Texture* dst, const Rect& dst_r, bool rotate)
 {
 	Bind(dst);
+
+	if (!RenderAPI::CheckTargetStatus()) {
+		return false;
+	}
 
 	float vertices[8];
 	float w_inv = m_curr->GetWidthInv(),
@@ -54,6 +58,8 @@ void DrawTexture::Draw(int src_tex_id, int src_w, int src_h, const Rect& src_r, 
 
 	RenderAPI::SetProgram();
 	RenderAPI::Draw(vertices, texcoords, src_tex_id);
+
+	return true;
 }
 
 void DrawTexture::ClearTex(Texture* tex, float xmin, float ymin, float xmax, float ymax)
