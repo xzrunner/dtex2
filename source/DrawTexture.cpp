@@ -18,7 +18,6 @@ DrawTexture::DrawTexture()
 bool DrawTexture::Draw(int src_tex_id, int src_w, int src_h, const Rect& src_r, Texture* dst, const Rect& dst_r, bool rotate)
 {
 	Bind(dst);
-
 	if (!RenderAPI::CheckTargetStatus()) {
 		return false;
 	}
@@ -65,6 +64,9 @@ bool DrawTexture::Draw(int src_tex_id, int src_w, int src_h, const Rect& src_r, 
 void DrawTexture::ClearTex(Texture* tex, float xmin, float ymin, float xmax, float ymax)
 {
 	Bind(tex);
+	if (!RenderAPI::CheckTargetStatus()) {
+		return;
+	}
 
 	int w = m_curr->GetWidth(),
 		h = m_curr->GetHeight();
@@ -104,7 +106,9 @@ void DrawTexture::ClearAllTex(Texture* tex)
 	target->Bind();
 	target->BindTexture(tex->GetID());
 
-	RenderAPI::ClearColor(0, 0, 0, 0);
+	if (RenderAPI::CheckTargetStatus() != 0) {
+		RenderAPI::ClearColor(0, 0, 0, 0);
+	}
 
 	target->UnbindTexture();
 	target->Unbind();
