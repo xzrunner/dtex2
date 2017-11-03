@@ -141,7 +141,9 @@ void CacheSymbol::LoadFinish()
 		drawlist.sort();
 		std::list<DrawTask>::iterator itr_drawlist = drawlist.begin();
 		for ( ; itr_drawlist != drawlist.end(); ++itr_drawlist) {
-			itr_drawlist->Draw();
+			if (!itr_drawlist->Draw()) {
+				throw std::exception();
+			}
 		}
 		DrawTexture::Instance()->Flush();
 		RenderAPI::ScissorEnable();
