@@ -143,7 +143,8 @@ private:
 	}; // DrawTask
 
 private:
-	bool InsertNode(const Prenode& node, std::list<DrawTask>& drawlist, std::list<Block*>& clearlist);
+	bool InsertNode(const Prenode& node, std::list<DrawTask>& drawlist, std::list<Block*>& clearlist,
+		int& clear_block_idx);
 
 private:
 	int m_loadable;
@@ -152,8 +153,8 @@ private:
 	Block*   m_blocks[BLOCK_X_SZ * BLOCK_Y_SZ];
 	int      m_block_w, m_block_h;
 
-	std::list<Prenode>    m_prenodes;
-	CU_VEC<CS_Node>  m_nodes;
+	std::list<Prenode> m_prenodes;
+	CU_VEC<CS_Node>    m_nodes;
 
 	int m_clear_block_idx;
 

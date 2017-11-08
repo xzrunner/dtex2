@@ -118,13 +118,12 @@ void CacheSymbol::LoadFinish()
 		std::list<DrawTask> drawlist;
 		std::list<Block*> clearlist;
 
-		bool block_clear = false;
 		auto itr_prenode = m_prenodes.begin();
 		for (int i = 0; itr_prenode != m_prenodes.end(); ++itr_prenode, ++i) {
-			bool clear = false;
-			InsertNode(*itr_prenode, drawlist, clearlist);
-			if (clear) {
-				block_clear = true;
+			int block_clear_idx = -1;
+			InsertNode(*itr_prenode, drawlist, clearlist, block_clear_idx);
+			if (block_clear_idx != -1) {
+				CacheAPI::OnClearSymBlock(block_clear_idx);
 			}
 		}
 
@@ -208,8 +207,11 @@ void CacheSymbol::ClearBlockTex(const Block* b)
 	DrawTexture::Instance()->ClearTex(m_tex, xmin, ymin, xmax, ymax);
 }
 
-bool CacheSymbol::InsertNode(const Prenode& prenode, std::list<DrawTask>& drawlist, std::list<Block*>& clearlist)
+bool CacheSymbol::InsertNode(const Prenode& prenode, std::list<DrawTask>& drawlist, 
+	                         std::list<Block*>& clearlist, int& clear_block_idx)
 {
+	clear_block_idx = -1;
+
 	int extend = prenode.Padding() + prenode.Extrude();
 
 	Block* block = nullptr;
@@ -226,6 +228,7 @@ bool CacheSymbol::InsertNode(const Prenode& prenode, std::list<DrawTask>& drawli
 	{
 		Block* cleared = m_blocks[m_clear_block_idx];
 		ClearBlockData();
+		clear_block_idx = m_clear_block_idx;
 
 		clearlist.push_back(cleared);
 		// update drawlist
