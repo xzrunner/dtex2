@@ -12,8 +12,8 @@ public:
 	TextureRaw(float lod_scale);
 	virtual ~TextureRaw();
 	
-	virtual TEXTURE_TYPE Type() const { return TEX_RAW; }
-	virtual size_t Size() const { return sizeof(TextureRaw); }
+	virtual TEXTURE_TYPE Type() const override { return TEX_RAW; }
+	virtual size_t Size() const override { return sizeof(TextureRaw); }
 
 private:
 	// for etc1

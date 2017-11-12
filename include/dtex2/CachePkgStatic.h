@@ -24,9 +24,9 @@ public:
 	CachePkgStatic(int tex_size, int tex_fmt);
 	virtual ~CachePkgStatic();
 
-	virtual int Type() const { return CACHE_PKG_STATIC; }
-	virtual void DebugDraw() const;
-	virtual void Clear();
+	virtual int Type() const override { return CACHE_PKG_STATIC; }
+	virtual void DebugDraw() const override;
+	virtual void Clear() override;
 
 	bool IsEmpty() const { return m_pkgs.empty(); }
 

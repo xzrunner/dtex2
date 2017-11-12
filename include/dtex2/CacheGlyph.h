@@ -32,9 +32,9 @@ public:
 	CacheGlyph(int width, int height, const Callback& cb);
 	virtual ~CacheGlyph();
 
-	virtual int Type() const { return CACHE_GLYPH; }
-	virtual void DebugDraw() const;
-	virtual void Clear();
+	virtual int Type() const override { return CACHE_GLYPH; }
+	virtual void DebugDraw() const override;
+	virtual void Clear() override;
 
 	void Load(uint32_t* bitmap, int width, int height, uint64_t key);
 	void Flush();

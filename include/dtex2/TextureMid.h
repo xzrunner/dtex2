@@ -12,8 +12,8 @@ public:
 	TextureMid(int width, int height, int bpp, bool init_pixels);
 	virtual ~TextureMid();
 	
-	virtual TEXTURE_TYPE Type() const { return TEX_MID; }
-	virtual size_t Size() const { return sizeof(TextureMid); }
+	virtual TEXTURE_TYPE Type() const override { return TEX_MID; }
+	virtual size_t Size() const override { return sizeof(TextureMid); }
 
 private:
 	int InitPixels(int width, int height, int bpp);

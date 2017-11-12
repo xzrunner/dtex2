@@ -26,9 +26,9 @@ public:
 	CacheSymbol(int width, int height);
 	virtual ~CacheSymbol();
 
-	virtual int Type() const { return CACHE_SYMBOL; }
-	virtual void DebugDraw() const;
-	virtual void Clear();
+	virtual int Type() const override { return CACHE_SYMBOL; }
+	virtual void DebugDraw() const override;
+	virtual void Clear() override;
 	
 	void LoadStart();
 	void Load(int tex_id, int tex_w, int tex_h, const Rect& r, uint64_t key, 
