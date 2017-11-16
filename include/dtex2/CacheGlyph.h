@@ -8,6 +8,8 @@
 #include <cu/uncopyable.h>
 #include <cu/cu_stl.h>
 
+#include <memory>
+
 #include <stdint.h>
 
 struct texpack;
