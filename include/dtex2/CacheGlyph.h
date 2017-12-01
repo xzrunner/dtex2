@@ -61,8 +61,8 @@ private:
 	Texture*  m_tex;
 	texpack*  m_tp;
 
-	CU_UNORDERED_MAP<uint64_t, Rect> m_all_nodes;
-	mutable CU_VEC<std::pair<uint64_t, Rect>> m_new_nodes;
+	std::unordered_map<uint64_t, Rect> m_all_nodes;
+	mutable std::vector<std::pair<uint64_t, Rect>> m_new_nodes;
 
 	Rect m_dirty_rect;
 
