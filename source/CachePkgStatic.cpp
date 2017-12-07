@@ -113,8 +113,8 @@ int CachePkgStatic::LoadFinish(bool async)
 		return 0;
 	}
 
-	m_prenodes.unique();
 	m_prenodes.sort();
+	m_prenodes.unique();
 	PackPrenodes();
 	m_prenodes.clear();
 

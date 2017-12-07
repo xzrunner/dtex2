@@ -94,6 +94,13 @@ private:
 		Block(Texture* tex, int x, int y, int w, int h);
 		~Block();
 
+		bool operator == (const Block& block) const {
+			return m_x == block.m_x && m_y == block.m_y;
+		}
+		bool operator < (const Block& block) const {
+			return m_x < block.m_x || (m_x == block.m_x && m_y < block.m_y);
+		}
+
 		void Clear();
 
 		int Query(uint64_t key) const;

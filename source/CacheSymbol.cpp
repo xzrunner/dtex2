@@ -113,8 +113,8 @@ void CacheSymbol::LoadFinish()
 
 	try {
 		// insert
-		m_prenodes.unique();
 		m_prenodes.sort();
+		m_prenodes.unique();
 		std::list<DrawTask> drawlist;
 		std::list<Block*> clearlist;
 
@@ -128,10 +128,15 @@ void CacheSymbol::LoadFinish()
 		}
 
 		// draw clear
+		clearlist.sort();
 		clearlist.unique();
-		auto itr_clearlist = clearlist.begin();
-		for (; itr_clearlist != clearlist.end(); ++itr_clearlist) {
-			ClearBlockTex(*itr_clearlist);
+		if (clearlist.size() == BLOCK_X_SZ * BLOCK_Y_SZ) {
+			DrawTexture::ClearAllTex(m_tex);
+		} else {
+			auto itr_clearlist = clearlist.begin();
+			for (; itr_clearlist != clearlist.end(); ++itr_clearlist) {
+				ClearBlockTex(*itr_clearlist);
+			}
 		}
 
 		// draw
