@@ -131,7 +131,8 @@ void CacheSymbol::LoadFinish()
 		clearlist.sort();
 		clearlist.unique();
 		if (clearlist.size() == BLOCK_X_SZ * BLOCK_Y_SZ) {
-			DrawTexture::ClearAllTex(m_tex);
+			// clear all texture
+			DrawTexture::Instance()->ClearTex(m_tex, 0, 0, 1, 1);
 		} else {
 			auto itr_clearlist = clearlist.begin();
 			for (; itr_clearlist != clearlist.end(); ++itr_clearlist) {
