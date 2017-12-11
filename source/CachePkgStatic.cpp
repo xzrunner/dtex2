@@ -16,7 +16,6 @@
 #include <gimg_import.h>
 #include <gimg_typedef.h>
 #include <unirender/RenderContext.h>
-#include <multitask/ThreadPool.h>
 
 #include <algorithm>
 
