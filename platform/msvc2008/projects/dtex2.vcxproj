@@ -54,7 +54,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\logger\src\logger;..\..\..\..\fs\src\fs;..\..\..\..\memmgr\include;..\..\..\..\flatten\include;..\..\..\..\cooking\include;..\..\..\..\ds\src\ds;..\..\..\..\texpack\src\texpack;..\..\..\..\gimg\src\gimg;..\..\..\..\unirender\include;..\..\..\..\multitask\include;..\..\..\..\editor-external\c99;..\..\..\..\editor-external\pthread\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;EASY_EDITOR;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -68,7 +68,7 @@
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\logger\src\logger;..\..\..\..\fs\src\fs;..\..\..\..\memmgr\include;..\..\..\..\flatten\include;..\..\..\..\cooking\include;..\..\..\..\ds\src\ds;..\..\..\..\texpack\src\texpack;..\..\..\..\gimg\src\gimg;..\..\..\..\unirender\include;..\..\..\..\multitask\include;..\..\..\..\editor-external\c99;..\..\..\..\editor-external\pthread\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;EASY_EDITOR;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader />
