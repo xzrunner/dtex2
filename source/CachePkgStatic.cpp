@@ -475,8 +475,8 @@ void CachePkgStatic::LoadPartRGBA4(int w, int h, const void* data, const CP_Node
 
 void CachePkgStatic::LoadPartRGBA4FromRGBA8(int w, int h, const void* data, const CP_Node* node)
 {
-	const uint8_t* pixels = (const uint8_t*)(data);
-	uint8_t* rgba4 = gimg_rgba8_to_rgba4_dither(pixels, w, h);
+	const uint8_t* pixels = static_cast<const uint8_t*>(data);
+	uint8_t* rgba4 = gimg_rgba8_to_rgba4_dither(const_cast<uint8_t*>(pixels), w, h);
 	if (rgba4 == nullptr) {
 		ResourceAPI::ErrorReload();
 		return;
