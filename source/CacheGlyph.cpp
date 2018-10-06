@@ -26,8 +26,11 @@ CacheGlyph::CacheGlyph(int width, int height, const Callback& cb)
 	, m_cb(cb)
 {
 	m_buf = new uint32_t[BUF_SZ];
+	memset(m_buf, 0, BUF_SZ);
 
 	m_bitmap = new uint32_t[width * height];
+	memset(m_bitmap, 0, sizeof(uint32_t) * m_width * m_height);
+
 	m_tex    = new TextureMid(width, height, 4, true);
 	m_tp     = texpack_create(width, height, MAX_NODE_SIZE);
 

@@ -42,13 +42,14 @@ int TextureMid::InitPixels(int width, int height, int bpp)
 		return -1;
 	}
 
-// 	uint32_t col = 0x66ff0000;
-// 	int ptr = 0;
-// 	for (int i = 0; i < width; ++i) {
-// 		for (int j = 0; j < height; ++j) {
-// 			memcpy(&empty_data[ptr++], &col, 4);
-// 		}
-// 	}
+ 	//uint32_t col = 0x11ff0000;
+ 	//int ptr = 0;
+ 	//for (int i = 0; i < width; ++i) {
+ 	//	for (int j = 0; j < height; ++j) {
+ 	//		memcpy(&empty_data[ptr], &col, 4);
+		//	ptr += 4;
+ 	//	}
+ 	//}
 
 	memset(empty_data, 0, sz);
 
