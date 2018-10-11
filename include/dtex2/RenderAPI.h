@@ -27,6 +27,7 @@ public:
 	static void InitCallback(const Callback& draw_cb);
 
 	static void InitRenderContext(ur::RenderContext* rc);
+	static ur::RenderContext* GetRenderContext();
 
 	/************************************************************************/
 	/* Texture                                                              */
@@ -37,7 +38,6 @@ public:
 	static void ReleaseTexture(int id, int width, int height, int format);
 
 	static void UpdateTexture(const void* pixels, int w, int h, unsigned int id);
-	static void UpdateSubTex(const void* pixels, int x, int y, int w, int h, unsigned int id);
 
 	/************************************************************************/
 	/* Target                                                               */
@@ -50,7 +50,13 @@ public:
 	static void TargetBind(int id);
 	static void TargetUnbind();
 
-	static int  CheckTargetStatus();
+	static int  CheckTargetStatus();	
+
+	/************************************************************************/
+	/* State                                                                */
+	/************************************************************************/
+
+	static void SetUnpackRowLength(int len);
 
 	/************************************************************************/
 	/* Draw                                                                 */

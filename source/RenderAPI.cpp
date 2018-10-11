@@ -20,6 +20,11 @@ void RenderAPI::InitRenderContext(ur::RenderContext* rc)
 	RC = rc;
 }
 
+ur::RenderContext* RenderAPI::GetRenderContext()
+{
+	return RC;
+}
+
 /************************************************************************/
 /* Texture                                                              */
 /************************************************************************/
@@ -50,11 +55,6 @@ void RenderAPI::ReleaseTexture(int id, int width, int height, int format)
 void RenderAPI::UpdateTexture(const void* pixels, int w, int h, unsigned int id)
 {
 	RC->UpdateTexture(id, pixels, w, h);
-}
-
-void RenderAPI::UpdateSubTex(const void* pixels, int x, int y, int w, int h, unsigned int id)
-{
-	RC->UpdateSubTexture(pixels, x, y, w, h, id);
 }
 
 /************************************************************************/
@@ -89,6 +89,15 @@ void RenderAPI::TargetUnbind()
 int RenderAPI::CheckTargetStatus()
 {
 	return RC->CheckRenderTargetStatus();
+}
+
+/************************************************************************/
+/* State                                                                */
+/************************************************************************/
+
+void RenderAPI::SetUnpackRowLength(int len)
+{
+	RC->SetUnpackRowLength(len);
 }
 
 /************************************************************************/

@@ -7,6 +7,7 @@
 
 #include <cu/cu_stl.h>
 #include <texpack.h>
+#include <unirender/PixelBuffer.h>
 
 #include <algorithm>
 
@@ -15,7 +16,6 @@
 namespace dtex
 {
 
-static const int BUF_SZ = 256 * 256;
 static const int MAX_NODE_SIZE = 512;
 
 static const int PADDING = 1;
@@ -25,27 +25,20 @@ CacheGlyph::CacheGlyph(int width, int height, const Callback& cb)
 	, m_height(height)
 	, m_cb(cb)
 {
-	m_buf = new uint32_t[BUF_SZ];
-	memset(m_buf, 0, BUF_SZ);
-
-	m_bitmap = new uint32_t[width * height];
-	memset(m_bitmap, 0, sizeof(uint32_t) * m_width * m_height);
-
-	m_tex    = new TextureMid(width, height, 4, true);
-	m_tp     = texpack_create(width, height, MAX_NODE_SIZE);
+	m_pbuf = ur::PixelBuffer::Create(RenderAPI::GetRenderContext(), width, height, ur::TEXTURE_RGBA8, true);
+	m_pbuf->Clear();
+	m_tex = new TextureMid(width, height, 4, true);
+	m_tp  = texpack_create(width, height, MAX_NODE_SIZE);
 
 	InitDirtyRect();
 
-	if (!m_buf || !m_bitmap || !m_tex || !m_tp) {
+	if (!m_tex || !m_tp) {
 		ResourceAPI::ErrorReload();
 	}
 }
 
 CacheGlyph::~CacheGlyph()
 {
-	delete[] m_buf;
-
-	delete[] m_bitmap;
 	delete m_tex;
 	texpack_release(m_tp);
 }
@@ -57,9 +50,7 @@ void CacheGlyph::DebugDraw() const
 
 void CacheGlyph::Clear()
 {
-	memset(m_buf, 0, BUF_SZ);
-
-	memset(m_bitmap, 0, sizeof(uint32_t) * m_width * m_height);
+	m_pbuf->Clear();
 	DrawTexture::ClearAllTex(m_tex);
 	texpack_clear(m_tp);
 
@@ -99,6 +90,7 @@ void CacheGlyph::Load(uint32_t* bitmap, int width, int height, uint64_t key)
 	m_all_nodes.insert(node);
 	m_new_nodes.push_back(node);
 
+	uint32_t* bmp_buf = (uint32_t*)m_pbuf->Map(ur::WRITE_ONLY);
 	int src_ptr = 0;
 	for (int y = 0; y < height; ++y) {
 		for (int x = 0; x < width; ++x) {
@@ -109,7 +101,7 @@ void CacheGlyph::Load(uint32_t* bitmap, int width, int height, uint64_t key)
 			uint8_t a = src & 0xff;
 
 			int dst_ptr = (pos->r.ymin + PADDING + y) * m_width + pos->r.xmin + PADDING + x;
-			m_bitmap[dst_ptr] = a << 24 | b << 16 | g << 8 | r;
+			bmp_buf[dst_ptr] = a << 24 | b << 16 | g << 8 | r;
 		}
 	}
 
@@ -188,21 +180,10 @@ void CacheGlyph::UpdateTexture()
 		y = m_dirty_rect.ymin;
 	int w = m_dirty_rect.xmax - m_dirty_rect.xmin,
 		h = m_dirty_rect.ymax - m_dirty_rect.ymin;
-
-	if (w * h > BUF_SZ) {
-		RenderAPI::UpdateTexture(m_bitmap, m_width, m_height, m_tex->GetID());
-		return;
-	}
-	
-	int src = y * m_width + x,
-		dst = 0;
-	int line_sz = w * sizeof(uint32_t);
-	for (int i = 0; i < h; ++i) {
-		memcpy(&m_buf[dst], &m_bitmap[src], line_sz);
-		src += m_width;
-		dst += w;
-	}
-	RenderAPI::UpdateSubTex(m_buf, x, y, w, h, m_tex->GetID());
+	RenderAPI::SetUnpackRowLength(m_width);
+	int offset = (y * m_width + x) * 4;
+	m_pbuf->Upload(x, y, w, h, offset, m_tex->GetID());
+	RenderAPI::SetUnpackRowLength(0);
 }
 
 }

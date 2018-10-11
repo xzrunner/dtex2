@@ -15,6 +15,8 @@
 struct texpack;
 struct texpack_pos;
 
+namespace ur { class PixelBuffer; }
+
 namespace dtex
 {
 
@@ -55,11 +57,10 @@ private:
 	int m_width, m_height;
 	Callback m_cb;
 
-	uint32_t* m_buf;
-
-	uint32_t* m_bitmap;
-	Texture*  m_tex;
-	texpack*  m_tp;
+	std::unique_ptr<ur::PixelBuffer> m_pbuf = nullptr;
+	
+	Texture* m_tex;
+	texpack* m_tp;
 
 	CU_UNORDERED_MAP<uint64_t, Rect> m_all_nodes;
 	mutable CU_VEC<std::pair<uint64_t, Rect>> m_new_nodes;
