@@ -8,6 +8,7 @@
 #include <cu/cu_stl.h>
 #include <texpack.h>
 #include <unirender/PixelBuffer.h>
+#include <unirender/RenderContext.h>
 
 #include <algorithm>
 
@@ -70,7 +71,7 @@ void CacheGlyph::Load(uint32_t* bitmap, int width, int height, uint64_t key)
 	}
 
 	texpack_pos* pos = texpack_add(m_tp, width + PADDING * 2, height + PADDING * 2, false);
-	if (!pos) 
+	if (!pos)
 	{
 		Flush();
 		RenderAPI::Flush();
@@ -118,13 +119,16 @@ void CacheGlyph::Flush()
 
 	m_cb.load_start();
 	for (int i = 0, n = m_new_nodes.size(); i < n; ++i) {
-		m_cb.load(m_tex->GetID(), m_tex->GetWidth(), m_tex->GetHeight(), 
+		m_cb.load(m_tex->GetID(), m_tex->GetWidth(), m_tex->GetHeight(),
 			m_new_nodes[i].second, m_new_nodes[i].first);
 	}
 	m_new_nodes.clear();
 	m_cb.load_finish();
 
 	InitDirtyRect();
+
+	// unbind fbo
+	RenderAPI::GetRenderContext()->UnbindPixelBuffer();
 }
 
 bool CacheGlyph::QueryAndInsert(uint64_t key, float* texcoords, int& tex_id) const
@@ -147,7 +151,7 @@ bool CacheGlyph::QueryAndInsert(uint64_t key, float* texcoords, int& tex_id) con
 	texcoords[2] = xmax; texcoords[3] = ymin;
 	texcoords[4] = xmax; texcoords[5] = ymax;
 	texcoords[6] = xmin; texcoords[7] = ymax;
-	
+
 	return true;
 }
 
