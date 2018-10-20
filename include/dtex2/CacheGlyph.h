@@ -10,10 +10,9 @@
 
 #include <memory>
 
-#include <stdint.h>
+#include <boost/noncopyable.hpp>
 
-struct texpack;
-struct texpack_pos;
+#include <stdint.h>
 
 namespace ur { class PixelBuffer; }
 
@@ -21,6 +20,7 @@ namespace dtex
 {
 
 class Texture;
+class TexPacker;
 
 class CacheGlyph : public Cache, private cu::Uncopyable
 {
@@ -34,38 +34,66 @@ public:
 
 public:
 	CacheGlyph(int width, int height, const Callback& cb);
-	virtual ~CacheGlyph();
 
 	virtual int Type() const override { return CACHE_GLYPH; }
 	virtual void DebugDraw() const override;
 	virtual void Clear() override;
 
-	void Load(uint32_t* bitmap, int width, int height, uint64_t key);
+	void Load(const uint32_t* bitmap, int width, int height, uint64_t key);
 	void Flush();
 
 	// query from cg's tex and insert to c2
 	bool QueryAndInsert(uint64_t key, float* texcoords, int& tex_id) const;
 	bool Exist(uint64_t key) const { return m_all_nodes.find(key) != m_all_nodes.end(); }
-	
-private:
-	void InitDirtyRect();
-	void UpdateDirtyRect(const texpack_pos* pos);
 
-	void UpdateTexture();
+private:
+	class Page : boost::noncopyable
+	{
+	public:
+		Page(size_t width, size_t height);
+
+		bool AddToTP(size_t width, size_t height, Rect& ret);
+
+		void Clear();
+
+		int GetTexID() const;
+
+		void UpdateBitmap(const uint32_t* bitmap, int width, int height,
+			const Rect& pos, const Rect& dirty_r);
+		void UploadTexture();
+
+	private:
+		void InitDirtyRect();
+		void UpdateDirtyRect(const Rect& r);
+
+	private:
+		size_t m_width, m_height;
+
+		std::unique_ptr<Texture>   m_tex = nullptr;
+		std::unique_ptr<TexPacker> m_tp  = nullptr;
+
+		std::unique_ptr<ur::PixelBuffer> m_pbuf = nullptr;
+
+		Rect m_dirty_rect;
+
+	}; // Page
+
+	struct Node
+	{
+		uint64_t key = 0;
+
+		size_t page = 0;
+		Rect   region;
+	};
 
 private:
 	int m_width, m_height;
 	Callback m_cb;
 
-	std::unique_ptr<ur::PixelBuffer> m_pbuf = nullptr;
-	
-	Texture* m_tex;
-	texpack* m_tp;
+	std::vector<std::unique_ptr<Page>> m_pages;
 
-	CU_UNORDERED_MAP<uint64_t, Rect> m_all_nodes;
-	mutable CU_VEC<std::pair<uint64_t, Rect>> m_new_nodes;
-
-	Rect m_dirty_rect;
+	CU_UNORDERED_MAP<uint64_t, Node> m_all_nodes;
+	mutable CU_VEC<Node>             m_new_nodes;
 
 }; // CacheGlyph
 

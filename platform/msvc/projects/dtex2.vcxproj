@@ -53,7 +53,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\guard\include;..\..\..\..\logger\src\logger;..\..\..\..\fs\src\fs;..\..\..\..\memmgr\include;..\..\..\..\cooking\include;..\..\..\..\ds\src\ds;..\..\..\..\texpack\src\texpack;..\..\..\..\gimg\src\gimg;..\..\..\..\unirender\include;..\..\..\..\multitask\include;..\..\..\..\external\c99;..\..\..\..\external\pthread\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\guard\include;..\..\..\..\logger\src\logger;..\..\..\..\fs\src\fs;..\..\..\..\memmgr\include;..\..\..\..\cooking\include;..\..\..\..\ds\src\ds;..\..\..\..\texpack\src\texpack;..\..\..\..\gimg\src\gimg;..\..\..\..\unirender\include;..\..\..\..\multitask\include;..\..\..\..\external\c99;..\..\..\..\external\pthread\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -67,7 +67,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\guard\include;..\..\..\..\logger\src\logger;..\..\..\..\fs\src\fs;..\..\..\..\memmgr\include;..\..\..\..\cooking\include;..\..\..\..\ds\src\ds;..\..\..\..\texpack\src\texpack;..\..\..\..\gimg\src\gimg;..\..\..\..\unirender\include;..\..\..\..\multitask\include;..\..\..\..\external\c99;..\..\..\..\external\pthread\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\cu\src;..\..\..\..\guard\include;..\..\..\..\logger\src\logger;..\..\..\..\fs\src\fs;..\..\..\..\memmgr\include;..\..\..\..\cooking\include;..\..\..\..\ds\src\ds;..\..\..\..\texpack\src\texpack;..\..\..\..\gimg\src\gimg;..\..\..\..\unirender\include;..\..\..\..\multitask\include;..\..\..\..\external\c99;..\..\..\..\external\pthread\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -92,6 +92,7 @@
     <ClCompile Include="..\..\..\source\Facade.cpp" />
     <ClCompile Include="..\..\..\source\Package.cpp" />
     <ClCompile Include="..\..\..\source\PkgMgr.cpp" />
+    <ClCompile Include="..\..\..\source\TexPacker.cpp" />
     <ClCompile Include="..\..\..\source\Texture.cpp" />
     <ClCompile Include="..\..\..\source\HardRes.cpp" />
     <ClCompile Include="..\..\..\source\LoadResTask.cpp" />
@@ -122,6 +123,7 @@
     <ClInclude Include="..\..\..\include\dtex2\Math.h" />
     <ClInclude Include="..\..\..\include\dtex2\Package.h" />
     <ClInclude Include="..\..\..\include\dtex2\PkgMgr.h" />
+    <ClInclude Include="..\..\..\include\dtex2\TexPacker.h" />
     <ClInclude Include="..\..\..\include\dtex2\Texture.h" />
     <ClInclude Include="..\..\..\include\dtex2\TextureFormat.h" />
     <ClInclude Include="..\..\..\include\dtex2\HardRes.h" />

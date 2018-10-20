@@ -104,6 +104,9 @@
     <ClCompile Include="..\..\..\source\PkgMgr.cpp">
       <Filter>resource\package</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\TexPacker.cpp">
+      <Filter>dataset</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\dtex2\Target.h">
@@ -191,6 +194,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\dtex2\PkgMgr.h">
       <Filter>resource\package</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\dtex2\TexPacker.h">
+      <Filter>dataset</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
