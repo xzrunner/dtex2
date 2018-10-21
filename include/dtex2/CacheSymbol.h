@@ -88,6 +88,13 @@ private:
 
 	}; // Prenode
 
+	struct PrenodeKeyCmp
+	{
+		bool operator () (const Prenode& lhs, const Prenode& rhs) const {
+			return lhs.Key() < rhs.Key();
+		}
+	};
+
 	class Block : private cu::Uncopyable
 	{
 	public:
@@ -160,7 +167,7 @@ private:
 	Block*   m_blocks[BLOCK_X_SZ * BLOCK_Y_SZ];
 	int      m_block_w, m_block_h;
 
-	std::list<Prenode> m_prenodes;
+	std::set<Prenode, PrenodeKeyCmp> m_prenodes;
 	CU_VEC<CS_Node>    m_nodes;
 
 	int m_clear_block_idx;

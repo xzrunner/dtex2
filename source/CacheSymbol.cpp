@@ -102,7 +102,7 @@ void CacheSymbol::Load(int tex_id, int tex_w, int tex_h, const Rect& r, uint64_t
 		return;
 	}
 
-	m_prenodes.push_back(Prenode(tex_id, tex_w, tex_h, r, key, padding, extrude, src_extrude));	
+	m_prenodes.insert(Prenode(tex_id, tex_w, tex_h, r, key, padding, extrude, src_extrude));
 }
 
 void CacheSymbol::LoadFinish()
@@ -113,8 +113,6 @@ void CacheSymbol::LoadFinish()
 
 	try {
 		// insert
-		m_prenodes.sort();
-		m_prenodes.unique();
 		std::list<DrawTask> drawlist;
 		std::list<Block*> clearlist;
 
