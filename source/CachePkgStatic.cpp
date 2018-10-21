@@ -94,7 +94,7 @@ void CachePkgStatic::Load(const Package* pkg, int lod)
 	}
 
 	auto& textures = pkg->GetTextures();
-	for (int i = 0, n = textures.size(); i < n; ++i) 
+	for (int i = 0, n = textures.size(); i < n; ++i)
 	{
 		assert(textures[i]->Type() == TEX_RAW);
 		if (m_tex_fmt != TEXTURE_RGBA4 && textures[i]->GetFormat() != m_tex_fmt) {
@@ -126,10 +126,10 @@ void CachePkgStatic::PackPrenodes()
 {
 	static const float SCALE = 1;
 	CU_LIST<CP_Prenode>::iterator itr = m_prenodes.begin();
-	for ( ; itr != m_prenodes.end(); ++itr) 
+	for ( ; itr != m_prenodes.end(); ++itr)
 	{
 		const CP_Prenode& prenode = *itr;
-						
+
 		const Package* pkg = prenode.GetPackage();
 		int tex_idx = prenode.GetTexIdx();
 
@@ -173,7 +173,7 @@ bool CachePkgStatic::PackPrenode(const CP_Prenode& prenode, float scale)
 			return true;
 		}
 	}
-	return false;	
+	return false;
 }
 
 void CachePkgStatic::LoadTexAndRelocateNodes(bool async)
@@ -226,7 +226,7 @@ void CachePkgStatic::CreateTexturesID()
 		Texture* tex_impl = tex->GetTexture();
 		int w = tex_impl->GetWidth(),
 			h = tex_impl->GetHeight();
-		
+
 		int fmt = 0;
 		switch (m_tex_fmt)
 		{
@@ -289,15 +289,15 @@ void CachePkgStatic::UpdateTextures()
 
 void CachePkgStatic::RelocateNodes()
 {
-	for (int i = 0, n = m_textures.size(); i < n; ++i) 
+	for (int i = 0, n = m_textures.size(); i < n; ++i)
 	{
 		const CU_VEC<CP_Node*>& src = m_textures[i]->GetNodes();
-		for (int j = 0, m = src.size(); j < m; ++j) 
+		for (int j = 0, m = src.size(); j < m; ++j)
 		{
 			CP_Node* node = src[j];
 			const Texture* dst_tex = node->GetDstTex()->GetTexture();
 			const Rect& dst_r = node->GetDstRect();
-			CacheAPI::RelocatePkg(node->GetSrcPkg()->GetID(), node->GetSrcTexIdx(), node->GetSrcLod(), dst_tex->GetID(), 
+			CacheAPI::RelocatePkg(node->GetSrcPkg()->GetID(), node->GetSrcTexIdx(), node->GetSrcLod(), dst_tex->GetID(),
 				dst_tex->GetFormat(), dst_tex->GetWidth(), dst_tex->GetHeight(), dst_r.xmin, dst_r.ymin, dst_r.xmax, dst_r.ymax);
 		}
 	}
@@ -319,7 +319,7 @@ void CachePkgStatic::LoadTextureCB(int format, int w, int h, const void* data, v
 		break;
 	case TEXTURE_ETC2:
 		assert(format == TEXTURE_ETC2);
-		LoadPartETC2(w, h, data, node);		
+		LoadPartETC2(w, h, data, node);
 		break;
 	case TEXTURE_RGBA4:
 		if (!node->GetDstTex()->GetUD()) {
@@ -347,7 +347,7 @@ void CachePkgStatic::LoadTextureCB(int format, int w, int h, const void* data, v
 	default:
 		assert(0);
 	}
-	
+
 	if (cache->UpRemain()) {
 		cache->UpdateTextures();
 		ResourceAPI::CachePkgStaticTexOk();
@@ -365,7 +365,7 @@ void CachePkgStatic::LoadPartPVR4(int w, int h, const void* data, const CP_Node*
 	assert(IS_POT(w) && IS_POT(h));
 
 	const Rect& dst_pos = node->GetDstRect();
-	if (w != dst_pos.xmax - dst_pos.xmin || 
+	if (w != dst_pos.xmax - dst_pos.xmin ||
 		h != dst_pos.ymax - dst_pos.ymin) {
 		return;
 	}
@@ -392,9 +392,9 @@ void CachePkgStatic::LoadPartPVR4(int w, int h, const void* data, const CP_Node*
 	if (!dst_data) {
 		return;
 	}
-	for (int y = 0; y < grid_h; ++y) 
+	for (int y = 0; y < grid_h; ++y)
 	{
-		for (int x = 0; x < grid_w; ++x) 
+		for (int x = 0; x < grid_w; ++x)
 		{
 			int idx_src = gimg_pvr_get_morton_number(x, y);
 			int idx_dst = gimg_pvr_get_morton_number(grid_x + x, grid_y + y);
@@ -411,12 +411,12 @@ void CachePkgStatic::LoadPartETC2(int w, int h, const void* data, const CP_Node*
 	assert(IS_POT(w) && IS_POT(h));
 
 	const Rect& dst_pos = node->GetDstRect();
-	if (w != dst_pos.xmax - dst_pos.xmin || 
+	if (w != dst_pos.xmax - dst_pos.xmin ||
 		h != dst_pos.ymax - dst_pos.ymin) {
 		return;
 	}
 	assert(IS_4TIMES(dst_pos.xmin) && IS_4TIMES(dst_pos.ymin));
-	
+
 	CP_Texture* dst_tex = node->GetDstTex();
 	int tex_w = dst_tex->GetTexture()->GetWidth(),
 		tex_h = dst_tex->GetTexture()->GetHeight();
@@ -440,9 +440,9 @@ void CachePkgStatic::LoadPartETC2(int w, int h, const void* data, const CP_Node*
 	}
 	const int grid_sz = sizeof(uint8_t) * 8 * 2;
 	const int large_grid_w = tex_w >> 2;
-	for (int y = 0; y < grid_h; ++y) 
+	for (int y = 0; y < grid_h; ++y)
 	{
-		for (int x = 0; x < grid_w; ++x) 
+		for (int x = 0; x < grid_w; ++x)
 		{
 			int idx_src = x + grid_w * y;
 			int idx_dst = grid_x + x + large_grid_w * (grid_y + y);
@@ -579,7 +579,7 @@ void CachePkgStatic::LoadTextureETC2(int tex_id, int w, int h, const void* data)
 	}
 }
 
-bool CachePkgStatic::NodeTexCmp::operator () (const CP_Node* n0, const CP_Node* n1) const 
+bool CachePkgStatic::NodeTexCmp::operator () (const CP_Node* n0, const CP_Node* n1) const
 {
 	int pkg0 = n0->GetSrcPkg()->GetID(),
 		pkg1 = n1->GetSrcPkg()->GetID();

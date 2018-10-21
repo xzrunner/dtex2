@@ -4,7 +4,7 @@
 
 namespace dtex
 {
-	
+
 Texture::Texture()
 	: m_id(0)
 	, m_width(0)
@@ -17,17 +17,17 @@ Texture::Texture()
 
 Texture::~Texture()
 {
-	if (m_id != 0) 
+	if (m_id != 0)
 	{
 		RenderAPI::ReleaseTexture(m_id, m_width, m_height, m_format);
 		CacheAPI::RemoveTex(m_id);
 	}
 }
 
-void Texture::SetSize(int w, int h) 
-{ 
-	m_width = w; 
-	m_height = h; 
+void Texture::SetSize(int w, int h)
+{
+	m_width = w;
+	m_height = h;
 	m_width_inv = 1.0f / w;
 	m_height_inv = 1.0f / h;
 }

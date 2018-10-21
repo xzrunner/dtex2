@@ -108,7 +108,7 @@ void RenderAPI::ClearColor(float r, float g, float b, float a)
 {
 	RC->SetClearFlag(ur::MASKC);
 
-	int argb = 
+	int argb =
 		(int)(255 * a) << 24 |
 		(int)(255 * r) << 16 |
 		(int)(255 * g) <<  8 |

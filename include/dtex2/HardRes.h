@@ -11,9 +11,9 @@ public:
 //	static void Init(int need_texture_area);
 
 	static int GetMaxTexSize();
-	
+
 private:
-		
+
 
 }; // HardRes
 

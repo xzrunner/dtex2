@@ -42,7 +42,7 @@ protected:
 
 	int m_width, m_height;
 	float m_width_inv, m_height_inv;
-	
+
 	bool m_cache_locked;
 
 }; // Texture

@@ -30,14 +30,14 @@ public:
 
 	const CU_VEC<CP_Node*>& GetNodes() const { return m_nodes; }
 
-	void* GetUD() const { return m_ud; } 
+	void* GetUD() const { return m_ud; }
 	void  SetUD(void* ud) { m_ud = ud; }
-	
+
 private:
 	Texture* m_tex;
 	Rect     m_region;
 
-	CU_VEC<CP_Node*> m_nodes;		
+	CU_VEC<CP_Node*> m_nodes;
 
 	texpack* m_tp;
 

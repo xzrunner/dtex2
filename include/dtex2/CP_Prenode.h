@@ -14,8 +14,8 @@ public:
 // 	CP_Prenode(const CP_Node& node);
 // 	CP_Prenode& operator = (const CP_Node& node);
 
-	bool operator == (const CP_Prenode& node) const { 
-		return m_pkg == node.m_pkg && m_tex_idx == node.m_tex_idx; 
+	bool operator == (const CP_Prenode& node) const {
+		return m_pkg == node.m_pkg && m_tex_idx == node.m_tex_idx;
 	}
 	bool operator < (const CP_Prenode& node) const {
 		return Area() > node.Area();

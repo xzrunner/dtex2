@@ -13,7 +13,7 @@ class NodeLUT
 public:
 	struct Node
 	{
-		Node(uint64_t key, int val) 
+		Node(uint64_t key, int val)
 			: key(key), val(val) {}
 
 		uint64_t key;

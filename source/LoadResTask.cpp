@@ -27,7 +27,7 @@ LoadResTask::~LoadResTask()
 	free(m_data);
 }
 
-static inline void 
+static inline void
 on_load(const void* data, size_t size, void* ud)
 {
 	LoadResTask* task = static_cast<LoadResTask*>(ud);
@@ -84,14 +84,14 @@ CU_SINGLETON_DEFINITION(LoadResTaskMgr)
 
 LoadResTaskMgr::LoadResTaskMgr()
 	: m_count(0)
-{	
+{
 }
 
 LoadResTask* LoadResTaskMgr::Fetch(void (*finish_cb)(const void* data, size_t size, void* ud), void* ud)
 {
 	++m_count;
 	mt::Task* t = m_freelist.Front();
-	LoadResTask* tt = static_cast<LoadResTask*>(t);	
+	LoadResTask* tt = static_cast<LoadResTask*>(t);
 	if (!tt) {
 		tt = new LoadResTask(finish_cb, ud);
 	} else {

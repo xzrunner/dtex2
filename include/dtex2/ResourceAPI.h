@@ -33,7 +33,7 @@ public:
 	};
 
 	static void InitCallback(const Callback& cb);
-	
+
 	//////////////////////////////////////////////////////////////////////////
 
 	static void ErrorReload();

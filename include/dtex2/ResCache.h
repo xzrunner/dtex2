@@ -24,7 +24,7 @@ public:
 private:
 	CU_VEC<Texture*> m_textures;
 	CU_VEC<Target*>  m_targets;
-	
+
 	CU_SINGLETON_DECLARATION(ResCache);
 
 }; // ResCache

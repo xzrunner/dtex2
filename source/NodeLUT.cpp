@@ -47,7 +47,7 @@ bool NodeLUT::Delete(const Node& node)
 	++m_search_times;
 	int idx = Hash(node.key);
 	auto& list = m_hash[idx];
-	for (int i = 0, n = list.size(); i < n; ++i) 
+	for (int i = 0, n = list.size(); i < n; ++i)
 	{
 		++m_search_length;
 		if (list[i].val == node.val) {
@@ -68,7 +68,7 @@ int NodeLUT::Query(uint64_t key) const
 	++m_search_times;
 	int idx = Hash(key);
 	auto& list = m_hash[idx];
-	for (int i = 0, n = list.size(); i < n; ++i) 
+	for (int i = 0, n = list.size(); i < n; ++i)
 	{
 		++m_search_length;
 		if (list[i].key == key) {
@@ -83,7 +83,7 @@ void NodeLUT::Clear()
 	m_hash_sz_idx = 0;
 
 	delete[] m_hash;
-	m_hash = new CU_VEC<Node>[HASH_SZ_TBL[m_hash_sz_idx]];	
+	m_hash = new CU_VEC<Node>[HASH_SZ_TBL[m_hash_sz_idx]];
 	if (m_hash == nullptr) {
 		ResourceAPI::ErrorReload();
 	}
@@ -110,7 +110,7 @@ void NodeLUT::Rehash() const
 		auto& list = m_hash[i];
 		for (int j = 0, m = list.size(); j < m; ++j) {
 			int idx = Hash(list[j].key);
-			new_hash[idx].push_back(list[j]);	
+			new_hash[idx].push_back(list[j]);
 		}
 	}
 

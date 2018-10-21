@@ -20,7 +20,7 @@ CacheMgr::~CacheMgr()
 
 bool CacheMgr::Add(Cache* cache, const CU_STR& key)
 {
-	std::pair<CU_MAP<CU_STR, Cache*>::iterator, bool> ret 
+	std::pair<CU_MAP<CU_STR, Cache*>::iterator, bool> ret
 		= m_caches.insert(std::make_pair(key, cache));
 	return ret.second;
 }

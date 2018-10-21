@@ -29,11 +29,11 @@ bool DrawTexture::Draw(int src_tex_id, int src_w, int src_h, const Rect& src_r, 
 		  dst_xmax = dst_r.xmax * w_inv * 2 - 1,
 		  dst_ymin = dst_r.ymin * h_inv * 2 - 1,
 		  dst_ymax = dst_r.ymax * h_inv * 2 - 1;
-	vertices[0] = dst_xmin; vertices[1] = dst_ymin; 
-	vertices[2] = dst_xmax; vertices[3] = dst_ymin; 
-	vertices[4] = dst_xmax; vertices[5] = dst_ymax; 
-	vertices[6] = dst_xmin; vertices[7] = dst_ymax; 
-	if (rotate) 
+	vertices[0] = dst_xmin; vertices[1] = dst_ymin;
+	vertices[2] = dst_xmax; vertices[3] = dst_ymin;
+	vertices[4] = dst_xmax; vertices[5] = dst_ymax;
+	vertices[6] = dst_xmin; vertices[7] = dst_ymax;
+	if (rotate)
 	{
 		float x, y;
 		x = vertices[6]; y = vertices[7];
@@ -50,10 +50,10 @@ bool DrawTexture::Draw(int src_tex_id, int src_w, int src_h, const Rect& src_r, 
 		  src_xmax = src_r.xmax * src_w_inv,
 		  src_ymin = src_r.ymin * src_h_inv,
 		  src_ymax = src_r.ymax * src_h_inv;
-	texcoords[0] = src_xmin; texcoords[1] = src_ymin; 
-	texcoords[2] = src_xmax; texcoords[3] = src_ymin; 
-	texcoords[4] = src_xmax; texcoords[5] = src_ymax; 
-	texcoords[6] = src_xmin; texcoords[7] = src_ymax; 
+	texcoords[0] = src_xmin; texcoords[1] = src_ymin;
+	texcoords[2] = src_xmax; texcoords[3] = src_ymin;
+	texcoords[4] = src_xmax; texcoords[5] = src_ymax;
+	texcoords[6] = src_xmin; texcoords[7] = src_ymax;
 
 	RenderAPI::SetProgram();
 	RenderAPI::Draw(vertices, texcoords, src_tex_id);

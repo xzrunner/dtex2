@@ -168,7 +168,7 @@ void CacheSymbol::LoadFinish()
 
 const CS_Node* CacheSymbol::Query(uint64_t key, int& block_id) const
 {
-	for (int i = 0, n = BLOCK_X_SZ * BLOCK_Y_SZ; i < n; ++i) 
+	for (int i = 0, n = BLOCK_X_SZ * BLOCK_Y_SZ; i < n; ++i)
 	{
 		int idx = m_blocks[i]->Query(key);
 		if (idx != -1) {
@@ -211,7 +211,7 @@ void CacheSymbol::ClearBlockTex(const Block* b)
 	DrawTexture::Instance()->ClearTex(m_tex, xmin, ymin, xmax, ymax);
 }
 
-bool CacheSymbol::InsertNode(const Prenode& prenode, std::list<DrawTask>& drawlist, 
+bool CacheSymbol::InsertNode(const Prenode& prenode, std::list<DrawTask>& drawlist,
 	                         std::list<Block*>& clearlist, int& clear_block_idx)
 {
 	clear_block_idx = -1;
@@ -228,7 +228,7 @@ bool CacheSymbol::InsertNode(const Prenode& prenode, std::list<DrawTask>& drawli
 		}
 	}
 
-	if (!pos) 
+	if (!pos)
 	{
 		Block* cleared = m_blocks[m_clear_block_idx];
 		ClearBlockData();
@@ -237,7 +237,7 @@ bool CacheSymbol::InsertNode(const Prenode& prenode, std::list<DrawTask>& drawli
 		clearlist.push_back(cleared);
 		// update drawlist
 		CU_LIST<DrawTask>::iterator itr = drawlist.begin();
-		for ( ; itr != drawlist.end(); ) 
+		for ( ; itr != drawlist.end(); )
 		{
 			if (itr->GetBlock() == cleared) {
 				itr = drawlist.erase(itr);
@@ -256,7 +256,7 @@ bool CacheSymbol::InsertNode(const Prenode& prenode, std::list<DrawTask>& drawli
 
 	CS_Node node(prenode.Key(), m_tex, pos);
 	m_nodes.push_back(node);
-	
+
 	int src_extrude = prenode.SrcExtrude();
 
 	Rect src_r = prenode.GetRect();
@@ -450,7 +450,7 @@ DrawExtrude(int src_tex_id, int src_w, int src_h, const Rect& src_r, const Rect&
 		if (!dt->Draw(src_tex_id, src_w, src_h, src, m_tex, dst, rotate)) {
 			return false;
 		}
-	} 
+	}
 	else
 	{
 		// left

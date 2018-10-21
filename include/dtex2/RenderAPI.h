@@ -50,7 +50,7 @@ public:
 	static void TargetBind(int id);
 	static void TargetUnbind();
 
-	static int  CheckTargetStatus();	
+	static int  CheckTargetStatus();
 
 	/************************************************************************/
 	/* State                                                                */

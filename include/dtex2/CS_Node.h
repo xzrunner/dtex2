@@ -18,7 +18,7 @@ public:
 	const float* GetTexcoords() const { return m_texcoords; }
 
 	uint64_t Key() const { return m_key; }
-	
+
 private:
 	uint64_t m_key;
 

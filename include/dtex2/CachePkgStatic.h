@@ -60,7 +60,7 @@ private:
 
 	static void LoadPartRGBA4FromRGBA8(int w, int h, const void* data, const CP_Node* node);
 	static void LoadPartRGBA4FromPVR4(int w, int h, const void* data, const CP_Node* node);
-	static void LoadPartRGBA4FromETC2(int w, int h, const void* data, const CP_Node* node);	
+	static void LoadPartRGBA4FromETC2(int w, int h, const void* data, const CP_Node* node);
 
 	static uint8_t* BitmapInitBland(int edge);
 

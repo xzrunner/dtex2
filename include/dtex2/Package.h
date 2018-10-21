@@ -15,7 +15,7 @@ class Package : private cu::Uncopyable
 {
 public:
 	Package(int id);
-    	
+
 	int GetID() const { return m_id; }
 
 	void AddTexture(TexturePtr&& tex) { m_textures.push_back(std::move(tex)); }

@@ -19,7 +19,7 @@ public:
 	void Clear();
 
 	const CU_MAP<CU_STR, Cache*>& FetchAll() const { return m_caches; }
-	
+
 private:
 	CU_MAP<CU_STR, Cache*> m_caches;
 

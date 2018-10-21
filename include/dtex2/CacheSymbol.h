@@ -29,9 +29,9 @@ public:
 	virtual int Type() const override { return CACHE_SYMBOL; }
 	virtual void DebugDraw() const override;
 	virtual void Clear() override;
-	
+
 	void LoadStart();
-	void Load(int tex_id, int tex_w, int tex_h, const Rect& r, uint64_t key, 
+	void Load(int tex_id, int tex_w, int tex_h, const Rect& r, uint64_t key,
 		int padding = 0, int extrude = 0, int src_extrude = 0);
 	void LoadFinish();
 
@@ -71,7 +71,7 @@ private:
 
 	private:
 		int Area() const { return Width() * Height(); }
-		int MaxEdge() const { 
+		int MaxEdge() const {
 			int w = Width(), h = Height();
 			return w >= h ? w : h;
 		}
@@ -114,7 +114,7 @@ private:
 
 		texpack_pos* Insert(const Prenode& node, int extend);
 		void Insert(uint64_t key, int val);
-		
+
 		int OffX() const { return m_x; }
 		int OffY() const { return m_y; }
 
@@ -162,7 +162,7 @@ private:
 
 private:
 	int m_loadable;
-	
+
 	Texture* m_tex;
 	Block*   m_blocks[BLOCK_X_SZ * BLOCK_Y_SZ];
 	int      m_block_w, m_block_h;

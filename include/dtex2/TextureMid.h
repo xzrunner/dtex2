@@ -11,7 +11,7 @@ class TextureMid : public Texture
 public:
 	TextureMid(int width, int height, int bpp, bool init_pixels);
 	virtual ~TextureMid();
-	
+
 	virtual TEXTURE_TYPE Type() const override { return TEX_MID; }
 	virtual size_t Size() const override { return sizeof(TextureMid); }
 
