@@ -17,7 +17,6 @@ public:
 		void (*draw_begin)();
 		void (*draw)(const float vertices[8], const float texcoords[8], int texid);
 		void (*draw_end)();
-		void (*draw_flush)();
 		void (*scissor_push)(int x, int y, int w, int h);
 		void (*scissor_pop)();
 		void (*scissor_disable)();
@@ -75,8 +74,6 @@ public:
 	static void Draw(const float vertices[8], const float texcoords[8], int texid);
 	//void dtex_shader_draw_triangle(const float* vb, int count);
 	static void DrawEnd();
-
-	static void Flush();
 
 	static void ScissorPush(int x, int y, int w, int h);
 	static void ScissorPop();

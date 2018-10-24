@@ -156,11 +156,6 @@ void RenderAPI::DrawEnd()
 	DRAW_CB.draw_end();
 }
 
-void RenderAPI::Flush()
-{
-	DRAW_CB.draw_flush();
-}
-
 void RenderAPI::ScissorPush(int x, int y, int w, int h)
 {
 	DRAW_CB.scissor_push(x, y, w, h);
