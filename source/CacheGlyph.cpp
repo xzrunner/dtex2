@@ -101,7 +101,7 @@ void CacheGlyph::Load(const uint32_t* bitmap, int width, int height, uint64_t ke
 	m_pages[page_idx]->UpdateBitmap(bitmap, width, height, r_no_padding, r);
 }
 
-void CacheGlyph::Flush()
+void CacheGlyph::Flush(bool cache_to_c2)
 {
 	if (m_new_nodes.empty()) {
 		return;
@@ -111,13 +111,17 @@ void CacheGlyph::Flush()
 		p->UploadTexture();
 	}
 
-	m_cb.load_start();
-	for (auto& n : m_new_nodes) {
-		int tex_id = m_pages[n.page]->GetTexID();
-		m_cb.load(tex_id, m_width, m_height, n.region, n.key);
+	if (cache_to_c2)
+	{
+		m_cb.load_start();
+		for (auto& n : m_new_nodes) {
+			int tex_id = m_pages[n.page]->GetTexID();
+			m_cb.load(tex_id, m_width, m_height, n.region, n.key);
+		}
+		m_cb.load_finish();
 	}
+
 	m_new_nodes.clear();
-	m_cb.load_finish();
 
 	// unbind fbo
 	RenderAPI::GetRenderContext()->UnbindPixelBuffer();
@@ -144,6 +148,33 @@ bool CacheGlyph::QueryAndInsert(uint64_t key, float* texcoords, int& tex_id) con
 	texcoords[2] = xmax; texcoords[3] = ymin;
 	texcoords[4] = xmax; texcoords[5] = ymax;
 	texcoords[6] = xmin; texcoords[7] = ymax;
+
+	return true;
+}
+
+void CacheGlyph::GetFirstPageTexInfo(int& id, size_t& w, size_t& h) const
+{
+	assert(!m_pages.empty());
+	auto& p = m_pages.front();
+	id = p->GetTexID();
+	w = p->GetWidth();
+	h = p->GetHeight();
+}
+
+bool CacheGlyph::QueryRegion(uint64_t key, int& tex_id, int& xmin, int& ymin, int& xmax, int& ymax) const
+{
+	auto itr = m_all_nodes.find(key);
+	if (itr == m_all_nodes.end()) {
+		return false;
+	}
+
+	auto& r = itr->second.region;
+	xmin = r.xmin;
+	ymin = r.ymin;
+	xmax = r.xmax;
+	ymax = r.ymax;
+
+	tex_id = m_pages[itr->second.page]->GetTexID();
 
 	return true;
 }

@@ -40,11 +40,14 @@ public:
 	virtual void Clear() override;
 
 	void Load(const uint32_t* bitmap, int width, int height, uint64_t key);
-	void Flush();
+	void Flush(bool cache_to_c2);
 
 	// query from cg's tex and insert to c2
 	bool QueryAndInsert(uint64_t key, float* texcoords, int& tex_id) const;
 	bool Exist(uint64_t key) const { return m_all_nodes.find(key) != m_all_nodes.end(); }
+
+	void GetFirstPageTexInfo(int& id, size_t& w, size_t& h) const;
+	bool QueryRegion(uint64_t key, int& tex_id, int& xmin, int& ymin, int& xmax, int& ymax) const;
 
 private:
 	class Page : boost::noncopyable
@@ -57,6 +60,8 @@ private:
 		void Clear();
 
 		int GetTexID() const;
+		size_t GetWidth() const { return m_width; }
+		size_t GetHeight() const { return m_height; }
 
 		void UpdateBitmap(const uint32_t* bitmap, int width, int height,
 			const Rect& pos, const Rect& dirty_r);
