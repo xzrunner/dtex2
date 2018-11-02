@@ -101,14 +101,20 @@ void CacheGlyph::Load(const uint32_t* bitmap, int width, int height, uint64_t ke
 	m_pages[page_idx]->UpdateBitmap(bitmap, width, height, r_no_padding, r);
 }
 
-void CacheGlyph::Flush(bool cache_to_c2)
+bool CacheGlyph::Flush(bool cache_to_c2)
 {
+	bool dirty = false;
+
 	if (m_new_nodes.empty()) {
-		return;
+		return false;
 	}
 
+	bool bind_fbo = false;
 	for (auto& p : m_pages) {
-		p->UploadTexture();
+		if (p->UploadTexture()) {
+			dirty = true;
+			bind_fbo = true;
+		}
 	}
 
 	if (cache_to_c2)
@@ -119,12 +125,17 @@ void CacheGlyph::Flush(bool cache_to_c2)
 			m_cb.load(tex_id, m_width, m_height, n.region, n.key);
 		}
 		m_cb.load_finish();
+
+		dirty = true;
 	}
 
 	m_new_nodes.clear();
 
-	// unbind fbo
-	RenderAPI::GetRenderContext()->UnbindPixelBuffer();
+	if (bind_fbo) {
+		RenderAPI::GetRenderContext()->UnbindPixelBuffer();
+	}
+
+	return dirty;
 }
 
 bool CacheGlyph::QueryAndInsert(uint64_t key, float* texcoords, int& tex_id) const
@@ -236,11 +247,11 @@ void CacheGlyph::Page::UpdateBitmap(const uint32_t* bitmap, int width, int heigh
 	UpdateDirtyRect(dirty_r);
 }
 
-void CacheGlyph::Page::UploadTexture()
+bool CacheGlyph::Page::UploadTexture()
 {
 	if (m_dirty_rect.xmin >= m_dirty_rect.xmax ||
 		m_dirty_rect.ymin >= m_dirty_rect.ymax) {
-		return;
+		return false;
 	}
 
 	int x = m_dirty_rect.xmin,
@@ -253,6 +264,8 @@ void CacheGlyph::Page::UploadTexture()
 	RenderAPI::SetUnpackRowLength(0);
 
 	InitDirtyRect();
+
+	return true;
 }
 
 void CacheGlyph::Page::InitDirtyRect()

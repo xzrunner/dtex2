@@ -40,7 +40,7 @@ public:
 	virtual void Clear() override;
 
 	void Load(const uint32_t* bitmap, int width, int height, uint64_t key);
-	void Flush(bool cache_to_c2);
+	bool Flush(bool cache_to_c2);
 
 	// query from cg's tex and insert to c2
 	bool QueryAndInsert(uint64_t key, float* texcoords, int& tex_id) const;
@@ -65,7 +65,7 @@ private:
 
 		void UpdateBitmap(const uint32_t* bitmap, int width, int height,
 			const Rect& pos, const Rect& dirty_r);
-		void UploadTexture();
+		bool UploadTexture();
 
 	private:
 		void InitDirtyRect();
