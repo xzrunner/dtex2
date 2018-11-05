@@ -13,7 +13,7 @@ public:
 	{
 		void (*clear_color_part)(float xmin, float ymin, float xmax, float ymax);
 		void (*set_program)();
-		void (*set_blend)(int mode);
+		void (*enable_blend)(bool enable);
 		void (*draw_begin)();
 		void (*draw)(const float vertices[8], const float texcoords[8], int texid);
 		void (*draw_end)();
@@ -65,10 +65,11 @@ public:
 	static void ClearColorPart(float xmin, float ymin, float xmax, float ymax);
 
 	static void SetProgram();
-	static void SetBlend(int mode);
 
 	static void SetTexture(int id);
 	static int  GetTexture();
+
+	static void EnableBlend(bool enable);
 
 	static void DrawBegin();
 	static void Draw(const float vertices[8], const float texcoords[8], int texid);

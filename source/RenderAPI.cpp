@@ -126,11 +126,6 @@ void RenderAPI::SetProgram()
 	DRAW_CB.set_program();
 }
 
-void RenderAPI::SetBlend(int mode)
-{
-	DRAW_CB.set_blend(mode);
-}
-
 void RenderAPI::SetTexture(int id)
 {
 	RC->BindTexture(id, 0);
@@ -139,6 +134,11 @@ void RenderAPI::SetTexture(int id)
 int RenderAPI::GetTexture()
 {
 	return RC->GetCurrTexture();
+}
+
+void RenderAPI::EnableBlend(bool enable)
+{
+	DRAW_CB.enable_blend(enable);
 }
 
 void RenderAPI::DrawBegin()

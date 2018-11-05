@@ -118,6 +118,7 @@ void DrawTexture::ClearAllTex(Texture* tex)
 
 void DrawTexture::DrawBefore(Context& ctx)
 {
+	RenderAPI::EnableBlend(false);
 	RenderAPI::DrawBegin();
 	RenderAPI::GetViewport(ctx.vx, ctx.vy, ctx.vw, ctx.vh);
 	RenderAPI::SetViewport(0, 0, m_curr->GetWidth(), m_curr->GetHeight());
@@ -138,6 +139,7 @@ void DrawTexture::DrawAfter(Context& ctx)
 
 	RenderAPI::SetViewport(ctx.vx, ctx.vy, ctx.vw, ctx.vh);
 	RenderAPI::DrawEnd();
+	RenderAPI::EnableBlend(true);
 }
 
 void DrawTexture::Bind(Texture* tex)
