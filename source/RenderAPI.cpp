@@ -113,7 +113,8 @@ void RenderAPI::ClearColor(float r, float g, float b, float a)
 		(int)(255 * r) << 16 |
 		(int)(255 * g) <<  8 |
 		(int)(255 * b);
-	RC->Clear(argb);
+	RC->SetClearColor(argb);
+	RC->Clear();
 }
 
 void RenderAPI::ClearColorPart(float xmin, float ymin, float xmax, float ymax)
