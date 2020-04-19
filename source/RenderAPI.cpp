@@ -1,28 +1,30 @@
 #include "dtex2/RenderAPI.h"
 #include "dtex2/ResourceAPI.h"
 
-#include <unirender/RenderContext.h>
+#include <unirender2/Device.h>
+#include <unirender2/Context.h>
 
 namespace dtex
 {
 
 static RenderAPI::Callback DRAW_CB;
 
-static ur::RenderContext* RC = nullptr;
+static ur2::Context* UR_CTX = nullptr;
+static ur2::Device*  UR_DEV = nullptr;
 
 void RenderAPI::InitCallback(const Callback& draw_cb)
 {
 	DRAW_CB = draw_cb;
 }
 
-void RenderAPI::InitRenderContext(ur::RenderContext* rc)
+void RenderAPI::InitRenderContext(ur2::Context* ur_ctx)
 {
-	RC = rc;
+    UR_CTX = ur_ctx;
 }
 
-ur::RenderContext* RenderAPI::GetRenderContext()
+ur2::Context* RenderAPI::GetRenderContext()
 {
-	return RC;
+	return UR_CTX;
 }
 
 /************************************************************************/
@@ -31,30 +33,34 @@ ur::RenderContext* RenderAPI::GetRenderContext()
 
 int RenderAPI::CreateTexture(const void* data, int width, int height, int format)
 {
-	ResourceAPI::StatTexAdd(width, height, format);
+	//ResourceAPI::StatTexAdd(width, height, format);
 
-	int ret = RC->CreateTexture(data, width, height, format);
-	return ret;
+	//int ret = RC->CreateTexture(data, width, height, format);
+	//return ret;
+
+    return 0;
 }
 
 int RenderAPI::CreateTextureID(int width, int height, int format)
 {
-	ResourceAPI::StatTexAdd(width, height, format);
+	//ResourceAPI::StatTexAdd(width, height, format);
 
-	int ret = RC->CreateTextureID(width, height, format);
-	return ret;
+	//int ret = RC->CreateTextureID(width, height, format);
+	//return ret;
+
+    return 0;
 }
 
 void RenderAPI::ReleaseTexture(int id, int width, int height, int format)
 {
-	ResourceAPI::StatTexRemove(width, height, format);
+	//ResourceAPI::StatTexRemove(width, height, format);
 
-	RC->ReleaseTexture(id);
+	//RC->ReleaseTexture(id);
 }
 
 void RenderAPI::UpdateTexture(const void* pixels, int w, int h, unsigned int id)
 {
-	RC->UpdateTexture(id, pixels, w, h);
+	//RC->UpdateTexture(id, pixels, w, h);
 }
 
 /************************************************************************/
@@ -63,32 +69,34 @@ void RenderAPI::UpdateTexture(const void* pixels, int w, int h, unsigned int id)
 
 int RenderAPI::CreateTarget(int id)
 {
-	return RC->CreateRenderTarget(id);
+	//return RC->CreateRenderTarget(id);
+    return 0;
 }
 
 void RenderAPI::ReleaseTarget(int id)
 {
-	RC->ReleaseRenderTarget(id);
+	//RC->ReleaseRenderTarget(id);
 }
 
 void RenderAPI::TargetBindTexture(int tex_id)
 {
-	RC->BindRenderTargetTex(tex_id);
+	//RC->BindRenderTargetTex(tex_id);
 }
 
 void RenderAPI::TargetBind(int id)
 {
-	RC->BindRenderTarget(id);
+	//RC->BindRenderTarget(id);
 }
 
 void RenderAPI::TargetUnbind()
 {
-	RC->UnbindRenderTarget();
+	//RC->UnbindRenderTarget();
 }
 
 int RenderAPI::CheckTargetStatus()
 {
-	return RC->CheckRenderTargetStatus();
+	//return RC->CheckRenderTargetStatus();
+    return 0;
 }
 
 /************************************************************************/
@@ -97,7 +105,7 @@ int RenderAPI::CheckTargetStatus()
 
 void RenderAPI::SetUnpackRowLength(int len)
 {
-	RC->SetUnpackRowLength(len);
+	//RC->SetUnpackRowLength(len);
 }
 
 /************************************************************************/
@@ -106,35 +114,36 @@ void RenderAPI::SetUnpackRowLength(int len)
 
 void RenderAPI::ClearColor(float r, float g, float b, float a)
 {
-	RC->SetClearFlag(ur::MASKC);
+	//RC->SetClearFlag(ur::MASKC);
 
-	int argb =
-		(int)(255 * a) << 24 |
-		(int)(255 * r) << 16 |
-		(int)(255 * g) <<  8 |
-		(int)(255 * b);
-	RC->SetClearColor(argb);
-	RC->Clear();
+	//int argb =
+	//	(int)(255 * a) << 24 |
+	//	(int)(255 * r) << 16 |
+	//	(int)(255 * g) <<  8 |
+	//	(int)(255 * b);
+	//RC->SetClearColor(argb);
+	//RC->Clear();
 }
 
 void RenderAPI::ClearColorPart(float xmin, float ymin, float xmax, float ymax)
 {
-	DRAW_CB.clear_color_part(xmin, ymin, xmax, ymax);
+	//DRAW_CB.clear_color_part(xmin, ymin, xmax, ymax);
 }
 
 void RenderAPI::SetProgram()
 {
-	DRAW_CB.set_program();
+	//DRAW_CB.set_program();
 }
 
 void RenderAPI::SetTexture(int id)
 {
-	RC->BindTexture(id, 0);
+	//RC->BindTexture(id, 0);
 }
 
 int RenderAPI::GetTexture()
 {
-	return RC->GetCurrTexture();
+	//return RC->GetCurrTexture();
+    return 0;
 }
 
 void RenderAPI::EnableBlend(bool enable)
@@ -179,12 +188,12 @@ void RenderAPI::ScissorEnable()
 
 void RenderAPI::GetViewport(int& x, int& y, int& w, int& h)
 {
-	RC->GetViewport(x, y, w, h);
+	//RC->GetViewport(x, y, w, h);
 }
 
 void RenderAPI::SetViewport(int x, int y, int w, int h)
 {
-	RC->SetViewport(x, y, w, h);
+	//RC->SetViewport(x, y, w, h);
 }
 
 /************************************************************************/
@@ -193,22 +202,25 @@ void RenderAPI::SetViewport(int x, int y, int w, int h)
 
 bool RenderAPI::OutOfMemory()
 {
-	return RC->OutOfMemory();
+	//return RC->OutOfMemory();
+    return false;
 }
 
 bool RenderAPI::IsTexture(unsigned int id)
 {
-	return RC->IsTexture(id);
+	//return RC->IsTexture(id);
+    return false;
 }
 
 void RenderAPI::CheckError()
 {
-	RC->CheckError();
+	//RC->CheckError();
 }
 
 bool RenderAPI::IsSupportETC2()
 {
-	return RC->IsSupportETC2();
+	//return RC->IsSupportETC2();
+    return false;
 }
 
 }

@@ -1,7 +1,7 @@
 #ifndef _DTEX_RENDER_API_H_
 #define _DTEX_RENDER_API_H_
 
-namespace ur { class RenderContext; }
+namespace ur2 { class Context; }
 
 namespace dtex
 {
@@ -25,8 +25,8 @@ public:
 
 	static void InitCallback(const Callback& draw_cb);
 
-	static void InitRenderContext(ur::RenderContext* rc);
-	static ur::RenderContext* GetRenderContext();
+	static void InitRenderContext(ur2::Context* ur_ctx);
+	static ur2::Context* GetRenderContext();
 
 	/************************************************************************/
 	/* Texture                                                              */

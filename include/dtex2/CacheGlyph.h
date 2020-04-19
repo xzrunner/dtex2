@@ -14,8 +14,6 @@
 
 #include <stdint.h>
 
-namespace ur { class PixelBuffer; }
-
 namespace dtex
 {
 
@@ -77,7 +75,7 @@ private:
 		std::unique_ptr<Texture>   m_tex = nullptr;
 		std::unique_ptr<TexPacker> m_tp  = nullptr;
 
-		std::unique_ptr<ur::PixelBuffer> m_pbuf = nullptr;
+		//std::unique_ptr<ur::PixelBuffer> m_pbuf = nullptr;
 
 		Rect m_dirty_rect;
 

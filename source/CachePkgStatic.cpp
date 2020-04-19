@@ -15,7 +15,6 @@
 #include <gimg_etc2.h>
 #include <gimg_import.h>
 #include <gimg_typedef.h>
-#include <unirender/RenderContext.h>
 
 #include <algorithm>
 

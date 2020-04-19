@@ -7,8 +7,6 @@
 #include "dtex2/TexPacker.h"
 
 #include <cu/cu_stl.h>
-#include <unirender/PixelBuffer.h>
-#include <unirender/RenderContext.h>
 #include <guard/check.h>
 
 #include <algorithm>
@@ -105,35 +103,35 @@ bool CacheGlyph::Flush(bool cache_to_c2)
 {
 	bool dirty = false;
 
-	if (m_new_nodes.empty()) {
-		return false;
-	}
+	//if (m_new_nodes.empty()) {
+	//	return false;
+	//}
 
-	bool bind_fbo = false;
-	for (auto& p : m_pages) {
-		if (p->UploadTexture()) {
-			dirty = true;
-			bind_fbo = true;
-		}
-	}
+	//bool bind_fbo = false;
+	//for (auto& p : m_pages) {
+	//	if (p->UploadTexture()) {
+	//		dirty = true;
+	//		bind_fbo = true;
+	//	}
+	//}
 
-	if (cache_to_c2)
-	{
-		m_cb.load_start();
-		for (auto& n : m_new_nodes) {
-			int tex_id = m_pages[n.page]->GetTexID();
-			m_cb.load(tex_id, m_width, m_height, n.region, n.key);
-		}
-		m_cb.load_finish();
+	//if (cache_to_c2)
+	//{
+	//	m_cb.load_start();
+	//	for (auto& n : m_new_nodes) {
+	//		int tex_id = m_pages[n.page]->GetTexID();
+	//		m_cb.load(tex_id, m_width, m_height, n.region, n.key);
+	//	}
+	//	m_cb.load_finish();
 
-		dirty = true;
-	}
+	//	dirty = true;
+	//}
 
-	m_new_nodes.clear();
+	//m_new_nodes.clear();
 
-	if (bind_fbo) {
-		RenderAPI::GetRenderContext()->UnbindPixelBuffer();
-	}
+	//if (bind_fbo) {
+	//	RenderAPI::GetRenderContext()->UnbindPixelBuffer();
+	//}
 
 	return dirty;
 }
@@ -198,13 +196,13 @@ CacheGlyph::Page::Page(size_t width, size_t height)
 	: m_width(width)
 	, m_height(height)
 {
-	m_tex = std::make_unique<TextureMid>(width, height, 4, true);
-	m_tp = std::make_unique<TexPacker>(width, height, MAX_NODE_SIZE);
+	//m_tex = std::make_unique<TextureMid>(width, height, 4, true);
+	//m_tp = std::make_unique<TexPacker>(width, height, MAX_NODE_SIZE);
 
-	m_pbuf = ur::PixelBuffer::Create(RenderAPI::GetRenderContext(), width, height, ur::TEXTURE_RGBA8, true);
-	m_pbuf->Clear();
+	//m_pbuf = ur::PixelBuffer::Create(RenderAPI::GetRenderContext(), width, height, ur::TEXTURE_RGBA8, true);
+	//m_pbuf->Clear();
 
-	InitDirtyRect();
+	//InitDirtyRect();
 }
 
 bool CacheGlyph::Page::AddToTP(size_t width, size_t height, Rect& ret)
@@ -214,11 +212,11 @@ bool CacheGlyph::Page::AddToTP(size_t width, size_t height, Rect& ret)
 
 void CacheGlyph::Page::Clear()
 {
-	DrawTexture::ClearAllTex(m_tex.get());
-	m_tp->Clear();
-	m_pbuf->Clear();
+	//DrawTexture::ClearAllTex(m_tex.get());
+	//m_tp->Clear();
+	//m_pbuf->Clear();
 
-	InitDirtyRect();
+	//InitDirtyRect();
 }
 
 int CacheGlyph::Page::GetTexID() const
@@ -229,41 +227,41 @@ int CacheGlyph::Page::GetTexID() const
 void CacheGlyph::Page::UpdateBitmap(const uint32_t* bitmap, int width, int height,
 	                                const Rect& pos, const Rect& dirty_r)
 {
-	uint32_t* bmp_buf = (uint32_t*)m_pbuf->Map(ur::WRITE_ONLY);
-	int src_ptr = 0;
-	for (int y = 0; y < height; ++y) {
-		for (int x = 0; x < width; ++x) {
-			uint32_t src = bitmap[src_ptr++];
-			uint8_t r = (src >> 24) & 0xff;
-			uint8_t g = (src >> 16) & 0xff;
-			uint8_t b = (src >> 8) & 0xff;
-			uint8_t a = src & 0xff;
+	//uint32_t* bmp_buf = (uint32_t*)m_pbuf->Map(ur::WRITE_ONLY);
+	//int src_ptr = 0;
+	//for (int y = 0; y < height; ++y) {
+	//	for (int x = 0; x < width; ++x) {
+	//		uint32_t src = bitmap[src_ptr++];
+	//		uint8_t r = (src >> 24) & 0xff;
+	//		uint8_t g = (src >> 16) & 0xff;
+	//		uint8_t b = (src >> 8) & 0xff;
+	//		uint8_t a = src & 0xff;
 
-			int dst_ptr = (pos.ymin + y) * m_width + pos.xmin + x;
-			bmp_buf[dst_ptr] = a << 24 | b << 16 | g << 8 | r;
-		}
-	}
+	//		int dst_ptr = (pos.ymin + y) * m_width + pos.xmin + x;
+	//		bmp_buf[dst_ptr] = a << 24 | b << 16 | g << 8 | r;
+	//	}
+	//}
 
-	UpdateDirtyRect(dirty_r);
+	//UpdateDirtyRect(dirty_r);
 }
 
 bool CacheGlyph::Page::UploadTexture()
 {
-	if (m_dirty_rect.xmin >= m_dirty_rect.xmax ||
-		m_dirty_rect.ymin >= m_dirty_rect.ymax) {
-		return false;
-	}
+	//if (m_dirty_rect.xmin >= m_dirty_rect.xmax ||
+	//	m_dirty_rect.ymin >= m_dirty_rect.ymax) {
+	//	return false;
+	//}
 
-	int x = m_dirty_rect.xmin,
-		y = m_dirty_rect.ymin;
-	int w = m_dirty_rect.xmax - m_dirty_rect.xmin,
-		h = m_dirty_rect.ymax - m_dirty_rect.ymin;
-	RenderAPI::SetUnpackRowLength(m_width);
-	int offset = (y * m_width + x) * 4;
-	m_pbuf->Upload(x, y, w, h, offset, GetTexID());
-	RenderAPI::SetUnpackRowLength(0);
+	//int x = m_dirty_rect.xmin,
+	//	y = m_dirty_rect.ymin;
+	//int w = m_dirty_rect.xmax - m_dirty_rect.xmin,
+	//	h = m_dirty_rect.ymax - m_dirty_rect.ymin;
+	//RenderAPI::SetUnpackRowLength(m_width);
+	//int offset = (y * m_width + x) * 4;
+	//m_pbuf->Upload(x, y, w, h, offset, GetTexID());
+	//RenderAPI::SetUnpackRowLength(0);
 
-	InitDirtyRect();
+	//InitDirtyRect();
 
 	return true;
 }
