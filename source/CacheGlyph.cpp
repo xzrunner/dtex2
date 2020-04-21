@@ -9,6 +9,7 @@
 #include <cu/cu_stl.h>
 #include <guard/check.h>
 #include <unirender2/Device.h>
+#include <unirender2/Context.h>
 #include <unirender2/WritePixelBuffer.h>
 #include <unirender2/TextureDescription.h>
 #include <unirender2/Texture.h>
@@ -17,6 +18,8 @@
 #include <cassert>
 
 #include <string.h>
+
+//#define PBO_USE_MAP
 
 namespace dtex
 {
@@ -48,7 +51,7 @@ void CacheGlyph::Clear()
 	m_new_nodes.clear();
 }
 
-void CacheGlyph::Load(const ur2::Device& dev, const uint32_t* bitmap,
+void CacheGlyph::Load(const ur2::Device& dev, ur2::Context& ctx, const uint32_t* bitmap,
                       int width, int height, uint64_t key)
 {
 	int pw = width + PADDING * 2;
@@ -101,10 +104,10 @@ void CacheGlyph::Load(const ur2::Device& dev, const uint32_t* bitmap,
 	m_all_nodes.insert({ key, node });
 	m_new_nodes.push_back(node);
 
-	m_pages[page_idx]->UpdateBitmap(bitmap, width, height, r_no_padding, r);
+	m_pages[page_idx]->UpdateBitmap(ctx, bitmap, width, height, r_no_padding, r);
 }
 
-bool CacheGlyph::Flush(bool cache_to_c2)
+bool CacheGlyph::Flush(ur2::Context& ctx, bool cache_to_c2)
 {
 	bool dirty = false;
 
@@ -114,7 +117,7 @@ bool CacheGlyph::Flush(bool cache_to_c2)
 
 	bool bind_fbo = false;
 	for (auto& p : m_pages) {
-		if (p->UploadTexture()) {
+		if (p->UploadTexture(ctx)) {
 			dirty = true;
 			bind_fbo = true;
 		}
@@ -238,12 +241,30 @@ int CacheGlyph::Page::GetTexID() const
 	return m_tex->GetTexID();
 }
 
-void CacheGlyph::Page::UpdateBitmap(const uint32_t* bitmap, int width, int height,
-	                                const Rect& pos, const Rect& dirty_r)
+void CacheGlyph::Page::UpdateBitmap(ur2::Context& ctx, const uint32_t* bitmap, int width,
+                                    int height, const Rect& pos, const Rect& dirty_r)
 {
-	//uint32_t* bmp_buf = (uint32_t*)m_pbuf->Map(ur::WRITE_ONLY);
+#ifdef PBO_USE_MAP
+	uint32_t* bmp_buf = reinterpret_cast<uint32_t*>(m_pbuf->Map());
 
+    int src_ptr = 0;
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            uint32_t src = bitmap[src_ptr++];
+            uint8_t r = (src >> 24) & 0xff;
+            uint8_t g = (src >> 16) & 0xff;
+            uint8_t b = (src >> 8) & 0xff;
+            uint8_t a = src & 0xff;
+
+            int dst_ptr = (pos.ymin + y) * m_width + pos.xmin + x;
+            bmp_buf[dst_ptr] = a << 24 | b << 16 | g << 8 | r;
+        }
+    }
+
+#else
+    // todo: update all, not row
     uint32_t* line_buf = new uint32_t[width];
+
 	int src_ptr = 0;
 	for (int y = 0; y < height; ++y) {
 		for (int x = 0; x < width; ++x) {
@@ -257,12 +278,17 @@ void CacheGlyph::Page::UpdateBitmap(const uint32_t* bitmap, int width, int heigh
         m_pbuf->ReadFromMemory(line_buf, width * 4, ((pos.ymin + y) * m_width + pos.xmin) * 4);
 	}
 
+    //ctx.SetUnpackRowLength(width);
+    //m_pbuf->ReadFromMemory(line_buf, width * height * 4, (pos.ymin * m_width + pos.xmin) * 4);
+    //ctx.SetUnpackRowLength(0);
+
     delete[] line_buf;
+#endif // PBO_USE_MAP
 
 	UpdateDirtyRect(dirty_r);
 }
 
-bool CacheGlyph::Page::UploadTexture()
+bool CacheGlyph::Page::UploadTexture(ur2::Context& ctx)
 {
 	if (m_dirty_rect.xmin >= m_dirty_rect.xmax ||
 		m_dirty_rect.ymin >= m_dirty_rect.ymax) {
@@ -273,15 +299,17 @@ bool CacheGlyph::Page::UploadTexture()
 		y = m_dirty_rect.ymin;
 	int w = m_dirty_rect.xmax - m_dirty_rect.xmin,
 		h = m_dirty_rect.ymax - m_dirty_rect.ymin;
-	RenderAPI::SetUnpackRowLength(m_width);
+	ctx.SetUnpackRowLength(m_width);
 	int offset = (y * m_width + x) * 4;
 
+#ifdef PBO_USE_MAP
+    m_pbuf->Unmap();
+#else
     m_pbuf->Bind();
-    // for pbo
-//    m_tex->Upload(reinterpret_cast<void*>(offset), x, y, w, h);
-    m_tex->Upload(reinterpret_cast<void*>(offset), x, y, m_width, m_height);
+#endif // PBO_USE_MAP
+    m_tex->Upload(reinterpret_cast<void*>(offset), x, y, w, h);
 
-	RenderAPI::SetUnpackRowLength(0);
+    ctx.SetUnpackRowLength(0);
 
 	InitDirtyRect();
 

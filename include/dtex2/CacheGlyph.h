@@ -15,7 +15,7 @@
 
 #include <stdint.h>
 
-namespace ur2 { class Device; class WritePixelBuffer; }
+namespace ur2 { class Device; class Context; class WritePixelBuffer; }
 
 namespace dtex
 {
@@ -40,8 +40,9 @@ public:
 	virtual void DebugDraw() const override;
 	virtual void Clear() override;
 
-	void Load(const ur2::Device& dev, const uint32_t* bitmap, int width, int height, uint64_t key);
-	bool Flush(bool cache_to_c2);
+	void Load(const ur2::Device& dev, ur2::Context& ctx, const uint32_t* bitmap,
+        int width, int height, uint64_t key);
+	bool Flush(ur2::Context& ctx, bool cache_to_c2);
 
 	// query from cg's tex and insert to c2
 	bool QueryAndInsert(uint64_t key, float* texcoords, int& tex_id) const;
@@ -64,9 +65,9 @@ private:
 		size_t GetWidth() const { return m_width; }
 		size_t GetHeight() const { return m_height; }
 
-		void UpdateBitmap(const uint32_t* bitmap, int width, int height,
-			const Rect& pos, const Rect& dirty_r);
-		bool UploadTexture();
+		void UpdateBitmap(ur2::Context& ctx, const uint32_t* bitmap,
+            int width, int height, const Rect& pos, const Rect& dirty_r);
+		bool UploadTexture(ur2::Context& ctx);
 
 	private:
 		void InitDirtyRect();

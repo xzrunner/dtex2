@@ -105,7 +105,7 @@ int RenderAPI::CheckTargetStatus()
 
 void RenderAPI::SetUnpackRowLength(int len)
 {
-	//RC->SetUnpackRowLength(len);
+    UR_CTX->SetUnpackRowLength(len);
 }
 
 /************************************************************************/
