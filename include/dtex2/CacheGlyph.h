@@ -7,12 +7,15 @@
 
 #include <cu/uncopyable.h>
 #include <cu/cu_stl.h>
+#include <unirender2/typedef.h>
 
 #include <memory>
 
 #include <boost/noncopyable.hpp>
 
 #include <stdint.h>
+
+namespace ur2 { class Device; class WritePixelBuffer; }
 
 namespace dtex
 {
@@ -31,13 +34,13 @@ public:
 	};
 
 public:
-	CacheGlyph(int width, int height, const Callback& cb);
+	CacheGlyph(const ur2::Device& dev, int width, int height, const Callback& cb);
 
 	virtual int Type() const override { return CACHE_GLYPH; }
 	virtual void DebugDraw() const override;
 	virtual void Clear() override;
 
-	void Load(const uint32_t* bitmap, int width, int height, uint64_t key);
+	void Load(const ur2::Device& dev, const uint32_t* bitmap, int width, int height, uint64_t key);
 	bool Flush(bool cache_to_c2);
 
 	// query from cg's tex and insert to c2
@@ -51,7 +54,7 @@ private:
 	class Page : boost::noncopyable
 	{
 	public:
-		Page(size_t width, size_t height);
+		Page(const ur2::Device& dev, size_t width, size_t height);
 
 		bool AddToTP(size_t width, size_t height, Rect& ret);
 
@@ -72,10 +75,10 @@ private:
 	private:
 		size_t m_width, m_height;
 
-		std::unique_ptr<Texture>   m_tex = nullptr;
+        ur2::TexturePtr m_tex = nullptr;
 		std::unique_ptr<TexPacker> m_tp  = nullptr;
 
-		//std::unique_ptr<ur::PixelBuffer> m_pbuf = nullptr;
+        std::shared_ptr<ur2::WritePixelBuffer> m_pbuf = nullptr;
 
 		Rect m_dirty_rect;
 
