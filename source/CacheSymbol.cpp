@@ -181,10 +181,10 @@ const CS_Node* CacheSymbol::Query(uint64_t key, int& block_id) const
 	return nullptr;
 }
 
-int CacheSymbol::GetTexID() const
-{
-	return m_tex->GetID();
-}
+//ur2::TexturePtr CacheSymbol::GetTexture() const
+//{
+//    return m_tex;
+//}
 
 void CacheSymbol::ClearBlockData()
 {

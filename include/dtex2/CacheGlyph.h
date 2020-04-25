@@ -45,11 +45,11 @@ public:
 	bool Flush(ur2::Context& ctx, bool cache_to_c2);
 
 	// query from cg's tex and insert to c2
-	bool QueryAndInsert(uint64_t key, float* texcoords, int& tex_id) const;
+	bool QueryAndInsert(uint64_t key, float* texcoords, ur2::TexturePtr& tex) const;
 	bool Exist(uint64_t key) const { return m_all_nodes.find(key) != m_all_nodes.end(); }
 
 	void GetFirstPageTexInfo(int& id, size_t& w, size_t& h) const;
-	bool QueryRegion(uint64_t key, int& tex_id, int& xmin, int& ymin, int& xmax, int& ymax) const;
+	bool QueryRegion(uint64_t key, ur2::TexturePtr& tex, int& xmin, int& ymin, int& xmax, int& ymax) const;
 
 private:
 	class Page : boost::noncopyable
@@ -61,7 +61,7 @@ private:
 
 		void Clear();
 
-		int GetTexID() const;
+        auto GetTexture() const { return m_tex; }
 		size_t GetWidth() const { return m_width; }
 		size_t GetHeight() const { return m_height; }
 

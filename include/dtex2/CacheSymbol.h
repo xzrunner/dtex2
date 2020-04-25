@@ -9,6 +9,7 @@
 
 #include <cu/uncopyable.h>
 #include <cu/cu_stl.h>
+#include <unirender2/typedef.h>
 
 #include <stdint.h>
 
@@ -37,7 +38,8 @@ public:
 
 	const CS_Node* Query(uint64_t key, int& block_id) const;
 
-	int GetTexID() const;
+    // todo
+    ur2::TexturePtr GetTexture() const { return nullptr; }
 
 private:
 	void ClearBlockData();

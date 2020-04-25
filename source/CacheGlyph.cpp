@@ -38,7 +38,7 @@ CacheGlyph::CacheGlyph(const ur2::Device& dev, int width, int height, const Call
 
 void CacheGlyph::DebugDraw() const
 {
-	DebugDraw::Draw(m_pages[0]->GetTexID(), 2);
+	//DebugDraw::Draw(m_pages[0]->GetTexID(), 2);
 }
 
 void CacheGlyph::Clear()
@@ -125,14 +125,15 @@ bool CacheGlyph::Flush(ur2::Context& ctx, bool cache_to_c2)
 
 	if (cache_to_c2)
 	{
-		m_cb.load_start();
-		for (auto& n : m_new_nodes) {
-			int tex_id = m_pages[n.page]->GetTexID();
-			m_cb.load(tex_id, m_width, m_height, n.region, n.key);
-		}
-		m_cb.load_finish();
+        // todo
+		//m_cb.load_start();
+		//for (auto& n : m_new_nodes) {
+		//	int tex_id = m_pages[n.page]->GetTexID();
+		//	m_cb.load(tex_id, m_width, m_height, n.region, n.key);
+		//}
+		//m_cb.load_finish();
 
-		dirty = true;
+		//dirty = true;
 	}
 
 	m_new_nodes.clear();
@@ -144,7 +145,7 @@ bool CacheGlyph::Flush(ur2::Context& ctx, bool cache_to_c2)
 	return dirty;
 }
 
-bool CacheGlyph::QueryAndInsert(uint64_t key, float* texcoords, int& tex_id) const
+bool CacheGlyph::QueryAndInsert(uint64_t key, float* texcoords, ur2::TexturePtr& tex) const
 {
 	auto itr = m_all_nodes.find(key);
 	if (itr == m_all_nodes.end()) {
@@ -154,7 +155,7 @@ bool CacheGlyph::QueryAndInsert(uint64_t key, float* texcoords, int& tex_id) con
 	auto& node = itr->second;
 	m_new_nodes.push_back(node);
 
-	tex_id = m_pages[node.page]->GetTexID();
+    tex = m_pages[node.page]->GetTexture();
 
 	const Rect& r = node.region;
 	float xmin = r.xmin / static_cast<float>(m_width),
@@ -171,14 +172,14 @@ bool CacheGlyph::QueryAndInsert(uint64_t key, float* texcoords, int& tex_id) con
 
 void CacheGlyph::GetFirstPageTexInfo(int& id, size_t& w, size_t& h) const
 {
-	assert(!m_pages.empty());
-	auto& p = m_pages.front();
-	id = p->GetTexID();
-	w = p->GetWidth();
-	h = p->GetHeight();
+	//assert(!m_pages.empty());
+	//auto& p = m_pages.front();
+	//id = p->GetTexID();
+	//w = p->GetWidth();
+	//h = p->GetHeight();
 }
 
-bool CacheGlyph::QueryRegion(uint64_t key, int& tex_id, int& xmin, int& ymin, int& xmax, int& ymax) const
+bool CacheGlyph::QueryRegion(uint64_t key, ur2::TexturePtr& tex, int& xmin, int& ymin, int& xmax, int& ymax) const
 {
 	auto itr = m_all_nodes.find(key);
 	if (itr == m_all_nodes.end()) {
@@ -191,7 +192,7 @@ bool CacheGlyph::QueryRegion(uint64_t key, int& tex_id, int& xmin, int& ymin, in
 	xmax = r.xmax;
 	ymax = r.ymax;
 
-	tex_id = m_pages[itr->second.page]->GetTexID();
+	tex = m_pages[itr->second.page]->GetTexture();
 
 	return true;
 }
@@ -236,10 +237,10 @@ void CacheGlyph::Page::Clear()
 	InitDirtyRect();
 }
 
-int CacheGlyph::Page::GetTexID() const
-{
-	return m_tex->GetTexID();
-}
+//int CacheGlyph::Page::GetTexID() const
+//{
+//	return m_tex->GetTexID();
+//}
 
 void CacheGlyph::Page::UpdateBitmap(ur2::Context& ctx, const uint32_t* bitmap, int width,
                                     int height, const Rect& pos, const Rect& dirty_r)
